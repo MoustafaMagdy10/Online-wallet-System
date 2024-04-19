@@ -11,8 +11,8 @@ class Logs
 {
 public:
     Logs();
-    bool register_(string userName , string Password);
-    bool logIn(string userName , string Password);
+    void register_();
+    void logIn();
     void static logOut();
 
 private:

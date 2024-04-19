@@ -17,9 +17,10 @@ public:
     void editUserName();
     void editPassword();
     bool checkPassword(string password,Person* p);
-    bool checkValidPassword(string password);
+    bool static checkValidPassword(string password);
     static void addPerson(string userName, string password);
     static Person *getUserByName(string userName);
+    ~Person();
 
 private:
     static map<string, Person*> personStore; // hash every username with it's object
