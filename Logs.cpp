@@ -12,66 +12,134 @@ Logs::Logs()
         Logs();
         return;
     }
-    string userName, password;
-    cout << "7ot username wa pass\n";
-    cin >> userName >> password;
     if (login == 1)
     {
-        if (logIn(userName, password))
-        {
-            Person::currentUser = Person::getUserByName(userName);
-        }
-        else
-        {
-            cout << "either username or password is wrong please try again\n";
-            Logs();
-            return;
-        }
+        logIn();
     }
     else
     {
-        if (register_(userName, password))
-        {
-            Person::currentUser = Person::getUserByName(userName);
-        }
-        else
-        {
-            cout << "Name is already exists\n";
-            Logs();
-            return;
-        }
+        register_();
     }
-    cout << "bono bono" << endl;
-    // Logs();
 }
 
-bool Logs::register_(string userName, string password)
+void Logs::register_()
 {
 
-    if (Person::getUserByName(userName) == nullptr)
+    string userName, password;
+    cout << "Enter username\n";
+    cin.ignore();
+    getline(cin, userName);
+
+name:
+    if (Person::getUserByName(userName) != nullptr)
     {
-        Person::addPerson(userName, password);
-        return true;
+        cout << "name is already taken\n";
+    choiceName:
+        string choice ;
+        cout << "select 1 to enter username again , 2 to back:\n";
+        cin >> choice;
+        if (choice != "1" and choice != "2")
+        {
+            cout << "Enter a valid number:\n";
+            goto choiceName;
+        }
+        if (choice == "2")
+            return;
+        cout << "Enter username:\n";
+        cin.ignore(); // Ignore the newline character left in the input stream
+        getline(cin, userName);
+        goto name;
     }
 
-    return false;
+    cout << "password must be more then 8 characters containing uppercase letter and a number:\n";
+    cout << "Enter password:\n";
+    // cin.ignore();
+    getline(cin, password);
+pass:
+    if (!Person::checkValidPassword(password))
+    {
+    choicePass:
+        string choice;
+        cout << "select 1 to enter password again  , 2 to back:\n";
+        cin >> choice;
+        if (choice != "1" and choice != "2")
+        {
+            cout << "Enter a valid number:\n";
+            goto choicePass;
+        }
+        if (choice == "2")
+            return;
+        cout << "Enter your password:\n";
+        cin.ignore();
+        getline(cin, password);
+        goto pass;
+    }
+
+    Person::addPerson(userName, password);
+    Person::currentUser = Person::getUserByName(userName);
+    cout << "bono bono" << endl;
 }
 
-bool Logs::logIn(string userName, string password)
+void Logs::logIn()
 {
+
+    string userName, password;
+    cout << "7ot al username :\n";
+    cin.ignore();
+    getline(cin, userName);
+
+name:
     auto it = Person::getUserByName(userName);
 
     if (it == nullptr)
-        return false;
+    {
+        cout << "No such user:\n";
+    choiceName:
+        string choice;
+        cout << "1 to enter username again , 2 to go back:\n";
+        cin >> choice;
+        if (choice != "1" and choice != "2")
+        {
+            cout << "Enter a valid number:\n";
+            goto choiceName;
+        }
+        if (choice == "2")
+            return;
+        cout << "Enter your username:\n";
+        cin.ignore();
+        getline(cin, userName);
+        goto name;
+    }
 
-    if (it->checkPassword(password,it))
+
+    cout << "password must be more then 8 characters containing uppercase letter and a number:\n";
+    cout << "Enter password:\n";
+    // cin.ignore();
+    getline(cin, password);
+
+pass:
+    if (!it->checkPassword(password, it))
     {
-        return true;
+        cout << "passwords does not match:\n";
+    choicePass:
+        string choice ;
+        cout << "1 to enter password again  , 2 to go back:\n";
+        cin >> choice;
+        if (choice != "1" and choice != "2")
+        {
+            cout << "Enter a valid number:\n";
+            goto choicePass;
+        }
+        if (choice == "2")
+            return;
+        cout << "Enter your password:\n";
+        cin.ignore();
+        getline(cin, password);
+        goto pass;
     }
-    else
-    {
-        return false;
-    }
+
+    Person::currentUser = Person::getUserByName(userName);
+    cout<<"bono bono\n";
 }
 
 void Logs::logOut()

@@ -8,7 +8,6 @@ Person::Person(string userName, string password)
 }
 void Person::addPerson(string userName, string password)
 {
-    // Person p(userName, password);
     Person::personStore[userName] = new Person(userName,password);
 }
 
@@ -52,7 +51,7 @@ bool Person:: checkValidPassword(string password){
     {
         if (isupper(i))
             upperCase = true;
-        if (i <= '9' or i >= '0')
+        if (i <= '9' and i >= '0')
             number = true;
         if (number and upperCase)
             break;
@@ -90,4 +89,12 @@ passed:
         goto passed;
     }
     this->password = password;
+}
+Person::~Person() {
+    for(auto i: personStore){
+       delete i.second;
+    }
+    Person::personStore.clear();
+    Person::currentUser = nullptr;
+
 }
