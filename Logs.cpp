@@ -3,16 +3,16 @@
 
 Logs::Logs()
 {
-    int login; // to login if 1 , register if 2
+    string login; // to login if 1 , register if 2
     cout << "to login choose 1 , to register choose 2 \n";
     cin >> login;
-    if (login != 1 and login != 2)
+    if (login != "1" and login != "2")
     {
         cout << "please choose a valid number\n";
         Logs();
         return;
     }
-    if (login == 1)
+    if (login == "1")
     {
         logIn();
     }
@@ -26,8 +26,53 @@ void Logs::register_()
 {
 
     string userName, password;
-    cout << "Enter username\n";
+    string choice;
+    bool admin = false;
+roleChoice:
+    cout << "1 to register as a normal user , 2 to register as an admin , 3 to go back:\n";
     cin.ignore();
+    getline(cin, choice);
+    if (choice != "1" and choice != "2" and choice != "3")
+    {
+        cout << "Enter a valid choice:\n";
+        goto roleChoice;
+    }
+    if (choice == "2")
+    {
+        cout << "Enter admin secret code:\n";
+        string secretCode;
+        getline(cin,secretCode);
+    passCode:
+        if (secretCode != "magdy al gamed")
+        {
+wrongPassCode:
+            cout << "You have entered wrong secret code:\n";
+            cout << "1 to enter secret code again , 2 to go back:\n";
+            string choice;
+            cin >> choice;
+            if(choice != "1" and choice != "2")
+            {
+                cout << "Enter a valid choice:\n";
+                cin >> choice;
+                goto wrongPassCode;
+            }
+            if (choice == "1"){
+                cout << "Enter admin secret code:\n";
+                cin.ignore();
+                getline(cin,secretCode);
+                goto passCode;
+            }
+            else
+                goto roleChoice;
+        }
+        cout<<"Secret code has been passed successfully:\n";
+        admin = true;
+    }
+
+    if (choice == "3")
+        return;
+
+    cout << "Enter username:\n";
     getline(cin, userName);
 
 name:
@@ -35,7 +80,6 @@ name:
     {
         cout << "name is already taken\n";
     choiceName:
-        string choice ;
         cout << "select 1 to enter username again , 2 to back:\n";
         cin >> choice;
         if (choice != "1" and choice != "2")
@@ -53,7 +97,6 @@ name:
 
     cout << "password must be more then 8 characters containing uppercase letter and a number:\n";
     cout << "Enter password:\n";
-    // cin.ignore();
     getline(cin, password);
 pass:
     if (!Person::checkValidPassword(password))
@@ -75,7 +118,7 @@ pass:
         goto pass;
     }
 
-    Person::addPerson(userName, password);
+    Person::addPerson(userName, password, admin);
     Person::currentUser = Person::getUserByName(userName);
     cout << "bono bono" << endl;
 }
@@ -84,7 +127,7 @@ void Logs::logIn()
 {
 
     string userName, password;
-    cout << "7ot al username :\n";
+    cout << "enter your username :\n";
     cin.ignore();
     getline(cin, userName);
 
@@ -111,10 +154,8 @@ name:
         goto name;
     }
 
-
     cout << "password must be more then 8 characters containing uppercase letter and a number:\n";
     cout << "Enter password:\n";
-    // cin.ignore();
     getline(cin, password);
 
 pass:
@@ -122,7 +163,7 @@ pass:
     {
         cout << "passwords does not match:\n";
     choicePass:
-        string choice ;
+        string choice;
         cout << "1 to enter password again  , 2 to go back:\n";
         cin >> choice;
         if (choice != "1" and choice != "2")
@@ -139,7 +180,7 @@ pass:
     }
 
     Person::currentUser = Person::getUserByName(userName);
-    cout<<"bono bono\n";
+    cout << "bono bono\n";
 }
 
 void Logs::logOut()

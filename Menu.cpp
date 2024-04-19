@@ -3,7 +3,7 @@
 #include "Logs.h"
 
 map<string, Person *> Person::personStore;
-Person* Person::currentUser = nullptr;
+Person *Person::currentUser = nullptr;
 
 Menu::Menu()
 {
@@ -14,24 +14,32 @@ Menu::Menu()
         return;
     }
     string choice;
-    cout << "1 to edit username:\n2 to edit password:\n3 to logout\n4 to exit\n";
+    cout << "1 to edit username:\n2 to edit password:\n3 to logout:\n4 to show your admin role:\n5 to exit:\n";
     cin >> choice;
 
-    if (choice != "1" and choice != "2" and choice!="3" and choice!="4")
+    if (choice != "1" and choice != "2" and choice != "3" and choice != "4" and choice != "5")
     {
         Menu();
         return;
     }
-    if(choice == "1"){
+    if (choice == "1")
+    {
         Person::currentUser->editUserName();
     }
-    if(choice == "2"){
+    if (choice == "2")
+    {
         Person::currentUser->editPassword();
     }
-    if(choice == "3"){
+    if (choice == "3")
+    {
         Logs::logOut();
     }
-    if(choice == "4"){
+    if (choice == "4")
+    {
+        Person::currentUser->showMyRole();
+    }
+    if (choice == "5")
+    {
         return;
     }
     Menu();
