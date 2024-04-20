@@ -9,7 +9,7 @@
 class Transaction {
 public:
     Transaction();
-    //Transaction(const std::string& sender, const std::string& recipient, double amount, const std::string& type);
+    Transaction(const std::string& sender, const std::string& recipient, double amount, const std::string& type);
     static std::string get_current_time();
 
 private:

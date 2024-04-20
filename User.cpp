@@ -6,6 +6,14 @@ User::User(string userName,string password)
     admin = false;
 }
 
+void User::sendMoney(string recipientUsername, double amount)
+{
+}
+
+void User::requestMoney(string senderUsername, double amount)
+{
+}
+
 User::~User()
 {
     

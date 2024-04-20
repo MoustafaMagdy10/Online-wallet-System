@@ -6,7 +6,7 @@
 #include<iostream>
 #include<stack>
 #include "Person.h"
-#include "Transaction.cpp"
+#include "Transaction.h"
 
 using namespace std;
 
@@ -15,8 +15,8 @@ class User : public Person
 public:
     User(string userName,string password);
 
-   // void sendMoney(string recipientUsername,double amount);
-   // void requestMoney(string senderUsername,double amount);
+   void sendMoney(string recipientUsername,double amount);
+   void requestMoney(string senderUsername,double amount);
 
     ~User();
 

@@ -9,8 +9,9 @@ int main(){
     Transaction t;
     //    Menu();
     //     return 0;
-    //Transaction t("moustafa","menna",5,"sdaka");
+    Transaction t1("moustafa","menna",5,"sdaka");
+    User u("daf","fad");
     //cout<<Transaction::get_current_time();
-    //UserMenu();
+    UserMenu();
     
 }
