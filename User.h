@@ -4,18 +4,27 @@
 #pragma once
 
 #include<iostream>
+#include<stack>
 #include "Person.h"
+#include "Transaction.cpp"
 
 using namespace std;
 
 class User : public Person
 {
 public:
-    User(string userName , string password);
+    User(string userName,string password);
+
+   // void sendMoney(string recipientUsername,double amount);
+   // void requestMoney(string senderUsername,double amount);
+
     ~User();
 
 private:
-    long long balance;
+    double balance;
+    string email;
+    string phoneNumber;
+   // stack<Transaction>transactionHistory;
 };
 
 #endif
