@@ -14,6 +14,7 @@ public:
     static Person *currentUser;
     bool admin;
 
+    Person();
     Person(string userName, string password);
     void editUserName();
     void editPassword();
@@ -26,7 +27,8 @@ public:
 
 private:
     string userName;
-    string password;
+    uint64_t password;
+    uint64_t hashPassword(string password) ;
     static map<string, Person *> personStore; // hash every username with it's object
 };
 

@@ -3,18 +3,18 @@
 
 #pragma once
 
-#include<iostream>
+#include <iostream>
 #include "Person.h"
 
 using namespace std;
 class Admin : public Person
 {
 public:
-    Admin(string userName , string password);
+    Admin();
+    Admin(string userName, string password);
     ~Admin();
 
 private:
-
 };
 
 #endif
