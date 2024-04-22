@@ -12,6 +12,6 @@ int main(){
     Transaction t1("moustafa","menna",5,"sdaka");
     User u("daf","fad");
     //cout<<Transaction::get_current_time();
-    UserMenu();
+    //UserMenu(u,);
     
 }

@@ -17,14 +17,13 @@ public:
 
    void sendMoney(string recipientUsername,double amount);
    void requestMoney(string senderUsername,double amount);
+   //double getBalance();
 
     ~User();
 
 private:
-    double balance;
-    string email;
-    string phoneNumber;
-   // stack<Transaction>transactionHistory;
+//    double balance;
+//    stack<Transaction>transactionHistory;
 };
 
 #endif

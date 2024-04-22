@@ -1,7 +1,9 @@
 #include <iostream>
+#include<stack>
 #include "Person.h"
 #include "Admin.cpp"
 #include "User.cpp"
+#include "Transaction.h"
 
 Person::Person(string userName, string password)
 {
@@ -95,11 +97,38 @@ passed:
     string temp;
     cout << "enter new password again\n";
     cin >> temp;
-    if (temp != password)
+    if (temp != password)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
     {
         goto passed;
     }
     this->password = password;
+}
+
+double Person::getBalance()
+{
+    return this->balance;
+}
+void Person::setBalance(double balance)
+{
+    this->balance = balance;
+}
+
+void Person::setUserName(string userName)
+{
+    this->userName = userName;
+}
+string Person::getUserName()
+{
+    return this->userName;
+}
+stack<Transaction> Person::getTransactionHistory()
+{
+    return this->transactionHistory;
+}
+
+void Person::addTransaction(Transaction transaction)
+{
+    this->transactionHistory.push(transaction);
 }
 Person::~Person()
 {

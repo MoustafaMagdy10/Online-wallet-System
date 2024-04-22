@@ -1,6 +1,6 @@
 #include <string>
 #include <chrono>
-using namespace std;
+#include<iostream>
 class Transaction {
 public:
     Transaction();

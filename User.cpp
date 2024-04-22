@@ -14,6 +14,11 @@ void User::requestMoney(string senderUsername, double amount)
 {
 }
 
+// double User::getBalance()
+// {
+//     return this->balance;
+// }
+
 User::~User()
 {
     
