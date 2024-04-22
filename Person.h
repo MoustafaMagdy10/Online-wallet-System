@@ -7,28 +7,30 @@
 #include <map>
 using namespace std;
 
-class Person 
+class Person
 {
 public:
-
-    static Person *currentUser;
-    bool admin;
+    static Person *currentPerson;
 
     Person();
-    Person(string userName, string password);
+    Person(const string &userName, const string &password);
     void editUserName();
     void editPassword();
-    bool checkPassword(string password, Person *p);
+    bool checkPassword(const string &password, const Person *p);
     void showMyRole();
-    bool static checkValidPassword(string password);
-    static void addPerson(string userName, string password, bool role);
-    static Person *getUserByName(string userName);
+    bool static checkValidPassword(const string &password);
+    static void addPerson(const string &userName, const string &password, const bool &role);
+    static Person *getUserByName(const string &userName);
+    static void initializeUser();
     ~Person();
+
+protected:
+    bool admin;
 
 private:
     string userName;
     uint64_t password;
-    uint64_t hashPassword(string password) ;
+    uint64_t hashPassword(const string &password);
     static map<string, Person *> personStore; // hash every username with it's object
 };
 
