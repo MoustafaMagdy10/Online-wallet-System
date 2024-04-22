@@ -4,6 +4,7 @@
 #include "Menu.cpp"
 using namespace std;
 int main(){
+    cout<<"mousa is here";
     Menu();
     return 0;
 }
