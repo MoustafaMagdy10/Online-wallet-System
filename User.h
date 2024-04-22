@@ -11,11 +11,12 @@ using namespace std;
 class User : public Person
 {
 public:
-    User(string userName , string password);
+    static User *currentUser;
+    User(const string &userName ,const string &password);
     ~User();
 
 private:
-    long long balance;
+    long double balance;
 };
 
 #endif

@@ -4,12 +4,12 @@
 #include "User.cpp"
 
 Person::Person() {}
-Person::Person(string userName, string password)
+Person::Person(const string &userName, const string &password)
 {
     this->userName = userName;
     this->password = hashPassword(password);
 }
-void Person::addPerson(string userName, string password, bool role)
+void Person::addPerson(const string &userName,const string &password,const bool &role)
 {
     if (role)
         Person::personStore[userName] = new Admin(userName, password);
@@ -17,7 +17,7 @@ void Person::addPerson(string userName, string password, bool role)
         Person::personStore[userName] = new User(userName, password);
 }
 
-Person *Person::getUserByName(string userName)
+Person *Person::getUserByName(const string &userName)
 {
     map<string, Person *>::iterator temp;
     temp = personStore.find(userName);
@@ -38,8 +38,8 @@ void Person::editUserName()
         return;
     }
     personStore.erase(this->userName);
-    personStore[userName] = currentUser;
-    currentUser->userName = userName;
+    personStore[userName] = currentPerson;
+    currentPerson->userName = userName;
     cout << "name has been changed successfully\n";
 }
 void Person::showMyRole()
@@ -49,12 +49,12 @@ void Person::showMyRole()
     else
         cout << "You are a user:\n";
 }
-bool Person::checkPassword(string password, Person *p)
+bool Person::checkPassword(const string &password,const Person *p)
 {
     uint64_t hash = hashPassword(password);
     return p->password == hash;
 }
-uint64_t Person::hashPassword(string password)
+uint64_t Person::hashPassword(const string &password)
 {
     uint64_t hash = 14695981039346656037ULL;
     for (auto c : password)
@@ -64,7 +64,7 @@ uint64_t Person::hashPassword(string password)
     }
     return hash;
 }
-bool Person::checkValidPassword(string password)
+bool Person::checkValidPassword(const string &password)
 {
     if (password.size() < 8)
     {
@@ -95,7 +95,7 @@ void Person::editPassword()
     string password;
     cout << "enter your current password\n";
     cin >> password;
-    if (!checkPassword(password, Person::currentUser))
+    if (!checkPassword(password, Person::currentPerson))
     {
         cout << "you have entered wrong password\n";
         editPassword();
@@ -113,7 +113,24 @@ passed:
     {
         goto passed;
     }
-    this->password = hashPassword(password);
+    currentPerson->password = hashPassword(password);
+}
+void Person::initializeUser()
+{
+    if (Person::currentPerson == nullptr)
+        return;
+
+    if (Person::currentPerson->admin == false)
+    {
+
+        User::currentPerson = static_cast<User *>(Person::currentPerson);
+        Admin::currentAdmin = nullptr;
+    }
+    else
+    {
+        Admin::currentAdmin = static_cast<Admin *>(Person::currentPerson);
+        User::currentPerson = nullptr;
+    }
 }
 Person::~Person()
 {
@@ -122,5 +139,5 @@ Person::~Person()
         delete i.second;
     }
     Person::personStore.clear();
-    Person::currentUser = nullptr;
+    Person::currentPerson = nullptr;
 }

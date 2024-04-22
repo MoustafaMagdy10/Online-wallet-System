@@ -3,10 +3,12 @@
 #include "Logs.h"
 
 map<string, Person *> Person::personStore;
-Person *Person::currentUser = nullptr;
+Person *Person::currentPerson = nullptr;
+User *User::currentUser = nullptr;
+Admin *Admin::currentAdmin = nullptr;
 Menu::Menu()
 {
-    if (Person::currentUser == nullptr)
+    if (Person::currentPerson == nullptr)
     {
         Logs();
         Menu();
@@ -27,16 +29,16 @@ Menu::Menu()
     switch (operation)
     {
     case 1:
-        Person::currentUser->editUserName();
+        Person::currentPerson->editUserName();
         break;
     case 2:
-        Person::currentUser->editPassword();
+        Person::currentPerson->editPassword();
         break;
     case 3:
         Logs::logOut();
         break;
     case 4:
-        Person::currentUser->showMyRole();
+        Person::currentPerson->showMyRole();
         break;
     case 5:
         return;

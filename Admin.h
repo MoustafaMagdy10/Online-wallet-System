@@ -10,8 +10,9 @@ using namespace std;
 class Admin : public Person
 {
 public:
+    static Admin *currentAdmin;
     Admin();
-    Admin(string userName, string password);
+    Admin(const string &userName,const string &password);
     ~Admin();
 
 private:
