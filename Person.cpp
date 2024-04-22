@@ -1,9 +1,9 @@
 #include <iostream>
 #include <stack>
 #include "Person.h"
-#include "Admin.cpp"
-#include "User.cpp"
-#include "Transaction.h"
+#include "Admin.h"
+#include "User.h"
+// #include "Transaction.h"
 
 Person::Person(string userName, string password)
 {
@@ -43,13 +43,16 @@ void Person::editUserName()
         return;
     }
     personStore.erase(this->userName);
-    personStore[userName] = currentUser;
-    currentUser->userName = userName;
+    personStore[userName] = currentPerson;
+    currentPerson->userName = userName;
     cout << "name has been changed successfully\n";
 }
-void Person::showMyRole(){
-    if(admin) cout<<"You are an admin:\n";
-    else cout<<"You are a user:\n";
+void Person::showMyRole()
+{
+    if (admin)
+        cout << "You are an admin:\n";
+    else
+        cout << "You are a user:\n";
 }
 bool Person::checkValidPassword(string password)
 {
@@ -82,7 +85,7 @@ void Person::editPassword()
     string password;
     cout << "enter your current password\n";
     cin >> password;
-    if (!checkPassword(password, Person::currentUser))
+    if (!checkPassword(password, Person::currentPerson))
     {
         // cout<<"correct password is:"<<this->password;
         cout << "you have entered wrong password\n";
@@ -97,39 +100,53 @@ passed:
     string temp;
     cout << "enter new password again\n";
     cin >> temp;
-    if (temp != password)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+    if (temp != password)
     {
         goto passed;
     }
     this->password = password;
 }
+void Person::initializeUser()
+{
+    if (Person::currentPerson == nullptr)
+        return;
 
-double Person::getBalance()
-{
-    return this->balance;
-}
-void Person::setBalance(double balance)
-{
-    this->balance = balance;
-}
+    if (Person::currentPerson->admin == false){
 
-void Person::setUserName(string userName)
-{
-    this->userName = userName;
+        User::currentUser = static_cast<User *>(Person::currentPerson);
+        Admin::currentAdmin = nullptr;
+    }
+    else{
+        Admin::currentAdmin = static_cast<Admin *>(Person::currentPerson);
+        User::currentUser = nullptr;
+    }
 }
-string Person::getUserName()
-{
-    return this->userName;
-}
-stack<Transaction> Person::getTransactionHistory()
-{
-    return this->transactionHistory;
-}
+// double Person::getBalance()
+// {
+//     return this->balance;
+// }
+// void Person::setBalance(double balance)
+// {
+//     this->balance = balance;
+// }
 
-void Person::addTransaction(Transaction transaction)
-{
-    this->transactionHistory.push(transaction);
-}
+// void Person::setUserName(string userName)
+// {
+//     this->userName = userName;
+// }
+// string Person::getUserName()
+// {
+//     return this->userName;
+// }
+// stack<Transaction> Person::getTransactionHistory()
+// {
+//     return this->transactionHistory;
+// }
+
+// void Person::addTransaction(Transaction transaction)
+// {
+//     this->transactionHistory.push(transaction);
+// }
 Person::~Person()
 {
     for (auto i : personStore)
@@ -137,5 +154,5 @@ Person::~Person()
         delete i.second;
     }
     Person::personStore.clear();
-    Person::currentUser = nullptr;
+    Person::currentPerson = nullptr;
 }

@@ -10,6 +10,7 @@ using namespace std;
 class Admin : public Person
 {
 public:
+    static Admin *currentAdmin;
     Admin(string userName , string password);
     ~Admin();
 

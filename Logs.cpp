@@ -119,7 +119,8 @@ pass:
     }
 
     Person::addPerson(userName, password, admin);
-    Person::currentUser = Person::getUserByName(userName);
+    Person::currentPerson = Person::getUserByName(userName);
+    Person::currentPerson->initializeUser();
     cout << "bono bono" << endl;
 }
 
@@ -179,11 +180,12 @@ pass:
         goto pass;
     }
 
-    Person::currentUser = Person::getUserByName(userName);
+    Person::currentPerson = Person::getUserByName(userName);
+    Person::currentPerson->initializeUser();
     cout << "bono bono\n";
 }
 
 void Logs::logOut()
 {
-    Person::currentUser = nullptr;
+    Person::currentPerson = nullptr;
 }

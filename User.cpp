@@ -1,7 +1,7 @@
 #include "User.h"
 
-User::User(string userName,string password)
-: Person(userName,password)
+User::User(string userName, string password)
+    : Person(userName, password)
 {
     admin = false;
 }
@@ -14,12 +14,14 @@ void User::requestMoney(string senderUsername, double amount)
 {
 }
 
-// double User::getBalance()
-// {
-//     return this->balance;
-// }
+double User::getBalance()
+{
+   
+        cout<<"al mohm al se7a\n";
+    return this->balance;
+}
+
 
 User::~User()
 {
-    
 }

@@ -6,23 +6,24 @@
 #include<iostream>
 #include<stack>
 #include "Person.h"
-#include "Transaction.h"
+// #include "Transaction.h"
 
 using namespace std;
 
 class User : public Person
 {
 public:
+
+    static User *currentUser;
     User(string userName,string password);
 
    void sendMoney(string recipientUsername,double amount);
    void requestMoney(string senderUsername,double amount);
-   //double getBalance();
-
+   double getBalance();
     ~User();
 
 private:
-//    double balance;
+   double balance;
 //    stack<Transaction>transactionHistory;
 };
 
