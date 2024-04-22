@@ -1,5 +1,5 @@
 #include <iostream>
-#include<stack>
+#include <stack>
 #include "Person.h"
 #include "Admin.cpp"
 #include "User.cpp"
