@@ -3,39 +3,37 @@
 
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <map>
+#include <cstdint>
 using namespace std;
-
-class Person 
+    
+class Person
 {
 public:
-
     static Person *currentPerson;
 
-    Person(string userName, string password);
+    Person();
+    Person(const string &userName, const string &password);
     void editUserName();
     void editPassword();
-    static void initializeUser();
-    bool checkPassword(string password, Person *p);
+    bool checkPassword(const string &password, const Person *p);
     void showMyRole();
-    bool static checkValidPassword(string password);
-    static void addPerson(string userName, string password, bool role);
-    static Person *getUserByName(string userName);
-    // double getBalance();
-    // void setBalance(double balance);
-    // void setUserName(string userName);
-    // string getUserName();
-    // stack<Transaction> getTransactionHistory();
-    // void addTransaction(Transaction transaction);
-    bool admin;
+    bool static checkValidPassword(const string &password);
+    static void addPerson(const string &userName, const string &password, const bool &role);
+    static Person *getUserByName(const string &userName);
+    static void initializeUser();
+    uint64_t hashPassword(const string &password);
     ~Person();
 
-private:
+protected:
+    bool admin;
+
+public:
     string userName;
-    string password;
-    // double balance;
-    // stack<Transaction>transactionHistory;
+    uint64_t password;
+
     static map<string, Person *> personStore; // hash every username with it's object
 };
 

@@ -27,52 +27,10 @@ void Logs::register_()
 
     string userName, password;
     string choice;
-    bool admin = false;
-roleChoice:
-    cout << "1 to register as a normal user , 2 to register as an admin , 3 to go back:\n";
-    cin.ignore();
-    getline(cin, choice);
-    if (choice != "1" and choice != "2" and choice != "3")
-    {
-        cout << "Enter a valid choice:\n";
-        goto roleChoice;
-    }
-    if (choice == "2")
-    {
-        cout << "Enter admin secret code:\n";
-        string secretCode;
-        getline(cin,secretCode);
-    passCode:
-        if (secretCode != "magdy al gamed")
-        {
-wrongPassCode:
-            cout << "You have entered wrong secret code:\n";
-            cout << "1 to enter secret code again , 2 to go back:\n";
-            string choice;
-            cin >> choice;
-            if(choice != "1" and choice != "2")
-            {
-                cout << "Enter a valid choice:\n";
-                cin >> choice;
-                goto wrongPassCode;
-            }
-            if (choice == "1"){
-                cout << "Enter admin secret code:\n";
-                cin.ignore();
-                getline(cin,secretCode);
-                goto passCode;
-            }
-            else
-                goto roleChoice;
-        }
-        cout<<"Secret code has been passed successfully:\n";
-        admin = true;
-    }
 
-    if (choice == "3")
-        return;
- 
+
     cout << "Enter username:\n";
+    cin.ignore();
     getline(cin, userName);
 
 name:
@@ -118,9 +76,8 @@ pass:
         goto pass;
     }
 
-    Person::addPerson(userName, password, admin);
+    Person::addPerson(userName, password, false);
     Person::currentPerson = Person::getUserByName(userName);
-    Person::currentPerson->initializeUser();
     cout << "bono bono" << endl;
 }
 
@@ -181,11 +138,12 @@ pass:
     }
 
     Person::currentPerson = Person::getUserByName(userName);
-    Person::currentPerson->initializeUser();
     cout << "bono bono\n";
 }
 
 void Logs::logOut()
 {
     Person::currentPerson = nullptr;
+    User::currentUser = nullptr;
+    Admin::currentAdmin = nullptr;
 }

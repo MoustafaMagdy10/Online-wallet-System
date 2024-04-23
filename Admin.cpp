@@ -1,6 +1,10 @@
 #include "Admin.h"
-
-Admin::Admin(string userName, string password)
+Admin::Admin()
+: Person()
+{
+    
+}
+Admin::Admin(const string &userName,const string &password)
 : Person(userName,password)
 {
     admin = true;

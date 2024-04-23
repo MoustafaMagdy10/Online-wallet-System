@@ -15,16 +15,18 @@ class User : public Person
 public:
 
     static User *currentUser;
-    User(string userName,string password);
-
+    
+    User(const string &userName ,const string &password);
    void sendMoney(string recipientUsername,double amount);
    void requestMoney(string senderUsername,double amount);
    double getBalance();
     ~User();
 
 private:
-   double balance;
+    long double balance;
 //    stack<Transaction>transactionHistory;
+
+    
 };
 
 #endif

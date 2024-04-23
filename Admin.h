@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include<iostream>
+#include <iostream>
 #include "Person.h"
 
 using namespace std;
@@ -11,11 +11,11 @@ class Admin : public Person
 {
 public:
     static Admin *currentAdmin;
-    Admin(string userName , string password);
+    Admin();
+    Admin(const string &userName,const string &password);
     ~Admin();
 
 private:
-
 };
 
 #endif

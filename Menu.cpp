@@ -20,29 +20,29 @@ Menu::Menu()
     cout << "1 to edit username:\n2 to edit password:\n3 to logout:\n4 to show your admin role:\n5 to exit:\n";
     cin >> choice;
 
-    if (choice != "1" and choice != "2" and choice != "3" and choice != "4" and choice != "5"  )
+    if (st.find(choice) == st.end())
     {
-        Menu();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+        cout << "Enter a valid choice:\n";
+        Menu();
         return;
     }
-    if (choice == "1")
+
+    int operation = stoi(choice);
+    switch (operation)
     {
+    case 1:
         Person::currentPerson->editUserName();
-    }
-    if (choice == "2")
-    {
+        break;
+    case 2:
         Person::currentPerson->editPassword();
-    }
-    if (choice == "3")
-    {
+        break;
+    case 3:
         Logs::logOut();
-    }
-    if (choice == "4")
-    {
+        break;
+    case 4:
         Person::currentPerson->showMyRole();
-    }
-    if (choice == "5")
-    {
+        break;
+    case 5:
         return;
     }
     Menu();

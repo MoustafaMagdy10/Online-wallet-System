@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <unordered_set>
+
 class Menu
 {
 public:
@@ -10,7 +12,7 @@ public:
     ~Menu();
 
 private:
-
+    unordered_set<string>st{"1","2","3","4","5"};
 };
 
 #endif

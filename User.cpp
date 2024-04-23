@@ -1,7 +1,7 @@
 #include "User.h"
 
-User::User(string userName, string password)
-    : Person(userName, password)
+User::User(const string &userName,const string &password)
+: Person(userName,password)
 {
     admin = false;
 }
