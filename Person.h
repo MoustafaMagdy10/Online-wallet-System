@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <map>
 #include <cstdint>
@@ -23,15 +24,16 @@ public:
     static void addPerson(const string &userName, const string &password, const bool &role);
     static Person *getUserByName(const string &userName);
     static void initializeUser();
+    uint64_t hashPassword(const string &password);
     ~Person();
 
 protected:
     bool admin;
 
-private:
+public:
     string userName;
     uint64_t password;
-    uint64_t hashPassword(const string &password);
+
     static map<string, Person *> personStore; // hash every username with it's object
 };
 
