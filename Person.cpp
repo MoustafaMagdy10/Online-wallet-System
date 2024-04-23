@@ -125,13 +125,13 @@ void Person::initializeUser()
     if (Person::currentPerson->admin == false)
     {
 
-        User::currentPerson = static_cast<User *>(Person::currentPerson);
+        User::currentUser = static_cast<User *>(Person::currentPerson);
         Admin::currentAdmin = nullptr;
     }
     else
     {
         Admin::currentAdmin = static_cast<Admin *>(Person::currentPerson);
-        User::currentPerson = nullptr;
+        User::currentUser = nullptr;
     }
 }
 Person::~Person()
