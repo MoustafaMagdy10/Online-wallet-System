@@ -12,5 +12,6 @@ int main(){
     //     return 0;
  
     // Person P("fjlkajf","fklashf");
-    
+    //Transaction::Transaction(string sender, string recipient, double amount, string type
+    //Transaction t("menna","moustafa",50,"sent");
 }
