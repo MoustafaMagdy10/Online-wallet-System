@@ -25,6 +25,7 @@ public:
     static Person *getUserByName(const string &userName);
     static void initializeUser();
     uint64_t hashPassword(const string &password);
+    bool knowAdminRule();
     ~Person();
 
 protected:

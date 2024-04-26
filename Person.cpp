@@ -3,8 +3,8 @@
 #include "Person.h"
 
 
-#include "Admin.cpp"
-#include "User.cpp"
+#include "Admin.h"
+#include "User.h"
 
 Person::Person() {}
 Person::Person(const string &userName, const string &password)
@@ -135,6 +135,10 @@ void Person::initializeUser()
         User::currentUser = nullptr;
     }
 }
+bool Person::knowAdminRule()
+{
+    return this->admin;
+}
 Person::~Person()
 {
     for (auto i : personStore)
@@ -144,29 +148,3 @@ Person::~Person()
     Person::personStore.clear();
     Person::currentPerson = nullptr;
 }
-// double Person::getBalance()
-// {
-//     return this->balance;
-// }
-// void Person::setBalance(double balance)
-// {
-//     this->balance = balance;
-// }
-
-// void Person::setUserName(string userName)
-// {
-//     this->userName = userName;
-// }
-// string Person::getUserName()
-// {
-//     return this->userName;
-// }
-// stack<Transaction> Person::getTransactionHistory()
-// {
-//     return this->transactionHistory;
-// }
-
-// void Person::addTransaction(Transaction transaction)
-// {
-//     this->transactionHistory.push(transaction);
-// }
