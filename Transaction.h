@@ -1,3 +1,7 @@
+#ifndef Transaction_H
+#define Transaction_H
+
+#pragma once
 #include <string>
 #include <chrono>
 using namespace std;
@@ -23,3 +27,4 @@ private:
     string type;
     double amount;
 };
+#endif

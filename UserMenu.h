@@ -1,5 +1,5 @@
-#ifndef USERMENU_H
-#define USERMENU_H
+#ifndef UserMenu_H
+#define UserMenu_H
 
 #pragma once
 #include "Person.h"

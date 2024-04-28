@@ -51,7 +51,7 @@ void User::viewTansactionHistory()
     cout<<"Sender            recipient           Date            Type            amount\n";
     while(!history.empty())
     {
-        //cout<<(history.top()).getSender()<<"            "<<history.top().getRecipient()<<"            "<<history.top().getTransactionnDate()<<"            "<<history.top().getType()<<"            "<<history.top().getAmount()<<"\n";
+        cout<<(history.top()).getSender()<<"            "<<history.top().getRecipient()<<"            "<<history.top().getTransactionnDate()<<"            "<<history.top().getType()<<"            "<<history.top().getAmount()<<"\n";
         history.pop();
     }
 

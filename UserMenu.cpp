@@ -4,7 +4,7 @@
 #include<iostream>
 // // #include<string>
 // // #include"Menu.h"
-// // #include"Transaction.h"
+// #include"Transaction.h"
 // // #include"person.cpp"
 // // using namespace std;
 // // UserMenu::UserMenu(){}
@@ -81,9 +81,9 @@ void UserMenu::sendMoney(User *currentUser,map<string, Person*> personStore)
     recipientObjOfUser->setBalance(recipientObjOfUser->getBalance());
 
     string sender=currentUser->getUserName();
-    // Transaction trans(sender,recipient,amount,type);  //error hna
+    Transaction trans(sender,recipient,amount,type);  //error hna
     // currentUser->addTransaction(trans);
-    //currentUser->getTransactionHistory().push(trans);
+    // currentUser->getTransactionHistory().push(trans);
 }
 void UserMenu::requestMoney(User *currentUser,map<string, Person*> personStore)
 {
