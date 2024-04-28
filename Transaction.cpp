@@ -13,14 +13,6 @@ Transaction::Transaction(string sender, string recipient, double amount, string 
     this->transactionDate = Transaction::get_current_time();
 }
 
-// void Transaction::setSender(string sender)
-// {
-//     this->sender = sender;
-// }
-// void Transaction::setRecipient(string recipient)
-// {
-//     this->recipient = recipient;
-// }
 void Transaction::Transaction::setAmount(double amount)
 {
     this->amount = amount;
@@ -29,10 +21,6 @@ void Transaction::setType(string type)
 {
     this->type = type;
 }
-// void Transaction::setTransactionnDate()
-// {
-//     this->transactionDate = Transaction::get_current_time();
-// }
 string Transaction::getType()
 {
     return this->type;

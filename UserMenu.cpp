@@ -2,12 +2,6 @@
 #include "User.h"
 #include "Person.h"
 #include<iostream>
-// // #include<string>
-// // #include"Menu.h"
-// #include"Transaction.h"
-// // #include"person.cpp"
-// // using namespace std;
-// // UserMenu::UserMenu(){}
 UserMenu::UserMenu(User *currentUser,map<string, Person*> personStore)
 {
     string choice;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
@@ -81,9 +75,9 @@ void UserMenu::sendMoney(User *currentUser,map<string, Person*> personStore)
     recipientObjOfUser->setBalance(recipientObjOfUser->getBalance());
 
     string sender=currentUser->getUserName();
-    Transaction trans(sender,recipient,amount,type);  //error hna
-    // currentUser->addTransaction(trans);
-    // currentUser->getTransactionHistory().push(trans);
+    Transaction trans(sender,recipient,amount,type);  
+    currentUser->addTransaction(trans);
+    currentUser->getTransactionHistory().push(trans);
 }
 void UserMenu::requestMoney(User *currentUser,map<string, Person*> personStore)
 {
@@ -114,8 +108,8 @@ void UserMenu::requestMoney(User *currentUser,map<string, Person*> personStore)
     senderObjOfUser->setBalance((senderObjOfUser->getBalance())-amount);
     currentUser->setBalance((currentUser->getBalance())+amount);
     string recipient=currentUser->getUserName();
-    // Transaction trans(sender,recipient,amount,type);
-    // currentUser->addTransaction(trans);
+    Transaction trans(sender,recipient,amount,type);
+    currentUser->addTransaction(trans);
  }
 UserMenu::~UserMenu()
 {
