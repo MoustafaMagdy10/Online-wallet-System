@@ -8,10 +8,17 @@
  #include "UserMenu.cpp"
 using namespace std;
 int main(){
-       Menu();
+    //   Menu();
     //     return 0;
- 
+     Person *manger=new Person("manger","MmMnkfffd65");
+    manger->addPerson("mousa","Mmkdfmdkf45",1);
+    manger->addPerson("user1","Mmkdfmdkf45",0);
+    manger->addPerson("user2","Mmkdfmdkf45",0);
+    manger->addPerson("user3","Mmkdfmdkf45",0);
+    Admin *ad1=static_cast<Admin*>(manger);
+     ad1->ViewAllUsers();
+    // ad1->ViewUser("user1");
     // Person P("fjlkajf","fklashf");
-    //Transaction::Transaction(string sender, string recipient, double amount, string type
-    //Transaction t("menna","moustafa",50,"sent");
+    // Transaction::Transaction(string sender, string recipient, double amount, string type
+    // Transaction t("menna","moustafa",50,"sent");
 }

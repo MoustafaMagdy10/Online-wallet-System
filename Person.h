@@ -28,7 +28,7 @@ public:
     bool knowAdminRule();
     ~Person();
 
-protected:
+public:
     bool admin;
 
 public:
