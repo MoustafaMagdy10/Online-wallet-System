@@ -28,6 +28,7 @@ public:
     void viewCurrrentBalance();
     void viewTansactionHistory();
     void editProfile();
+    void viewTansForAdmin();
     // void sendMoney();
     // void requestMoney();
     void addMoney();

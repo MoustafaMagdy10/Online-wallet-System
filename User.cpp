@@ -4,6 +4,7 @@ User::User(const string &userName,const string &password)
 : Person(userName,password)
 {
     admin = false;
+    balance=0;
 }
 
 // void User::sendMoney(string recipientUsername, double amount)
@@ -38,6 +39,7 @@ stack<Transaction> User::getTransactionHistory()
 void User::addTransaction(Transaction transaction)
 {
     this->transactionHistory.push(transaction);
+
 }
 void User::viewCurrrentBalance()
 {
@@ -47,7 +49,22 @@ void User::viewCurrrentBalance()
 void User::viewTansactionHistory()
 {
     stack<Transaction>history=this->transactionHistory;
+
     cout<<"Your Transaction History :\n";
+    cout<<"Sender            recipient           Date            Type            amount\n";
+    while(!history.empty())
+    {
+        cout<<(history.top()).getSender()<<"            "<<history.top().getRecipient()<<"            "<<history.top().getTransactionnDate()<<"            "<<history.top().getType()<<"            "<<history.top().getAmount()<<"\n";
+        history.pop();
+    }
+
+
+}
+void User::viewTansForAdmin()
+{
+    stack<Transaction>history=this->transactionHistory;
+
+
     cout<<"Sender            recipient           Date            Type            amount\n";
     while(!history.empty())
     {

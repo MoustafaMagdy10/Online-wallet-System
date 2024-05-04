@@ -16,6 +16,9 @@ public:
     ~Admin();
     void ViewAllUsers();
     void ViewUser(string);
+    void ViewAlltransactions();
+    void EditBalance();
+    void menueAdmin();
 private:
 };
 
