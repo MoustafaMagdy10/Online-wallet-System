@@ -91,30 +91,26 @@ void User::viewTansForAdmin()
 
 
 }
- void User::editProfile()
- {
-    this->editUserName();
-    this->editPassword();
- }
- void User::addMoney()
- {
-    double amount;
-repeatAmount:
-    cout << "Enter the amount of Money\n";
-    cin >> amount;
-    if (amount <= 0)
-    {
-        cout << "Invalid amount\n";
-        goto repeatAmount;
-    }
-    this->balance = this->balance + amount;
-    cout << "Money added successfully\n";
-}
-void User::logOut()
-{
-    cout << "You have successfully logged out\n";
-    exit(0);
-}
+
+//  void User::addMoney()
+//  {
+//     double amount;
+// repeatAmount:
+//     cout << "Enter the amount of Money\n";
+//     cin >> amount;
+//     if (amount <= 0)
+//     {
+//         cout << "Invalid amount\n";
+//         goto repeatAmount;
+//     }
+//     this->balance = this->balance + amount;
+//     cout << "Money added successfully\n";
+// }
+// void User::logOut()
+// {
+//     cout << "You have successfully logged out\n";
+//     exit(0);
+// }
 
 User::~User()
 {
