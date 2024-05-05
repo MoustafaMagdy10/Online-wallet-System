@@ -3,6 +3,7 @@
 #include "User.h"
 #include "Logs.h"
 #include "Admin.h"
+#include "UserMenu.h"
 
 map<string, Person *> Person::personStore;
 Person *Person::currentPerson = nullptr;
@@ -18,6 +19,9 @@ Menu::Menu()
     }
     string choice;
     cout << "1 to edit username:\n2 to edit password:\n3 to logout:\n4 to show your admin role:\n5 to exit:\n";
+    if(User::currentUser!=nullptr){
+        cout<<"6 to show your balance:\n7 to view Tansaction History:\n8 to send money:\n ";
+    }
     cin >> choice;
 
     if (st.find(choice) == st.end())
@@ -44,6 +48,11 @@ Menu::Menu()
         break;
     case 5:
         return;
+    }
+   
+    if (User::currentUser != nullptr)
+    {
+       UserMenu U = UserMenu(operation);
     }
     Menu();
 }

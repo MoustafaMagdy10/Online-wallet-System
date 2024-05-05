@@ -25,13 +25,15 @@ public:
     static Person *getUserByName(const string &userName);
     static void initializeUser();
     uint64_t hashPassword(const string &password);
-    bool knowAdminRule();
+    bool getAdminRole();
+    static bool isNumber(const string &s);
+    string getUserName();
     ~Person();
 
 protected:
     bool admin;
 
-public:
+private:
     string userName;
     uint64_t password;
 

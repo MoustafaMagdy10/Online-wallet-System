@@ -78,6 +78,7 @@ pass:
 
     Person::addPerson(userName, password, false);
     Person::currentPerson = Person::getUserByName(userName);
+    Person::initializeUser();
     cout << "bono bono" << endl;
 }
 
@@ -138,6 +139,7 @@ pass:
     }
 
     Person::currentPerson = Person::getUserByName(userName);
+    Person::initializeUser();
     cout << "bono bono\n";
 }
 

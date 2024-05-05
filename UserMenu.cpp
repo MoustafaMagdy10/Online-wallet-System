@@ -1,117 +1,138 @@
 #include "UserMenu.h"
 #include "User.h"
 #include "Person.h"
-#include<iostream>
-UserMenu::UserMenu(User *currentUser,map<string, Person*> personStore)
+#include <iostream>
+
+
+UserMenu::UserMenu(const int &choice)
 {
-    string choice;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-    ShowMenu:
-    cout<<"1.View Current Balance\n2.View history of transactions\n3.edit Profile\n4.Send money\n5.Request money\n6.Add Money\n7.Log out\n";
-    cin>>choice;
-    if(choice!="1" and choice!="2" and choice!="3" and choice!="4" and choice!="5" and choice!="6" and choice!="7")
-    {
-        cout<<"Invalid choice,enter a valid number\n";
-        goto ShowMenu;
-    }
 
-    if(choice=="1")
-    {
-        currentUser->viewCurrrentBalance();
-    }
+ShowMenu:
 
-    else if(choice=="2")
+    switch (choice)
     {
-        currentUser->viewTansactionHistory();
-    }
-    else if(choice=="3")
-    {
-        currentUser->editProfile();
-    }
+    case 6:
+        User::currentUser->viewCurrrentBalance();
+        break;
 
-    else if(choice=="4")
-    {
-        sendMoney(currentUser,personStore);
-    }
-    else if(choice=="5")
-    {
-        requestMoney(currentUser,personStore);
-    }
-    else if(choice=="6")
-    {
-       currentUser->addMoney();
-    }
-    else if(choice=="7")
-    {
-        cout<<"You have successfully logged out\n";
-        exit(0);
-    }
-} 
-void UserMenu::sendMoney(User *currentUser,map<string, Person*> personStore)
-{
-    string type="sent";
-    string recipient;
-    double amount;
-    repeatUsername:
-    cout<<"Enter Recipient username\n";
-    cin>>recipient;
-     //to Find a recipient with the given username
-    auto recipientObj=Person::getUserByName(recipient);
-    if(recipientObj==nullptr)
-    {
-        cout<<"Invalid recipient\n";
-        goto repeatUsername;
-    }
-    User* recipientObjOfUser= static_cast<User *>(recipientObj);
-    repeatAmount:
-    cout<<"Enter the amount of Money\n";
-    cin>>amount;
-    if(amount<=0 || amount>currentUser->getBalance())
-    {
-        cout<<"Invalid amount\n";
-        goto repeatAmount;
-    }
+    case 7:
+        User::currentUser->viewTansactionHistory();
+        break;
 
-    currentUser->setBalance((currentUser->getBalance())-amount);
-    recipientObjOfUser->setBalance(recipientObjOfUser->getBalance());
-
-    string sender=currentUser->getUserName();
-    Transaction trans(sender,recipient,amount,type);  
-    currentUser->addTransaction(trans);
-    currentUser->getTransactionHistory().push(trans);
+    case 8:
+        sendMoney();
+        break;
+    }
+    // else if (choice == "5")
+    // {
+    //     requestMoney();
+    // }
+    // else if (choice == "6")
+    // {
+    //     currentUser->addMoney();
+    // }
+    // else if (choice == "7")
+    // {
+    //     cout << "You have successfully logged out\n";
+    //     exit(0);
+    // }
 }
-void UserMenu::requestMoney(User *currentUser,map<string, Person*> personStore)
+void UserMenu::sendMoney()
 {
-    string type="requested";
-    string sender;
-    double amount;
-    repeatUsername:
-    cout<<"Enter sender username\n";
-    cin>>sender;
+    string type = "sent";
+    string recipient;
+    long double amount;
 
-    //to Find a recipient with the given username
-    auto senderObj=Person::getUserByName(sender);
-    if(senderObj==nullptr)
+repeatUsername:
+    cout << "Enter Recipient username\n";
+    getline(cin, recipient);
+    // to Find a recipient with the given username
+    auto recipientObj = Person::getUserByName(recipient);
+
+    if (recipientObj == nullptr or recipientObj->getAdminRole())
     {
-        cout<<"Invalid recipient\n";
+        cout << "Invalid recipient\n";
+        string choice;
+        cout << "1 to enter another user name , any other key to back\n";
+        getline(cin, choice);
+        if (choice != "1")
+        {
+            return;
+        }
         goto repeatUsername;
     }
-    //to downcast the recipient
-    User* senderObjOfUser = static_cast<User*>(senderObj);
-    repeatAmount:
-    cout<<"Enter the amount of Money\n";
-    cin>>amount;
-    if(amount<=0 || amount>(senderObjOfUser->getBalance()))
+
+    User *recipientObjOfUser = static_cast<User *>(recipientObj);
+repeatAmount:
+    cout << "Enter the amount of Money\n";
+    string temp;
+
+    getline(cin, temp);
+
+    if (!Person::isNumber(temp))
     {
-        cout<<"Invalid amount\n";
+        cout << "Please, Enter a valid number:\n";
         goto repeatAmount;
     }
-    senderObjOfUser->setBalance((senderObjOfUser->getBalance())-amount);
-    currentUser->setBalance((currentUser->getBalance())+amount);
-    string recipient=currentUser->getUserName();
-    Transaction trans(sender,recipient,amount,type);
-    currentUser->addTransaction(trans);
- }
+
+    amount = stold(temp);
+
+    if (amount <= 0 || amount > User::currentUser->getBalance())
+    {
+        cout << "Invalid amount , you don't have a sufficient amount:\n";
+        string choice;
+        cout << "1 to enter another valid amount, any other key to back\n";
+        cout << "your balance = " << User::currentUser->getBalance() << endl;
+        getline(cin, choice);
+
+        if (choice != "1")
+        {
+            return;
+        }
+        goto repeatAmount;
+    }
+
+    User::currentUser->setBalance((User::currentUser->getBalance()) - amount);
+    recipientObjOfUser->setBalance(recipientObjOfUser->getBalance() + amount);
+
+    string sender = User::currentUser->getUserName();
+    Transaction trans(sender, recipient, amount, type);
+    User::currentUser->addTransaction(trans);
+    recipientObjOfUser->addTransaction(trans);
+}
+
+// void UserMenu::requestMoney(User *currentUser, map<string, Person *> personStore)
+// {
+//     string type = "requested";
+//     string sender;
+//     double amount;
+// repeatUsername:
+//     cout << "Enter sender username\n";
+//     cin >> sender;
+
+//     // to Find a recipient with the given username
+//     auto senderObj = Person::getUserByName(sender);
+//     if (senderObj == nullptr)
+//     {
+//         cout << "Invalid recipient\n";
+//         goto repeatUsername;
+//     }
+//     // to downcast the recipient
+//     User *senderObjOfUser = static_cast<User *>(senderObj);
+// repeatAmount:
+//     cout << "Enter the amount of Money\n";
+//     cin >> amount;
+//     if (amount <= 0 || amount > (senderObjOfUser->getBalance()))
+//     {
+//         cout << "Invalid amount\n";
+//         goto repeatAmount;
+//     }
+//     senderObjOfUser->setBalance((senderObjOfUser->getBalance()) - amount);
+//     currentUser->setBalance((currentUser->getBalance()) + amount);
+//     string recipient = currentUser->getUserName();
+//     Transaction trans(sender, recipient, amount, type);
+//     currentUser->addTransaction(trans);
+// }
 UserMenu::~UserMenu()
 {
-
 }

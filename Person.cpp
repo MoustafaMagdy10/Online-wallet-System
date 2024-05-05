@@ -2,7 +2,6 @@
 #include <stack>
 #include "Person.h"
 
-
 #include "Admin.h"
 #include "User.h"
 
@@ -12,7 +11,7 @@ Person::Person(const string &userName, const string &password)
     this->userName = userName;
     this->password = hashPassword(password);
 }
-void Person::addPerson(const string &userName,const string &password,const bool &role)
+void Person::addPerson(const string &userName, const string &password, const bool &role)
 {
     if (role)
         Person::personStore[userName] = new Admin(userName, password);
@@ -45,6 +44,7 @@ void Person::editUserName()
     currentPerson->userName = userName;
     cout << "name has been changed successfully\n";
 }
+
 void Person::showMyRole()
 {
     if (admin)
@@ -52,7 +52,10 @@ void Person::showMyRole()
     else
         cout << "You are a user:\n";
 }
-bool Person::checkPassword(const string &password,const Person *p)
+string Person::getUserName(){
+    return this->userName;
+}
+bool Person::checkPassword(const string &password, const Person *p)
 {
     uint64_t hash = hashPassword(password);
     return p->password == hash;
@@ -118,6 +121,11 @@ passed:
     }
     currentPerson->password = hashPassword(password);
 }
+
+bool Person::getAdminRole()
+{
+    return this->admin;
+}
 void Person::initializeUser()
 {
     if (Person::currentPerson == nullptr)
@@ -135,9 +143,16 @@ void Person::initializeUser()
         User::currentUser = nullptr;
     }
 }
-bool Person::knowAdminRule()
+bool Person::isNumber(const string &s)
 {
-    return this->admin;
+    for (auto c : s)
+    {
+        if (c < '0' or c > '9')
+        {
+            return false;
+        }
+    }
+    return true;
 }
 Person::~Person()
 {
