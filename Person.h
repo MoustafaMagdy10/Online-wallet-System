@@ -30,7 +30,7 @@ public:
     string getUserName();
     ~Person();
 
-protected:
+public:
     bool admin;
 
 private:

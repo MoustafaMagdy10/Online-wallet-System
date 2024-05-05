@@ -5,7 +5,7 @@
 
 #include <iostream>
 #include "Person.h"
-
+#include "User.h"
 using namespace std;
 class Admin : public Person
 {
@@ -14,7 +14,11 @@ public:
     Admin();
     Admin(const string &userName,const string &password);
     ~Admin();
-
+    void ViewAllUsers();
+    void ViewUser(string);
+    void ViewAlltransactions();
+    void EditBalance();
+    void menueAdmin();
 private:
 };
 
