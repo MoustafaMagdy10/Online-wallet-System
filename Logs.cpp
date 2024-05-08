@@ -5,7 +5,8 @@ Logs::Logs()
 {
     string login; // to login if 1 , register if 2
     cout << "to login choose 1 , to register choose 2 \n";
-    cin >> login;
+    cin.ignore('\n');
+    getline(cin,login);
     if (login != "1" and login != "2")
     {
         cout << "please choose a valid number\n";

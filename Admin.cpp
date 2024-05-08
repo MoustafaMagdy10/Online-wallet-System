@@ -71,11 +71,19 @@ void Admin::EditBalance()
     string name;
     cin >> name;
     int choice;
-    User *user = static_cast<User *>(personStore[name]);
+    auto it = Person::getUserByName(name);
+    if (it == nullptr)
+    {
+        cout << "User not found\n";
+        return;
+    }
+
+    User *user = static_cast<User *>(it);
     cout << "1-edit balance\n"
          << "2-add balance\n"
          << "Enter your choice:";
     cin >> choice;
+
     switch (choice)
     {
     case 1:

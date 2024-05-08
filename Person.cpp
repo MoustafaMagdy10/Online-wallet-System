@@ -31,7 +31,7 @@ void Person::editUserName()
 {
     string userName;
     cout << "enter the name you want to change\n";
-    cin >> userName;
+    getline(cin,userName);
     auto it = getUserByName(userName);
     if (it != nullptr)
     {
