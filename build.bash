@@ -1,0 +1,1 @@
+g++ Main.cpp imgui_demo.cpp imgui_draw.cpp imgui_tables.cpp imgui_widgets.cpp imgui.cpp rlImGui.cpp Menu.cpp Person.cpp Logs.cpp Admin.cpp User.cpp UserMenu.cpp Transaction.cpp  -I/home/moustafa/VsCodeProjects/Online-wallet-System/include -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
