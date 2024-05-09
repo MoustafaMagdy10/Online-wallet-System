@@ -17,7 +17,7 @@ public:
     Menu();
     static void RenderFrame();
     static void EndFrame();
-    static void ShowCredintial();
+    static void ShowCredential();
     static void SleepForSec(const std::string &message);
     ~Menu();
 

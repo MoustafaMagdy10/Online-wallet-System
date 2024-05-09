@@ -28,6 +28,7 @@ int main()
     Person::currentPerson = Person::getUserByName("Moustafa");
     User::currentUser = static_cast<User *>(Person::currentPerson);
     User::currentUser->setBalance(500);
+    User::currentUser->Notification("ahe m4ya");
     while (!WindowShouldClose())
     {
 

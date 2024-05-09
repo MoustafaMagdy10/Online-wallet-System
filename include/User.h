@@ -19,26 +19,21 @@ public:
     
     User(const string &userName ,const string &password);
    void sendMoney();
-//    void requestMoney(string senderUsername,double amount);
+   void requestMoney();
+   void Notification(const string &message);
    long double getBalance();
-   void setBalance(double balance);
-//    void setUserName();
-//    string getUserName();
+   void setBalance(const double &balance);
    stack<Transaction> getTransactionHistory();
     void addTransaction(Transaction transaction);
-    void viewCurrrentBalance();
-    void viewTansactionHistory();
-   //  void editProfile();
+    void viewTransactionHistory();
     void viewTansForAdmin();
-    // void sendMoney();
-    // void requestMoney();
-    void addMoney();
-    void logOut();
-
+   //  void addMoney();
+    void ShowInbox();
+    bool hasNotification();
     ~User();
 
 private:
-   queue<string> inbox;
+   stack<string> inbox;
     long double balance;
     stack<Transaction>transactionHistory;
 };

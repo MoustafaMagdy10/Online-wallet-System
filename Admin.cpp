@@ -38,7 +38,7 @@ void Admin::ViewUser(string name)
         User *user = static_cast<User *>(personStore[name]);
 
         if (!user->getTransactionHistory().empty())
-            user->viewTansactionHistory();
+            user->viewTransactionHistory();
         else
             cout << "no transaction yet\n";
     }

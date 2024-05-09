@@ -12,11 +12,11 @@ ShowMenu:
     switch (choice)
     {
     case 6:
-        User::currentUser->viewCurrrentBalance();
+        // User::currentUser->viewCurrrentBalance();
         break;
 
     case 7:
-        User::currentUser->viewTansactionHistory();
+        User::currentUser->viewTransactionHistory();
         break;
 
     case 8:

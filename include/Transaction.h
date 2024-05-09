@@ -16,7 +16,7 @@ public:
     string getSender();
     string getRecipient();
     double getAmount();
-    string getTransactionnDate();
+    string getTransactionDate();
 private:
     string sender;
     string recipient;

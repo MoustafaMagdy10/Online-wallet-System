@@ -22,7 +22,7 @@ Menu::Menu()
     {
         if (User::currentUser != nullptr)
         {
-            Menu::ShowCredintial();
+            Menu::ShowCredential();
         }
         ImGui::NewLine();
 
@@ -44,6 +44,30 @@ Menu::Menu()
             {
                 User::currentUser->sendMoney();
             }
+            ImGui::NewLine();
+            if (ImGui::Button("Request Money"))
+            {
+                User::currentUser->requestMoney();
+            }
+            ImGui::NewLine();
+            if (ImGui::Button("Show Transactions History"))
+            {
+                User::currentUser->viewTransactionHistory();
+            }
+            ImGui::NewLine();
+            if (ImGui::Button("Inbox"))
+            {
+                User::currentUser->ShowInbox();
+            }
+
+            if (User::currentUser->hasNotification())
+            {
+                ImGui::SameLine();
+                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+                ImGui::Bullet();
+                ImGui::PopStyleColor();
+            }
+            ImGui::NewLine();
         }
         ImGui::NewLine();
 
@@ -53,7 +77,7 @@ Menu::Menu()
         }
     }
 }
-void Menu::ShowCredintial()
+void Menu::ShowCredential()
 {
     ImGui::Bullet();
     ImGui::SameLine();
