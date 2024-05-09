@@ -7,6 +7,7 @@
 #include <vector>
 #include <iostream>
 #include "Person.h"
+#include "User.h"
 // using namespace std;
 int main()
 {
@@ -21,8 +22,12 @@ int main()
     rlImGuiSetup(true);
     char userName, password;
     bool done = false;
-    Person::addPerson("Moustafa", "Moustafa2004",false);
+    Person::addPerson("Moustafa", "Moustafa2004", false);
     Person::currentPerson = Person::getUserByName("Moustafa");
+    Person::addPerson("Musa", "Moustafa2004", false);
+    Person::currentPerson = Person::getUserByName("Moustafa");
+    User::currentUser = static_cast<User *>(Person::currentPerson);
+    User::currentUser->setBalance(500);
     while (!WindowShouldClose())
     {
 

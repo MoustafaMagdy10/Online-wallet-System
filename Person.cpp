@@ -6,8 +6,8 @@
 #include "Menu.h"
 #include <chrono>
 #include <thread>
-// #include "Admin.h"
-// #include "User.h"
+#include "Admin.h"
+#include "User.h"
 
 Person::Person() {}
 Person::Person(const string &userName, const string &password)
@@ -17,11 +17,10 @@ Person::Person(const string &userName, const string &password)
 }
 void Person::addPerson(const string &userName, const string &password, const bool &role)
 {
-    // if (role)
-    //     Person::personStore[userName] = new Admin(userName, password);
-    // else
-    //     Person::personStore[userName] = new User(userName, password);
-    Person ::personStore[userName] = new Person(userName, password);
+    if (role)
+        Person::personStore[userName] = new Admin(userName, password);
+    else
+        Person::personStore[userName] = new User(userName, password);
 }
 
 Person *Person::getUserByName(const string &userName)
@@ -81,16 +80,7 @@ void Person::editUserName()
                 currentPerson->userName = _userName;
                 done = true;
 
-                auto startTime = std::chrono::steady_clock::now();
-                auto endTime = startTime + std::chrono::milliseconds(1500);
-                while (std::chrono::steady_clock::now() < endTime)
-                {
-                    Menu::EndFrame();
-                    Menu::RenderFrame();
-                    ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
-                    ImGui::TextColored(ImVec4(0, 228, 48, 255), "User name has been changed successfully :)");
-                    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Sleep to avoid high CPU usage
-                }
+              
             }
         }
 

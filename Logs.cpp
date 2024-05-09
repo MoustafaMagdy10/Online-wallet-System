@@ -24,16 +24,16 @@ Logs::Logs()
     // Center the Log In button
     ImGui::SetCursorPosX(centerX - ImGui::CalcTextSize("Log In").x * 0.5f - ImGui::GetStyle().FramePadding.x * 2);
     ImGui::SetCursorPosY(centerY - ImGui::CalcTextSize("Log In").y * 0.5f - ImGui::GetStyle().FramePadding.y * 2);
-    if (ImGui::Button("Log In", ImVec2(130, 70)))
+    if (ImGui::Button("Log In", ImVec2(170, 70)))
     {
         logIn();
     }
 
     centerY -= 130;
     // Center the Register button
-    ImGui::SetCursorPosX(centerX - ImGui::CalcTextSize("Register").x * 0.5f - ImGui::GetStyle().FramePadding.x * 2 + 2);
+    ImGui::SetCursorPosX(centerX - ImGui::CalcTextSize("Register").x * 0.5f - ImGui::GetStyle().FramePadding.x * 2 + 15);
     ImGui::SetCursorPosY(centerY - ImGui::CalcTextSize("Register").y * 0.5f - ImGui::GetStyle().FramePadding.y * 2);
-    if (ImGui::Button("Register", ImVec2(130, 70)))
+    if (ImGui::Button("Register", ImVec2(170, 70)))
     {
         register_();
     }
@@ -157,16 +157,12 @@ void Logs::register_()
 
                 Person::addPerson(_userName, _password, false);
                 Person::currentPerson = Person::getUserByName(_userName);
-                // Person::initializeUser();
+                Person::initializeUser();
                 done = true;
             }
             break;
         }
 
-        //
-        // ImGui::End();
-        // rlImGuiEnd();
-        // EndDrawing();
         if (WindowShouldClose())
             exit(0);
     }
@@ -179,24 +175,24 @@ void Logs::logIn()
 {
 
     vector<char> userName(265), password(265);
+    string _userName;
     bool done = false;
     bool wrongUser = false;
-    rlImGuiEnd();
-    EndDrawing();
+
     while (!done)
     {
-        BeginDrawing();
-        ClearBackground(WHITE);
-        rlImGuiBegin();
-        // bool open = true;
-        //     ImGui::ShowDemoWindow(&open);
+
+        Menu::EndFrame();
+        Menu::RenderFrame();
+
+        ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
 
         ImGui::InputText("Name", userName.data(), userName.size());
 
-        if (ImGui::Button("Login"))
+        if (ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter))
         {
-            string s = userName.data();
-            auto it = Person::getUserByName(s);
+            _userName = userName.data();
+            auto it = Person::getUserByName(_userName);
 
             if (it == nullptr)
             {
@@ -204,15 +200,14 @@ void Logs::logIn()
             }
             else
             {
-                Person::currentPerson = Person::getUserByName(s);
+                Person::currentPerson = Person::getUserByName(_userName);
+                Person::initializeUser();
                 done = true;
             }
         }
         if (wrongUser)
-            ImGui::Text("No such user");
-        //
-        rlImGuiEnd();
-        EndDrawing();
+            ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f),"No such user exists");
+
         if (WindowShouldClose())
             exit(0);
     }

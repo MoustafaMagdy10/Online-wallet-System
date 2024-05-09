@@ -18,7 +18,7 @@ public:
     static User *currentUser;
     
     User(const string &userName ,const string &password);
-   void sendMoney(string recipientUsername,double amount);
+   void sendMoney();
 //    void requestMoney(string senderUsername,double amount);
    long double getBalance();
    void setBalance(double balance);

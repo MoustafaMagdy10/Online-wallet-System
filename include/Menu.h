@@ -10,12 +10,15 @@
 #include"rlImGui.h"
 
 
+
 class Menu
 {
 public:
     Menu();
     static void RenderFrame();
     static void EndFrame();
+    static void ShowCredintial();
+    static void SleepForSec(const std::string &message);
     ~Menu();
 
 private:
