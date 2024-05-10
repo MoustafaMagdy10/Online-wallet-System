@@ -95,52 +95,66 @@ void Admin ::viewAllTransactions()
         Menu::RenderFrame();
         Admin::currentAdmin->ShowCredential();
 
-        stack<Transaction *> transactions;
+        stack<Transaction> transactions;
+        stack<Transaction> transactionStore;
         // Transaction T;
         // transactions = T.getAllTransactions();
-        transactions = Transaction::transactionStore;
+        for (auto it : Person::personStore)
+        {
+            if (!it.second->admin)
+            {
+                User *U = static_cast<User *>(it.second);
+                if (U->getSuspended())
+                    continue;
+                transactions = U->getTransactions();
+                while (!transactions.empty())
+                {
+                    transactionStore.push(transactions.top());
+                    transactions.pop();
+                }
+            }
+        }
 
-        if (transactions.empty())
+        if (transactionStore.empty())
         {
             ImGui::TextColored(ImVec4(0, 121, 241, 255), "No Transactions:");
         }
         else
         {
-            while (!transactions.empty())
+            while (!transactionStore.empty())
             {
                 ImGui::SetWindowFontScale(1.5f);
 
-                ImGui::Text(transactions.top()->getSender().c_str());
+                ImGui::Text(transactionStore.top().getSender().c_str());
                 ImGui::SameLine();
                 ImGui::SetCursorPosX(250);
 
-                ImGui::Text(transactions.top()->getRecipient().c_str());
+                ImGui::Text(transactionStore.top().getRecipient().c_str());
                 ImGui::SameLine();
                 ImGui::SetCursorPosX(450);
 
-                ImGui::Text(transactions.top()->getTransactionDate().c_str());
+                ImGui::Text(transactionStore.top().getTransactionDate().c_str());
                 ImGui::SameLine();
                 ImGui::SetCursorPosX(650);
 
-                ImGui::Text(transactions.top()->getType().c_str());
+                ImGui::Text(transactionStore.top().getType().c_str());
                 ImGui::SameLine();
                 ImGui::SetCursorPosX(800);
-                ImGui::Text(to_string(transactions.top()->getAmount()).c_str());
+                ImGui::Text(to_string(transactionStore.top().getAmount()).c_str());
 
-                transactions.pop();
+                transactionStore.pop();
             }
+
+            ImGui::NewLine();
+
         }
+            if (ImGui::Button("Back"))
+                done = true;
 
-        ImGui::NewLine();
-
-        if (ImGui::Button("Back"))
-            done = true;
-
-        if (WindowShouldClose())
-            exit(0);
+            if (WindowShouldClose())
+                exit(0);
     }
 }
-
 void Admin::editUserBalance()
 {
 
@@ -186,7 +200,10 @@ void Admin::editUserBalance()
                     {
                         User *user = static_cast<User *>(it.second);
 
+                        Transaction T("Admin",user->getUserName(),abs(user->getBalance()-amount) , amount>=user->getBalance()? "Money Added": "Money Deducted" );
                         user->setBalance(amount);
+                        user->addTransaction(T);
+                        user->Notification("An admin has changed your balance");
                         Menu::SleepForSec("Money set successfully :)");
                         done = true;
                     }
@@ -268,11 +285,12 @@ void Admin::addUser()
             {
 
                 Person::addPerson(_userName, _password, false);
-                done = true;
+                step++;
             }
             break;
         case 2:
             Admin::currentAdmin->editUserBalance();
+            done = true;
         }
 
         if (ImGui::Button("Back"))
@@ -290,7 +308,8 @@ void Admin::deleteUser()
     bool done = false;
     vector<char> userName(15);
     string _userName;
-
+    bool userToBeDeleted = false;
+    User *U = nullptr;
     while (!done)
     {
         Menu::EndFrame();
@@ -300,6 +319,7 @@ void Admin::deleteUser()
         ImGui::InputTextWithHint("User Name", "Search User", userName.data(), userName.size());
         _userName = userName.data();
         ImGui::NewLine();
+        // Person *person;
 
         for (auto &it : Person::personStore)
         {
@@ -308,11 +328,21 @@ void Admin::deleteUser()
                 notFound = false;
                 if (ImGui::Selectable(it.second->getUserName().c_str()))
                 {
-                    Person::personStore.erase(it.second->getUserName());
-                    Menu::SleepForSec("User has been deleted successfully :)");
-                    done = true;
+                    _userName = it.first;
+                    userToBeDeleted = true;
+                    break;
                 }
             }
+        }
+
+        if (userToBeDeleted)
+        {
+            auto it = getUserByName(_userName);
+            personStore.erase(_userName);
+            //  delete it;
+            // it = nullptr;
+            userToBeDeleted = false;
+            Menu::SleepForSec("User has been deleted successfully :)");
         }
         if (notFound)
         {

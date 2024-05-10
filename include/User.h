@@ -20,6 +20,7 @@ public:
     User(const string &userName ,const string &password);
    void sendMoney();
    void requestMoney();
+   stack<Transaction> getTransactions();
    void Notification(const string &message);
    long double getBalance();
    void setBalance(const double &balance);
@@ -40,7 +41,7 @@ private:
    stack<string> inbox;
     long double balance;
     stack<Transaction>transactionHistory;
-    bool suspended;
+    bool suspended = false;
 };
 
 #endif

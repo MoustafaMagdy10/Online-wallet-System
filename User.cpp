@@ -7,6 +7,7 @@ User::User(const string &userName, const string &password)
 {
     admin = false;
     balance = 0;
+    suspended = false;
 }
 
 void User::sendMoney()
@@ -160,6 +161,9 @@ void User::requestMoney()
         if (WindowShouldClose())
             exit(0);
     }
+}
+stack<Transaction> User:: getTransactions(){
+    return this->transactionHistory;
 }
 void User::ShowInbox()
 {

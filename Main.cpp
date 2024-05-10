@@ -27,6 +27,7 @@ int main()
     Person::currentPerson = Person::getUserByName("Moustafa");
     Person::addPerson("Musa", "Moustafa2004", false);
     Person::currentPerson = Person::getUserByName("Moustafa");
+    // User::currentUser = static_cast<User*>(Person::currentPerson);
     Admin::currentAdmin = static_cast<Admin *>(Person::currentPerson);
     // User::currentUser->setBalance(500);
     // User::currentUser->Notification("ahe m4ya");
