@@ -26,16 +26,21 @@ public:
    stack<Transaction> getTransactionHistory();
     void addTransaction(Transaction transaction);
     void viewTransactionHistory();
+    void viewTransactionHistory(const User* user);
     void viewTansForAdmin();
    //  void addMoney();
+   void ShowCredential() override;
     void ShowInbox();
     bool hasNotification();
+    void setSuspended(const bool &suspended);
+    bool getSuspended();
     ~User();
 
 private:
    stack<string> inbox;
     long double balance;
     stack<Transaction>transactionHistory;
+    bool suspended;
 };
 
 #endif

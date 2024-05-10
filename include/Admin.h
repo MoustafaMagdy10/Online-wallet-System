@@ -13,12 +13,14 @@ public:
     static Admin *currentAdmin;
     Admin();
     Admin(const string &userName,const string &password);
+    void deleteUser();
+    void suspendUser();
     ~Admin();
-    void ViewAllUsers();
-    void ViewUser(string);
-    void ViewAlltransactions();
-    void EditBalance();
-    void menueAdmin();
+    void viewAllUsers();
+    void searchUser();
+    void viewAllTransactions();
+    void editUserBalance();
+    void addUser();
 private:
 };
 

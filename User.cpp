@@ -1,5 +1,6 @@
 #include "User.h"
 #include "Menu.h"
+#include "Admin.h"
 
 User::User(const string &userName, const string &password)
     : Person(userName, password)
@@ -22,9 +23,8 @@ void User::sendMoney()
     {
         Menu::EndFrame();
         Menu::RenderFrame();
-        ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
 
-        Menu::ShowCredential();
+        currentUser->ShowCredential();
         ImGui::NewLine();
 
         switch (step)
@@ -103,9 +103,8 @@ void User::requestMoney()
     {
         Menu::EndFrame();
         Menu::RenderFrame();
-        ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
 
-        Menu::ShowCredential();
+        currentUser->ShowCredential();
         ImGui::NewLine();
 
         switch (step)
@@ -169,8 +168,7 @@ void User::ShowInbox()
     {
         Menu::EndFrame();
         Menu::RenderFrame();
-        ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
-        Menu::ShowCredential();
+        currentUser->ShowCredential();
 
         if (currentUser->inbox.empty())
         {
@@ -187,7 +185,6 @@ void User::ShowInbox()
                 ImGui::TextColored(ImVec4(0, 121, 241, 255), message.c_str());
                 _inbox.pop();
             }
-
         }
 
         ImGui::NewLine();
@@ -218,6 +215,13 @@ bool User::hasNotification()
 {
     return !currentUser->inbox.empty();
 }
+void User::setSuspended(const bool &suspended)
+{
+    this->suspended = suspended;
+}
+bool User::getSuspended(){
+    return this->suspended;
+}
 long double User::getBalance()
 {
     return this->balance;
@@ -246,8 +250,7 @@ void User::viewTransactionHistory()
 
         Menu::EndFrame();
         Menu::RenderFrame();
-        ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
-        Menu::ShowCredential();
+        currentUser->ShowCredential();
 
         if (User::currentUser->transactionHistory.empty())
         {
@@ -256,6 +259,75 @@ void User::viewTransactionHistory()
         else
         {
             stack<Transaction> history = User::currentUser->transactionHistory;
+
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Transaction History");
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Sender");
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 100);
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "recipient");
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 150);
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Date");
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 100);
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Type");
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 100);
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Amount");
+
+            while (!history.empty())
+            {
+                ImGui::SetWindowFontScale(1.5f);
+
+                ImGui::Text(history.top().getSender().c_str());
+                ImGui::SameLine();
+                ImGui::SetCursorPosX(250);
+
+                ImGui::Text(history.top().getRecipient().c_str());
+                ImGui::SameLine();
+                ImGui::SetCursorPosX(450);
+
+                ImGui::Text(history.top().getTransactionDate().c_str());
+                ImGui::SameLine();
+                ImGui::SetCursorPosX(650);
+
+                ImGui::Text(history.top().getType().c_str());
+                ImGui::SameLine();
+                ImGui::SetCursorPosX(800);
+                ImGui::Text(to_string(history.top().getAmount()).c_str());
+
+                history.pop();
+
+                ImGui::SetWindowFontScale(2.0f);
+            }
+            ImGui::NewLine();
+        }
+        if (ImGui::Button("Back"))
+            done = true;
+
+        if (WindowShouldClose())
+            exit(0);
+    }
+}
+void User::viewTransactionHistory(const User *user)
+{
+    bool done = false;
+    bool show = false;
+
+    while (!done)
+    {
+
+        Menu::EndFrame();
+        Menu::RenderFrame();
+        Admin::currentAdmin->ShowCredential();
+
+        if (user->transactionHistory.empty())
+        {
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "No Transactions yet :(");
+        }
+        else
+        {
+            stack<Transaction> history = user->transactionHistory;
 
             ImGui::TextColored(ImVec4(0, 121, 241, 255), "Transaction History");
             ImGui::TextColored(ImVec4(0, 121, 241, 255), "Sender");
@@ -338,6 +410,22 @@ void User::viewTansForAdmin()
 //     exit(0);
 // }
 
+void User::ShowCredential()
+{
+    ImGui::Bullet();
+    ImGui::SameLine();
+    ImGui::SetWindowFontScale(2.0f);
+    ImGui::TextColored(ImVec4(0, 228, 48, 255), "Balance: ");
+    ImGui::SameLine();
+    ImGui::Text(to_string(User::currentUser->getBalance()).c_str());
+    ImGui::SameLine();
+
+    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 350);
+    ImGui::TextColored(ImVec4(0, 228, 48, 255), "Name: ");
+    ImGui::SameLine();
+    ImGui::Text(Person::currentPerson->getUserName().c_str());
+    ImGui::NewLine();
+}
 User::~User()
 {
 }

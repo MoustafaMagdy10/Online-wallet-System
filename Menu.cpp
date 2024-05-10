@@ -14,7 +14,18 @@ User *User::currentUser = nullptr;
 Admin *Admin::currentAdmin = nullptr;
 Menu::Menu()
 {
-    if (Person::currentPerson == nullptr)
+    if (User::currentUser != nullptr and User::currentUser->getSuspended())
+    {
+        User::currentUser->ShowCredential();
+        ImGui::TextColored(ImVec4(0, 121, 241, 255), "Unfortunately, Your account has been suspended :(");
+        ImGui::NewLine();
+
+        if (ImGui::Button("logout"))
+        {
+            Logs::logOut();
+        }
+    }
+    else if (Person::currentPerson == nullptr)
     {
         Logs();
     }
@@ -22,8 +33,13 @@ Menu::Menu()
     {
         if (User::currentUser != nullptr)
         {
-            Menu::ShowCredential();
+            User::currentUser->ShowCredential();
         }
+        else if (Admin::currentAdmin != nullptr)
+        {
+            Admin::currentAdmin->ShowCredential();
+        }
+
         ImGui::NewLine();
 
         if (ImGui::Button("Edit User Name"))
@@ -69,6 +85,45 @@ Menu::Menu()
             }
             ImGui::NewLine();
         }
+        else if (Admin::currentAdmin != nullptr)
+        {
+            if (ImGui::Button("View All Users"))
+            {
+                Admin::currentAdmin->viewAllUsers();
+            }
+            ImGui::NewLine();
+
+            if (ImGui::Button("Search User"))
+            {
+                Admin::currentAdmin->searchUser();
+            }
+            ImGui::NewLine();
+
+            if (ImGui::Button("View All Transactions"))
+            {
+                Admin::currentAdmin->viewAllTransactions();
+            }
+            ImGui::NewLine();
+            if (ImGui::Button("Edit User Balance"))
+            {
+                Admin::currentAdmin->editUserBalance();
+            }
+            ImGui::NewLine();
+            if (ImGui::Button("Add User"))
+            {
+                Admin::currentAdmin->addUser();
+            }
+            ImGui::NewLine();
+            if (ImGui::Button("Delete User"))
+            {
+                Admin::currentAdmin->deleteUser();
+            }
+            ImGui::NewLine();
+            if (ImGui::Button("Suspend User"))
+            {
+                Admin::currentAdmin->suspendUser();
+            }
+        }
         ImGui::NewLine();
 
         if (ImGui::Button("logout"))
@@ -77,22 +132,7 @@ Menu::Menu()
         }
     }
 }
-void Menu::ShowCredential()
-{
-    ImGui::Bullet();
-    ImGui::SameLine();
-    ImGui::SetWindowFontScale(2.0f);
-    ImGui::TextColored(ImVec4(0, 228, 48, 255), "Balance: ");
-    ImGui::SameLine();
-    ImGui::Text(to_string(User::currentUser->getBalance()).c_str());
-    ImGui::SameLine();
 
-    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 350);
-    ImGui::TextColored(ImVec4(0, 228, 48, 255), "Name: ");
-    ImGui::SameLine();
-    ImGui::Text(Person::currentPerson->getUserName().c_str());
-    ImGui::NewLine();
-}
 void Menu::SleepForSec(const std::string &message)
 {
     auto startTime = std::chrono::steady_clock::now();
@@ -102,7 +142,6 @@ void Menu::SleepForSec(const std::string &message)
     {
         Menu::EndFrame();
         Menu::RenderFrame();
-        ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
         ImGui::TextColored(ImVec4(0, 228, 48, 255), message.c_str());
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
@@ -112,6 +151,8 @@ void Menu::RenderFrame()
     BeginDrawing();
     ClearBackground(BLACK);
     rlImGuiBegin();
+    ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
+    ImGui::SetWindowFontScale(2.0f);
 }
 
 void Menu::EndFrame()

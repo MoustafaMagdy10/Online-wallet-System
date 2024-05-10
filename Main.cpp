@@ -8,6 +8,7 @@
 #include <iostream>
 #include "Person.h"
 #include "User.h"
+#include "Admin.h"
 // using namespace std;
 int main()
 {
@@ -22,22 +23,22 @@ int main()
     rlImGuiSetup(true);
     char userName, password;
     bool done = false;
-    Person::addPerson("Moustafa", "Moustafa2004", false);
+    Person::addPerson("Moustafa", "Moustafa2004", true);
     Person::currentPerson = Person::getUserByName("Moustafa");
     Person::addPerson("Musa", "Moustafa2004", false);
     Person::currentPerson = Person::getUserByName("Moustafa");
-    User::currentUser = static_cast<User *>(Person::currentPerson);
-    User::currentUser->setBalance(500);
-    User::currentUser->Notification("ahe m4ya");
+    Admin::currentAdmin = static_cast<Admin *>(Person::currentPerson);
+    // User::currentUser->setBalance(500);
+    // User::currentUser->Notification("ahe m4ya");
+    Transaction T("Moustafa","musa",1000,"Donation");
     while (!WindowShouldClose())
     {
 
         Menu::RenderFrame();
-
-        ImGui::SetNextWindowPos(ImVec2(GetWindowPosition().x, GetWindowPosition().y));
-        ImGui::SetNextWindowSize(ImVec2(GetScreenWidth(), GetScreenHeight()));
-        ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
+        // ImGui::SetNextWindowPos(ImVec2(GetWindowPosition().x, GetWindowPosition().y));
+        // ImGui::SetNextWindowSize(ImVec2(GetScreenWidth(), GetScreenHeight()));
         Menu();
+        // ImGui::ShowDemoWindow();
 
         Menu::EndFrame();
     }

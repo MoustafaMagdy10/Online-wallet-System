@@ -28,10 +28,11 @@ public:
     bool getAdminRole();
     static bool isNumber(const string &s);
     string getUserName();
+    virtual void ShowCredential();
     ~Person();
 
 public:
-    bool admin;
+    bool admin = false;
     static map<string, Person *> personStore; // hash every username with it's object
 private:
     string userName;

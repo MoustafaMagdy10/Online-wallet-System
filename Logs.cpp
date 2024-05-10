@@ -4,8 +4,8 @@
 #include "rlImGui.h"
 #include <vector>
 #include "Menu.h"
-#include"User.h"
-#include"Admin.h"
+#include "User.h"
+#include "Admin.h"
 
 Logs::Logs()
 {
@@ -28,7 +28,6 @@ Logs::Logs()
         register_();
     }
     return;
-
 }
 
 void Logs::register_()
@@ -41,12 +40,12 @@ void Logs::register_()
     bool wrongPassword = true;
     string _userName, _password;
     int step = 0;
-
+Person* it = nullptr;
     while (!done)
     {
         Menu::EndFrame();
         Menu::RenderFrame();
-        ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
+
         switch (step)
         {
         case 0:
@@ -64,7 +63,7 @@ void Logs::register_()
             {
 
                 _userName = userName.data();
-                auto it = Person::getUserByName(_userName);
+                 it = Person::getUserByName(_userName);
 
                 if (it == nullptr)
                 {
@@ -105,39 +104,74 @@ void Logs::logIn()
 {
 
     vector<char> userName(15), password(20);
-    string _userName;
+    string _userName, _password;
     bool done = false;
     bool wrongUser = false;
-
+    int steps = 0;
+    bool wrongPassword = false;
+    Person* it = nullptr;
+    
     while (!done)
     {
 
         Menu::EndFrame();
         Menu::RenderFrame();
 
-        ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
-
-        ImGui::InputText("Name", userName.data(), userName.size());
-
-        if (ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter))
+        switch (steps)
         {
+        case 0:
+            ImGui::InputText("Name", userName.data(), userName.size());
             _userName = userName.data();
-            auto it = Person::getUserByName(_userName);
 
-            if (it == nullptr)
+            if (ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter))
             {
-                wrongUser = true;
-            }
-            else
-            {
-                Person::currentPerson = Person::getUserByName(_userName);
-                Person::initializeUser();
-                done = true;
+                _userName = userName.data();
+                 it = Person::getUserByName(_userName);
+
+                if (it == nullptr)
+                {
+                    wrongUser = true;
+                }
+                else
+                {
+                    steps++;
+                }
+
+                if (wrongUser)
+                    ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "No such user exists");
+                break;
+
+            case 1:
+
+                ImGui::InputTextWithHint("enter your password", "password", password.data(), password.size(), ImGuiInputTextFlags_Password);
+
+                if (ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter))
+                {
+                    _password = password.data();
+
+                    if (!it->checkPassword(_password, it))
+                    {
+                        wrongPassword = true;
+                    }
+
+                    else
+                    {
+                        Person::currentPerson = Person::getUserByName(_userName);
+                        Person::initializeUser();
+                        done = true;
+                    }
+                }
+                if (wrongPassword)
+                {
+                    ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Wrong Password");
+                }
             }
         }
-        if (wrongUser)
-            ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f),"No such user exists");
 
+        if (ImGui::Button("Back"))
+        {
+            done = true;
+        }
         if (WindowShouldClose())
             exit(0);
     }

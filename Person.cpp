@@ -51,8 +51,6 @@ void Person::editUserName()
         Menu::EndFrame();
         Menu::RenderFrame();
 
-        ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
-
         ImGui::InputTextWithHint("Username", "enter the name you want to change", userName.data(), userName.size());
 
         _userName = userName.data();
@@ -79,8 +77,6 @@ void Person::editUserName()
                 personStore[_userName] = currentPerson;
                 currentPerson->userName = _userName;
                 done = true;
-
-              
             }
         }
 
@@ -100,6 +96,14 @@ void Person::editUserName()
 string Person::getUserName()
 {
     return this->userName;
+}
+void Person::ShowCredential()
+{
+    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 700);
+    ImGui::TextColored(ImVec4(0, 228, 48, 255), "Name: ");
+    ImGui::SameLine();
+    ImGui::Text(Person::currentPerson->getUserName().c_str());
+    ImGui::NewLine();
 }
 bool Person::checkPassword(const string &password, const Person *p)
 {
@@ -145,7 +149,6 @@ bool Person::checkValidPassword(const string &password)
     }
 
     return valid;
-    
 }
 void Person::editPassword()
 {
@@ -160,8 +163,6 @@ void Person::editPassword()
     {
         Menu::EndFrame();
         Menu::RenderFrame();
-
-        ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
 
         switch (steps)
         {
@@ -211,7 +212,6 @@ void Person::editPassword()
                 {
                     Menu::EndFrame();
                     Menu::RenderFrame();
-                    ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
                     ImGui::TextColored(ImVec4(0, 228, 48, 255), "Password has been changed successfully :)");
                     std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Sleep to avoid high CPU usage
                 }
@@ -249,20 +249,20 @@ bool Person::getAdminRole()
 }
 void Person::initializeUser()
 {
-    // if (Person::currentPerson == nullptr)
-    //     return;
+    if (Person::currentPerson == nullptr)
+        return;
 
-    // if (Person::currentPerson->admin == false)
-    // {
+    if (Person::currentPerson->admin == false)
+    {
 
-    //     User::currentUser = static_cast<User *>(Person::currentPerson);
-    //     Admin::currentAdmin = nullptr;
-    // }
-    // else
-    // {
-    //     Admin::currentAdmin = static_cast<Admin *>(Person::currentPerson);
-    //     User::currentUser = nullptr;
-    // }
+        User::currentUser = static_cast<User *>(Person::currentPerson);
+        Admin::currentAdmin = nullptr;
+    }
+    else
+    {
+        Admin::currentAdmin = static_cast<Admin *>(Person::currentPerson);
+        User::currentUser = nullptr;
+    }
 }
 bool Person::isNumber(const string &s)
 {

@@ -1,18 +1,24 @@
 
 #include "Transaction.h"
-#include<iomanip>
+#include <iomanip>
 
-Transaction::Transaction(){
-    
+ stack<Transaction *> Transaction::transactionStore;
+// stack<Transaction *>::Transaction transactionStore;
+
+Transaction::Transaction()
+{
 }
 
-Transaction::Transaction(string sender, string recipient, double amount, string type) {
+Transaction::Transaction(string sender, string recipient, double amount, string type)
+{
     this->sender = sender;
     this->recipient = recipient;
     this->amount = amount;
     this->type = type;
     this->transactionDate = Transaction::get_current_time();
+    transactionStore.push(this);
 }
+
 
 void Transaction::Transaction::setAmount(double amount)
 {
@@ -43,24 +49,15 @@ string Transaction::getTransactionDate()
     return this->transactionDate;
 }
 
-std::string Transaction::get_current_time() {
-    // auto now = std::chrono::system_clock::now();
-    // std::time_t current_time = std::chrono::system_clock::to_time_t(now);
-    // return std::ctime(&current_time);
-     auto now = std::chrono::system_clock::now();
-    
-    // Convert to time_t (standard time representation)
+std::string Transaction::get_current_time()
+{
+    auto now = std::chrono::system_clock::now();
     std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
-
-    // Convert to local time
-    std::tm* localTime = std::localtime(&currentTime);
-    
-    // Format the date and time
+    std::tm *localTime = std::localtime(&currentTime);
     std::stringstream ss;
     ss << std::setw(2) << std::setfill('0') << localTime->tm_mday << "/"
        << std::setw(2) << std::setfill('0') << (localTime->tm_mon + 1) << "/"
        << std::setw(2) << std::setfill('0') << (localTime->tm_year + 1900);
-     
-    
+
     return ss.str();
 }
