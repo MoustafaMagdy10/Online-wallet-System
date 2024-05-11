@@ -19,6 +19,7 @@ public:
     string getRecipient();
     double getAmount();
     string getTransactionDate();
+    static stack<Transaction>transactionStore;
 private:
     string sender;
     string recipient;

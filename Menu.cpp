@@ -7,11 +7,13 @@
 #include "imgui.h"
 #include <chrono>
 #include <thread>
+#include<Transaction.h>
 
 map<string, Person *> Person::personStore;
 Person *Person::currentPerson = nullptr;
 User *User::currentUser = nullptr;
 Admin *Admin::currentAdmin = nullptr;
+stack<Transaction> Transaction::transactionStore;
 Menu::Menu()
 {
     if (User::currentUser != nullptr and User::currentUser->getSuspended())
