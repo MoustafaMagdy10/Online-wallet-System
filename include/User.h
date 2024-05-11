@@ -21,7 +21,7 @@ public:
    void sendMoney();
    void requestMoney();
    stack<Transaction> getTransactions();
-   void Notification(const string &message);
+   void Notify(const string &message);
    long double getBalance();
    void setBalance(const double &balance);
    stack<Transaction> getTransactionHistory();

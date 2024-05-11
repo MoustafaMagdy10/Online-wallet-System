@@ -51,6 +51,7 @@ void Person::editUserName()
         Menu::EndFrame();
         Menu::RenderFrame();
 
+        ImGui::NewLine();
         ImGui::InputTextWithHint("Username", "enter the name you want to change", userName.data(), userName.size());
 
         _userName = userName.data();
@@ -62,6 +63,7 @@ void Person::editUserName()
         if (tooShort)
             ImGui::Text("User name is too short , must be at least 5 characters long");
 
+        ImGui::NewLine();
         if ((ImGui::Button("done") or ImGui::IsKeyPressed(ImGuiKey_Enter)) and !tooShort)
         {
             auto it = getUserByName(_userName);
@@ -80,9 +82,10 @@ void Person::editUserName()
             }
         }
 
+        ImGui::NewLine();
         if (ImGui::Button("Back"))
         {
-            return;
+            done = true;
         }
 
         if (wrongUserName)
@@ -147,7 +150,7 @@ bool Person::checkValidPassword(const string &password)
         ImGui::Text("Password must contain a number and an uppercase letter\n");
         valid = false;
     }
-
+    ImGui::NewLine();
     return valid;
 }
 void Person::editPassword()
@@ -169,8 +172,10 @@ void Person::editPassword()
 
         case 0:
 
-            ImGui::InputTextWithHint("enter your current password", "password", password.data(), password.size(), ImGuiInputTextFlags_Password);
+            ImGui::NewLine();
+            ImGui::InputTextWithHint("enter current password", "password", password.data(), password.size(), ImGuiInputTextFlags_Password);
 
+            ImGui::NewLine();
             if (ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter))
             {
                 _password = password.data();
@@ -196,31 +201,29 @@ void Person::editPassword()
 
         case 1:
 
-            ImGui::InputTextWithHint("enter your new password", "password", password1.data(), password1.size(), ImGuiInputTextFlags_Password);
-            ImGui::InputTextWithHint("enter your new password again", "password", password2.data(), password2.size(), ImGuiInputTextFlags_Password);
+            ImGui::NewLine();
+            ImGui::InputTextWithHint("enter new password", "password", password1.data(), password1.size(), ImGuiInputTextFlags_Password);
+
+            ImGui::NewLine();
+            ImGui::InputTextWithHint("enter new password again", "password", password2.data(), password2.size(), ImGuiInputTextFlags_Password);
+
             _password = password1.data();
             _password2 = password2.data();
+            
             if (_password2 != _password)
                 ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "passwords don't matches");
 
             if (Person::checkValidPassword(_password) and (ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) and _password2 == _password)
             {
                 done = true;
-                auto startTime = std::chrono::steady_clock::now();
-                auto endTime = startTime + std::chrono::milliseconds(1500);
-                while (std::chrono::steady_clock::now() < endTime)
-                {
-                    Menu::EndFrame();
-                    Menu::RenderFrame();
-                    ImGui::TextColored(ImVec4(0, 228, 48, 255), "Password has been changed successfully :)");
-                    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Sleep to avoid high CPU usage
-                }
+                Menu::SleepForSec("Password has been changed successfully :)");
             }
         }
 
+        ImGui::NewLine();
         if (ImGui::Button("Back"))
         {
-            return;
+            done = true;
         }
 
         if (WindowShouldClose())

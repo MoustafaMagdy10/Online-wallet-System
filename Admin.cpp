@@ -66,9 +66,9 @@ void Admin ::viewAllTransactions()
         Menu::RenderFrame();
         Admin::currentAdmin->ShowCredential();
 
-        stack<Transaction *> transactionStore;
-        Transaction T;
-        transactionStore = T.getTransactions();
+        stack<Transaction> transactionStore;
+
+        transactionStore = Transaction::getTransactions();
 
         if (transactionStore.empty())
         {
@@ -76,26 +76,43 @@ void Admin ::viewAllTransactions()
         }
         else
         {
+
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Transaction History");
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Sender");
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 100);
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "recipient");
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 150);
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Date");
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 100);
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Type");
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 100);
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Amount");
+
             while (!transactionStore.empty())
             {
+                ImGui::NewLine();
                 ImGui::SetWindowFontScale(1.5f);
 
-                ImGui::Text(transactionStore.top()->getSender().c_str());
+                ImGui::Text(transactionStore.top().getSender().c_str());
                 ImGui::SameLine();
                 ImGui::SetCursorPosX(250);
 
-                ImGui::Text(transactionStore.top()->getRecipient().c_str());
+                ImGui::Text(transactionStore.top().getRecipient().c_str());
                 ImGui::SameLine();
                 ImGui::SetCursorPosX(450);
 
-                ImGui::Text(transactionStore.top()->getTransactionDate().c_str());
+                ImGui::Text(transactionStore.top().getTransactionDate().c_str());
                 ImGui::SameLine();
                 ImGui::SetCursorPosX(650);
 
-                ImGui::Text(transactionStore.top()->getType().c_str());
+                ImGui::Text(transactionStore.top().getType().c_str());
                 ImGui::SameLine();
                 ImGui::SetCursorPosX(800);
-                ImGui::Text(to_string(transactionStore.top()->getAmount()).c_str());
+                ImGui::Text(to_string(transactionStore.top().getAmount()).c_str());
 
                 transactionStore.pop();
             }
@@ -154,10 +171,15 @@ void Admin::editUserBalance()
                     {
                         User *user = static_cast<User *>(it.second);
 
-                        Transaction T("Admin", user->getUserName(), abs(user->getBalance() - amount), amount >= user->getBalance() ? "Money Added" : "Money Deducted");
+                        string type = amount >= user->getBalance() ? "Money Added" : "Money Deducted";
+                        double _amount = abs(user->getBalance() - amount);
+
+                        string AdminName = "Admin " + Admin::currentAdmin->getUserName();
+                        Transaction T(AdminName, user->getUserName(), _amount, type);
+                        T.addTransactionToStore(T);
                         user->setBalance(amount);
                         user->addTransaction(T);
-                        user->Notification("An admin has changed your balance");
+                        user->Notify("An admin has changed your balance");
                         Menu::SleepForSec("Money set successfully :)");
                         done = true;
                     }
@@ -183,6 +205,75 @@ void Admin::editUserBalance()
     }
 }
 
+void Admin::addUserBalance()
+{
+    bool done = false;
+    int steps = 0;
+    double amount = 0;
+
+    vector<char> userName(10);
+    string _userName;
+    bool notFound = true;
+    while (!done)
+    {
+        Menu::EndFrame();
+        Menu::RenderFrame();
+        Admin::currentAdmin->ShowCredential();
+        switch (steps)
+        {
+        case 0:
+            ImGui::InputDouble("amount to add for user", &amount);
+            if (amount <= 0)
+            {
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Not a valid amount");
+
+            }
+                ImGui::SetCursorPosX(700);
+            if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) and amount > 0)
+                steps++;
+            break;
+        case 1:
+            ImGui::InputTextWithHint("User Name", "Search User", userName.data(), userName.size());
+            _userName = userName.data();
+            ImGui::NewLine();
+            for (auto &it : Person::personStore)
+            {
+                if (!it.second->admin and (it.first.find(_userName) != string::npos or _userName.empty()))
+                {
+                    notFound = false;
+                    if (ImGui::Selectable(it.second->getUserName().c_str()))
+                    {
+                        User *user = static_cast<User *>(it.second);
+                        string adminName = "admin:" + Admin::currentAdmin->getUserName();
+
+                        Transaction T(adminName, user->getUserName(), amount, "Money Added");
+                        T.addTransactionToStore(T);
+                        user->setBalance(amount + user->getBalance());
+                        user->addTransaction(T);
+                        user->Notify("An admin has changed your balance");
+                        Menu::SleepForSec("Money added successfully :)");
+                    }
+                }
+            }
+            if (notFound)
+            {
+                ImGui::TextColored(ImVec4(0, 121, 241, 255), "No User With This Name");
+                ImGui::NewLine();
+            }
+
+            break;
+        }
+
+        notFound ? ImGui::SameLine() : ImGui::NewLine();
+        ImGui::SetCursorPosX(0);
+
+        if (ImGui::Button("Back"))
+            done = true;
+
+        if (WindowShouldClose())
+            exit(0);
+    }
+}
 void Admin::addUser()
 {
     vector<char> userName(15), password(20);
@@ -202,9 +293,10 @@ void Admin::addUser()
         switch (step)
         {
         case 0:
+
             ImGui::InputText("Name", userName.data(), userName.size());
             _userName = userName.data();
-            if (_userName.size() < 8)
+            if (_userName.size() < 5)
             {
                 ImGui::Text("Username should be more then 8 characters long");
                 wrongUser = true;
@@ -212,6 +304,7 @@ void Admin::addUser()
             else
                 wrongUser = false;
 
+            ImGui::NewLine();
             if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) and !wrongUser)
             {
 
@@ -240,17 +333,16 @@ void Admin::addUser()
             {
 
                 Person::addPerson(_userName, _password, false);
-                step++;
+                step--;
+                // done = true;
             }
             break;
-        case 2:
-            Admin::currentAdmin->editUserBalance();
-            done = true;
         }
 
+        ImGui::NewLine();
         if (ImGui::Button("Back"))
         {
-            return;
+           done = true;
         }
 
         if (WindowShouldClose())
@@ -274,7 +366,6 @@ void Admin::deleteUser()
         ImGui::InputTextWithHint("User Name", "Search User", userName.data(), userName.size());
         _userName = userName.data();
         ImGui::NewLine();
-        // Person *person;
 
         for (auto &it : Person::personStore)
         {
@@ -292,6 +383,9 @@ void Admin::deleteUser()
 
         if (userToBeDeleted)
         {
+            bool toDo = Menu::WarningMessage(_userName,"Delete");
+            if(!toDo) continue;
+
             auto it = getUserByName(_userName);
             personStore.erase(_userName);
             //  delete it;
@@ -365,9 +459,51 @@ void Admin::suspendUser()
 }
 void Admin::ActivateUser()
 {
-   
-}
+    bool done = false;
+    vector<char> userName(15);
+    string _userName;
+    while (!done)
+    {
+        Menu::EndFrame();
+        Menu::RenderFrame();
+        bool notFound = true;
+        ImGui::InputTextWithHint("User Name", "Search User", userName.data(), userName.size());
+        _userName = userName.data();
+        ImGui::NewLine();
 
+        for (auto &it : Person::personStore)
+        {
+
+            if (!it.second->admin and (it.first.find(_userName) != string ::npos or _userName.empty()))
+            {
+                notFound = false;
+                User *user = static_cast<User *>(it.second);
+                if (user->getSuspended() && ImGui::Selectable(it.second->getUserName().c_str()))
+                {
+
+                    bool todo = Menu::WarningMessage(user->getUserName(), "activate");
+                    if (todo)
+                    {
+
+                        user->setSuspended(false);
+                        Menu::SleepForSec("User has been activated successfully ");
+                    }
+                }
+            }
+        }
+
+        if (notFound)
+        {
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "No User With This Name");
+        }
+
+        if (ImGui::Button("Back"))
+            done = true;
+
+        if (WindowShouldClose())
+            exit(0);
+    }
+}
 Admin::~Admin()
 {
 }

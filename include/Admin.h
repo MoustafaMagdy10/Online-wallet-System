@@ -20,6 +20,7 @@ public:
     void viewAllUsers();
     void viewAllTransactions();
     void editUserBalance();
+    void addUserBalance();
     void addUser();
 
 private:

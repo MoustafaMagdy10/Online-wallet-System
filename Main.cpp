@@ -23,12 +23,12 @@ int main()
     rlImGuiSetup(true);
     char userName, password;
     bool done = false;
-    Person::addPerson("Moustafa", "Moustafa2004", true);
+    Person::addPerson("Moustafa", "f", true);
     Person::currentPerson = Person::getUserByName("Moustafa");
-    Person::addPerson("Musa", "Moustafa2004", false);
-    Person::addPerson("MennaKhaled", "Moustafa2004", false);
-    Person::addPerson("MennaWalid", "Moustafa2004", false);
-    Person::addPerson("xyz", "Moustafa2004", false);
+    Person::addPerson("Musa", "f", false);
+    Person::addPerson("MennaKhaled", "f", false);
+    Person::addPerson("MennaWalid", "f", false);
+    Person::addPerson("xyz", "f", false);
     Person::currentPerson = Person::getUserByName("Moustafa");
     // User::currentUser = static_cast<User*>(Person::currentPerson);
     Admin::currentAdmin = static_cast<Admin *>(Person::currentPerson);

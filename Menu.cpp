@@ -105,6 +105,11 @@ Menu::Menu()
                 Admin::currentAdmin->editUserBalance();
             }
             ImGui::NewLine();
+            if (ImGui::Button("Add User Balance"))
+            {
+                Admin::currentAdmin->addUserBalance();
+            }
+            ImGui::NewLine();
             if (ImGui::Button("Add User"))
             {
                 Admin::currentAdmin->addUser();
@@ -118,6 +123,11 @@ Menu::Menu()
             if (ImGui::Button("Suspend User"))
             {
                 Admin::currentAdmin->suspendUser();
+            }
+            ImGui::NewLine();
+            if (ImGui::Button("Activate User"))
+            {
+                Admin::currentAdmin->ActivateUser();
             }
         }
         ImGui::NewLine();
@@ -174,7 +184,8 @@ bool Menu::WarningMessage(const std::string &name, const std::string &message)
         }
 
         ImGui::SameLine();
-        ImGui::SetCursorPosX(700);
+
+        ImGui::SetCursorPosX(600);
         if (ImGui::Button("Yes"))
         {
             return true;

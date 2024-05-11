@@ -10,7 +10,8 @@ using namespace std;
 class Transaction {
 public:
     Transaction();
-    Transaction(string sender, string recipient, double amount, string type);
+    Transaction(const string &sender,const string &recipient,const double &amount,const string &type);
+    void addTransactionToStore(const Transaction &T);
     static string get_current_time();
     void setAmount(double amount);
     void setType(string type);
@@ -19,9 +20,9 @@ public:
     string getRecipient();
     double getAmount();
     string getTransactionDate();
-    stack<Transaction*>getTransactions();
+    static stack<Transaction>getTransactions();
 private:
-    static stack<Transaction*>transactionStore;
+    static stack<Transaction>transactionStore;
     string sender;
     string recipient;
     string transactionDate;

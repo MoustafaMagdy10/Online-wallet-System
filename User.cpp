@@ -44,6 +44,7 @@ void User::sendMoney()
                 ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "enter valid amount");
             }
 
+            ImGui::NewLine();
             if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) and (amount <= User::currentUser->getBalance()) and amount > 0)
             {
                 step++;
@@ -67,13 +68,24 @@ void User::sendMoney()
                 {
                     auto it = Person::getUserByName(_userName);
                     User *recipient = static_cast<User *>(it);
+
+                    if (recipient->getSuspended())
+                    {
+                        valid = false;
+                        break;
+                    }
+                    
                     recipient->setBalance((recipient->getBalance() + amount));
                     User::currentUser->setBalance(User::currentUser->getBalance() - amount);
                     Transaction T(User::currentUser->getUserName(), recipient->getUserName(), amount, "Transfer");
+                    T.addTransactionToStore(T);
                     User::currentUser->addTransaction(T);
                     recipient->addTransaction(T);
-                    done = true;
+                    string message = User::currentUser->getUserName() + " has sent you " + to_string(amount);
+                    recipient->Notify(message);
+                    // done = true;
                     Menu::SleepForSec("Money has been sent successfully :)");
+                    step--;
                 }
             }
             if (!valid)
@@ -82,9 +94,10 @@ void User::sendMoney()
             }
         }
 
+        ImGui::NewLine();
         if (ImGui::Button("Back"))
         {
-            return;
+            done = true;
         }
         if (WindowShouldClose())
             exit(0);
@@ -112,13 +125,15 @@ void User::requestMoney()
         {
         case 0:
 
-            ImGui::InputDouble("Amount You wish to request", &amount);
+            ImGui::NewLine();
+            ImGui::InputDouble("Amount to request", &amount);
 
             if (amount <= 0)
             {
                 ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "enter valid amount");
             }
 
+            ImGui::NewLine();
             if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) and amount > 0)
             {
                 step++;
@@ -130,6 +145,7 @@ void User::requestMoney()
             ImGui::InputTextWithHint("User name of recipient ", "User Name", userName.data(), userName.size());
             _userName = userName.data();
 
+            ImGui::NewLine();
             if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)))
             {
                 auto it = Person::getUserByName(_userName);
@@ -142,8 +158,13 @@ void User::requestMoney()
                 {
                     auto it = Person::getUserByName(_userName);
                     User *recipient = static_cast<User *>(it);
-                    string message = Person::currentPerson->getUserName() + " have requested from you " + to_string(amount) + " pounds.";
-                    recipient->Notification(message);
+                    if (recipient->getSuspended())
+                    {
+                        valid = false;
+                        break;
+                    }
+                    string message = Person::currentPerson->getUserName() + " has requested from you " + to_string(amount) + " pounds.";
+                    recipient->Notify(message);
                     Menu::SleepForSec("Money has been requested successfully :)");
                 }
             }
@@ -153,6 +174,7 @@ void User::requestMoney()
             }
         }
 
+        ImGui::NewLine();
         if (ImGui::Button("Back"))
         {
             done = true;
@@ -211,7 +233,7 @@ void User::ShowInbox()
     }
 }
 
-void User::Notification(const string &message)
+void User::Notify(const string &message)
 {
     inbox.push(message);
 }
