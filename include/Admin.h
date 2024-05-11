@@ -15,11 +15,13 @@ public:
     Admin(const string &userName,const string &password);
     void deleteUser();
     void suspendUser();
+    void ActivateUser();
     ~Admin();
     void viewAllUsers();
     void viewAllTransactions();
     void editUserBalance();
     void addUser();
+
 private:
 };
 

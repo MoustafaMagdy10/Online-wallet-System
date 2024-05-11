@@ -7,12 +7,13 @@
 #include "imgui.h"
 #include <chrono>
 #include <thread>
-#include<Transaction.h>
+#include <Transaction.h>
 
 map<string, Person *> Person::personStore;
 Person *Person::currentPerson = nullptr;
 User *User::currentUser = nullptr;
 Admin *Admin::currentAdmin = nullptr;
+
 Menu::Menu()
 {
     if (User::currentUser != nullptr and User::currentUser->getSuspended())
@@ -141,6 +142,7 @@ void Menu::SleepForSec(const std::string &message)
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
+
 void Menu::RenderFrame()
 {
     BeginDrawing();
@@ -148,6 +150,39 @@ void Menu::RenderFrame()
     rlImGuiBegin();
     ImGui::Begin("online wallet system", NULL, FLAG_FULLSCREEN_MODE | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
     ImGui::SetWindowFontScale(2.0f);
+}
+
+bool Menu::WarningMessage(const std::string &name, const std::string &message)
+{
+
+    bool done = false;
+
+    while (!done)
+    {
+        Menu::EndFrame();
+        Menu::RenderFrame();
+
+        ImGui::SetCursorPos(ImVec2(150, 300));
+        string s = "Are You Sure You Want To " + message + " " + name;
+        ImGui::TextColored(ImVec4(253, 249, 0, 255), s.c_str());
+        ImGui::NewLine();
+        ImGui::SetCursorPosX(200);
+
+        if (ImGui::Button("cancel"))
+        {
+            return false;
+        }
+
+        ImGui::SameLine();
+        ImGui::SetCursorPosX(700);
+        if (ImGui::Button("Yes"))
+        {
+            return true;
+        }
+
+        if (WindowShouldClose())
+            exit(0);
+    }
 }
 
 void Menu::EndFrame()

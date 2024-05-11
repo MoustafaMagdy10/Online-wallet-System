@@ -66,10 +66,10 @@ void Admin ::viewAllTransactions()
         Menu::RenderFrame();
         Admin::currentAdmin->ShowCredential();
 
-        stack<Transaction*> transactionStore;
+        stack<Transaction *> transactionStore;
         Transaction T;
         transactionStore = T.getTransactions();
-        
+
         if (transactionStore.empty())
         {
             ImGui::TextColored(ImVec4(0, 121, 241, 255), "No Transactions:");
@@ -182,6 +182,7 @@ void Admin::editUserBalance()
             exit(0);
     }
 }
+
 void Admin::addUser()
 {
     vector<char> userName(15), password(20);
@@ -333,12 +334,19 @@ void Admin::suspendUser()
             if (!it.second->admin and (it.first.find(_userName) != string::npos or _userName.empty()))
             {
                 notFound = false;
+                User *user = static_cast<User *>(it.second);
+                if (user->getSuspended())
+                    continue;
+
                 if (ImGui::Selectable(it.second->getUserName().c_str()))
                 {
-                    User *user = static_cast<User *>(it.second);
-                    user->setSuspended(true);
-                    Menu::SleepForSec("User has been suspended successfully :)");
-                    done = true;
+                    bool toDo = Menu::WarningMessage(user->getUserName(), "Suspend");
+
+                    if (toDo)
+                    {
+                        user->setSuspended(true);
+                        Menu::SleepForSec("User has been suspended successfully ");
+                    }
                 }
             }
         }
@@ -355,6 +363,11 @@ void Admin::suspendUser()
             exit(0);
     }
 }
+void Admin::ActivateUser()
+{
+   
+}
+
 Admin::~Admin()
 {
 }
