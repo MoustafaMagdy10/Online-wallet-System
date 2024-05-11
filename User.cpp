@@ -1,7 +1,7 @@
 #include "User.h"
 #include "Menu.h"
 #include "Admin.h"
-
+#include <iomanip>
 User::User(const string &userName, const string &password)
     : Person(userName, password)
 {
@@ -119,7 +119,7 @@ void User::requestMoney()
                 ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "enter valid amount");
             }
 
-            if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) and balance > 0)
+            if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) and amount > 0)
             {
                 step++;
             }
@@ -144,7 +144,6 @@ void User::requestMoney()
                     User *recipient = static_cast<User *>(it);
                     string message = Person::currentPerson->getUserName() + " have requested from you " + to_string(amount) + " pounds.";
                     recipient->Notification(message);
-                    done = true;
                     Menu::SleepForSec("Money has been requested successfully :)");
                 }
             }
@@ -156,13 +155,14 @@ void User::requestMoney()
 
         if (ImGui::Button("Back"))
         {
-            return;
+            done = true;
         }
         if (WindowShouldClose())
             exit(0);
     }
 }
-stack<Transaction> User:: getTransactions(){
+stack<Transaction> User::getTransactions()
+{
     return this->transactionHistory;
 }
 void User::ShowInbox()
@@ -223,7 +223,8 @@ void User::setSuspended(const bool &suspended)
 {
     this->suspended = suspended;
 }
-bool User::getSuspended(){
+bool User::getSuspended()
+{
     return this->suspended;
 }
 long double User::getBalance()

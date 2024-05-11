@@ -10,40 +10,8 @@ Admin::Admin(const string &userName, const string &password)
 {
     admin = true;
 }
+
 void Admin::viewAllUsers()
-{
-
-    bool done = false;
-    while (!done)
-    {
-        Menu::EndFrame();
-        Menu::RenderFrame();
-
-        ImGui::TextColored(ImVec4(0, 121, 241, 255), "Users:");
-
-        for (auto &it : Person::personStore)
-        {
-            if (!it.second->admin)
-            {
-                User *user = static_cast<User *>(it.second);
-                ImGui::Text(user->getUserName().c_str());
-                ImGui::SameLine();
-                ImGui::Text(":   ");
-                ImGui::SameLine();
-                ImGui::Text(to_string(user->getBalance()).c_str());
-            }
-        }
-        ImGui::NewLine();
-        ImGui::NewLine();
-
-        if (ImGui::Button("Back"))
-            done = true;
-
-        if (WindowShouldClose())
-            exit(0);
-    }
-}
-void Admin::searchUser()
 {
     bool done = false;
     vector<char> userName(15);
@@ -98,26 +66,10 @@ void Admin ::viewAllTransactions()
         Menu::RenderFrame();
         Admin::currentAdmin->ShowCredential();
 
-        stack<Transaction> transactions;
-        stack<Transaction> transactionStore;
-        // Transaction T;
-        // transactions = T.getAllTransactions();
-        for (auto it : Person::personStore)
-        {
-            if (!it.second->admin)
-            {
-                User *U = static_cast<User *>(it.second);
-                if (U->getSuspended())
-                    continue;
-                transactions = U->getTransactions();
-                while (!transactions.empty())
-                {
-                    transactionStore.push(transactions.top());
-                    transactions.pop();
-                }
-            }
-        }
-
+        stack<Transaction*> transactionStore;
+        Transaction T;
+        transactionStore = T.getTransactions();
+        
         if (transactionStore.empty())
         {
             ImGui::TextColored(ImVec4(0, 121, 241, 255), "No Transactions:");
@@ -128,22 +80,22 @@ void Admin ::viewAllTransactions()
             {
                 ImGui::SetWindowFontScale(1.5f);
 
-                ImGui::Text(transactionStore.top().getSender().c_str());
+                ImGui::Text(transactionStore.top()->getSender().c_str());
                 ImGui::SameLine();
                 ImGui::SetCursorPosX(250);
 
-                ImGui::Text(transactionStore.top().getRecipient().c_str());
+                ImGui::Text(transactionStore.top()->getRecipient().c_str());
                 ImGui::SameLine();
                 ImGui::SetCursorPosX(450);
 
-                ImGui::Text(transactionStore.top().getTransactionDate().c_str());
+                ImGui::Text(transactionStore.top()->getTransactionDate().c_str());
                 ImGui::SameLine();
                 ImGui::SetCursorPosX(650);
 
-                ImGui::Text(transactionStore.top().getType().c_str());
+                ImGui::Text(transactionStore.top()->getType().c_str());
                 ImGui::SameLine();
                 ImGui::SetCursorPosX(800);
-                ImGui::Text(to_string(transactionStore.top().getAmount()).c_str());
+                ImGui::Text(to_string(transactionStore.top()->getAmount()).c_str());
 
                 transactionStore.pop();
             }

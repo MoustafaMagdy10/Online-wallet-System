@@ -26,6 +26,9 @@ int main()
     Person::addPerson("Moustafa", "Moustafa2004", true);
     Person::currentPerson = Person::getUserByName("Moustafa");
     Person::addPerson("Musa", "Moustafa2004", false);
+    Person::addPerson("MennaKhaled", "Moustafa2004", false);
+    Person::addPerson("MennaWalid", "Moustafa2004", false);
+    Person::addPerson("xyz", "Moustafa2004", false);
     Person::currentPerson = Person::getUserByName("Moustafa");
     // User::currentUser = static_cast<User*>(Person::currentPerson);
     Admin::currentAdmin = static_cast<Admin *>(Person::currentPerson);

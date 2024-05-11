@@ -3,6 +3,7 @@
 #include <iomanip>
 
 
+stack<Transaction*> Transaction::transactionStore;
 
 Transaction::Transaction()
 {
@@ -15,6 +16,7 @@ Transaction::Transaction(string sender, string recipient, double amount, string 
     this->amount = amount;
     this->type = type;
     this->transactionDate = Transaction::get_current_time();
+    transactionStore.push(this);
 }
 
 
@@ -45,6 +47,13 @@ double Transaction::getAmount()
 string Transaction::getTransactionDate()
 {
     return this->transactionDate;
+}
+
+stack<Transaction*> Transaction::getTransactions()
+{
+    
+     stack<Transaction*>st =transactionStore;
+     return st;
 }
 
 std::string Transaction::get_current_time()

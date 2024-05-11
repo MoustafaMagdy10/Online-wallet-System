@@ -17,7 +17,6 @@ public:
     void suspendUser();
     ~Admin();
     void viewAllUsers();
-    void searchUser();
     void viewAllTransactions();
     void editUserBalance();
     void addUser();
