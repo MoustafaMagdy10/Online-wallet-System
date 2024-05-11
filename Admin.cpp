@@ -64,11 +64,14 @@ void Admin::searchUser()
             if (!it.second->admin and (it.first.find(_userName) != string::npos or _userName.empty()))
             {
                 notFound = false;
+                User *user = static_cast<User *>(it.second);
                 if (ImGui::Selectable(it.second->getUserName().c_str()))
                 {
-                    User *user = static_cast<User *>(it.second);
                     user->viewTransactionHistory(user);
                 }
+                ImGui::SameLine();
+                ImGui::SetCursorPosX(700);
+                ImGui::Text(to_string(user->getBalance()).c_str());
             }
         }
         if (notFound)
@@ -146,13 +149,12 @@ void Admin ::viewAllTransactions()
             }
 
             ImGui::NewLine();
-
         }
-            if (ImGui::Button("Back"))
-                done = true;
+        if (ImGui::Button("Back"))
+            done = true;
 
-            if (WindowShouldClose())
-                exit(0);
+        if (WindowShouldClose())
+            exit(0);
     }
 }
 void Admin::editUserBalance()
@@ -200,7 +202,7 @@ void Admin::editUserBalance()
                     {
                         User *user = static_cast<User *>(it.second);
 
-                        Transaction T("Admin",user->getUserName(),abs(user->getBalance()-amount) , amount>=user->getBalance()? "Money Added": "Money Deducted" );
+                        Transaction T("Admin", user->getUserName(), abs(user->getBalance() - amount), amount >= user->getBalance() ? "Money Added" : "Money Deducted");
                         user->setBalance(amount);
                         user->addTransaction(T);
                         user->Notification("An admin has changed your balance");
