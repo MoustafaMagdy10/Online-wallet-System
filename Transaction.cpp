@@ -8,7 +8,7 @@ Transaction::Transaction()
 {
 }
 
-Transaction::Transaction(const string &sender,const string &recipient,const double &amount,const string &type)
+Transaction::Transaction(const string &sender, const string &recipient, const double &amount, const string &type)
 {
     this->sender = sender;
     this->recipient = recipient;
@@ -17,7 +17,18 @@ Transaction::Transaction(const string &sender,const string &recipient,const doub
     this->transactionDate = Transaction::get_current_time();
 }
 
-void Transaction::addTransactionToStore(const Transaction &T){
+Transaction::Transaction(const string &sender, const string &recipient, const string &date, const string &type, const double &amount)
+{
+
+    this->sender = sender;
+    this->recipient = recipient;
+    this->amount = amount;
+    this->type = type;
+    this->transactionDate = date;
+}
+
+void Transaction::addTransactionToStore(const Transaction &T)
+{
     transactionStore.push(T);
 }
 
@@ -50,7 +61,7 @@ string Transaction::getTransactionDate()
     return this->transactionDate;
 }
 
-stack<Transaction > Transaction::getTransactions()
+stack<Transaction> Transaction::getTransactions()
 {
     stack<Transaction> st = transactionStore;
     return st;

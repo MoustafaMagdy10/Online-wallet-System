@@ -9,10 +9,13 @@
 #include <thread>
 #include <Transaction.h>
 
+
 map<string, Person *> Person::personStore;
 Person *Person::currentPerson = nullptr;
 User *User::currentUser = nullptr;
 Admin *Admin::currentAdmin = nullptr;
+
+
 
 Menu::Menu()
 {

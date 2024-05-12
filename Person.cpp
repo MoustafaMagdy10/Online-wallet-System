@@ -15,6 +15,11 @@ Person::Person(const string &userName, const string &password)
     this->userName = userName;
     this->password = hashPassword(password);
 }
+Person::Person(const string &userName, const uint64_t &password)
+{
+    this->userName = userName;
+    this->password = password;
+}
 void Person::addPerson(const string &userName, const string &password, const bool &role)
 {
     if (role)
@@ -30,6 +35,10 @@ Person *Person::getUserByName(const string &userName)
     if (temp == personStore.end())
         return nullptr;
     return temp->second;
+}
+uint64_t Person::getPassword()
+{
+    return this->password;
 }
 void Person::editUserName()
 {
@@ -209,7 +218,7 @@ void Person::editPassword()
 
             _password = password1.data();
             _password2 = password2.data();
-            
+
             if (_password2 != _password)
                 ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "passwords don't matches");
 

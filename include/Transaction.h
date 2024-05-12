@@ -11,7 +11,8 @@ class Transaction {
 public:
     Transaction();
     Transaction(const string &sender,const string &recipient,const double &amount,const string &type);
-    void addTransactionToStore(const Transaction &T);
+    Transaction(const string &sender,const string &recipient,const string &date,const string &type,const double &amount);
+     static void addTransactionToStore(const Transaction &T);
     static string get_current_time();
     void setAmount(double amount);
     void setType(string type);

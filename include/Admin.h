@@ -13,6 +13,7 @@ public:
     static Admin *currentAdmin;
     Admin();
     Admin(const string &userName,const string &password);
+    Admin(const string &userName,const uint64_t &password);
     void deleteUser();
     void suspendUser();
     void ActivateUser();

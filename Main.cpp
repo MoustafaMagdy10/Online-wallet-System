@@ -9,9 +9,21 @@
 #include "Person.h"
 #include "User.h"
 #include "Admin.h"
+#include"FileHandler.h"
+
+
 // using namespace std;
 int main()
 {
+
+    FileHandler::readDataFromFile("/home/moustafa/VsCodeProjects/gui/Online-wallet-System/DataMap");
+    stack<Transaction>st = FileHandler::readStackFromFile("/home/moustafa/VsCodeProjects/gui/Online-wallet-System/DataStack");
+    
+    while(!st.empty()){
+        Transaction::addTransactionToStore(st.top());
+        st.pop();
+    }
+
     int width = 1024;
     int hight = 1024;
     InitWindow(width, hight, "Online Wallet System");
@@ -35,6 +47,9 @@ int main()
     // User::currentUser->setBalance(500);
     // User::currentUser->Notification("ahe m4ya");
     Transaction T("Moustafa","musa",1000,"Donation");
+    
+
+    
     while (!WindowShouldClose())
     {
 
@@ -46,6 +61,9 @@ int main()
 
         Menu::EndFrame();
     }
+    FileHandler::writeDataToFile("/home/moustafa/VsCodeProjects/gui/Online-wallet-System/DataMap");
+    FileHandler::WriteStackIntoFile("/home/moustafa/VsCodeProjects/gui/Online-wallet-System/DataStack");
     rlImGuiShutdown();
     CloseWindow();
+
 }

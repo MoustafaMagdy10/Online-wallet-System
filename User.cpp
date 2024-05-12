@@ -10,6 +10,14 @@ User::User(const string &userName, const string &password)
     suspended = false;
 }
 
+User::User(const string &userName, const uint64_t &password)
+    : Person(userName, password)
+{
+    admin = false;
+    balance = 0;
+    suspended = false;
+}
+
 void User::sendMoney()
 {
 
@@ -74,7 +82,7 @@ void User::sendMoney()
                         valid = false;
                         break;
                     }
-                    
+
                     recipient->setBalance((recipient->getBalance() + amount));
                     User::currentUser->setBalance(User::currentUser->getBalance() - amount);
                     Transaction T(User::currentUser->getUserName(), recipient->getUserName(), amount, "Transfer");
@@ -405,6 +413,10 @@ void User::viewTransactionHistory(const User *user)
             exit(0);
     }
 }
+void User::addForInbox(const string &message)
+{
+    this->inbox.push(message);
+}
 void User::viewTansForAdmin()
 {
     stack<Transaction> history = this->transactionHistory;
@@ -415,6 +427,11 @@ void User::viewTansForAdmin()
         cout << (history.top()).getSender() << "            " << history.top().getRecipient() << "            " << history.top().getTransactionDate() << "            " << history.top().getType() << "            " << history.top().getAmount() << "\n";
         history.pop();
     }
+}
+
+stack<string> User::getInbox()
+{
+    return this->inbox;
 }
 
 //  void User::addMoney()

@@ -11,6 +11,12 @@ Admin::Admin(const string &userName, const string &password)
     admin = true;
 }
 
+Admin::Admin(const string &userName, const uint64_t &password)
+    :Person(userName,password)
+{
+    admin = true;
+}
+
 void Admin::viewAllUsers()
 {
     bool done = false;
@@ -298,7 +304,7 @@ void Admin::addUser()
             _userName = userName.data();
             if (_userName.size() < 5)
             {
-                ImGui::Text("Username should be more then 8 characters long");
+                ImGui::Text("Username should be more then 5 characters long");
                 wrongUser = true;
             }
             else
@@ -333,8 +339,7 @@ void Admin::addUser()
             {
 
                 Person::addPerson(_userName, _password, false);
-                step--;
-                // done = true;
+                done = true;
             }
             break;
         }
