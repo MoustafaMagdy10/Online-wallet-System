@@ -180,7 +180,7 @@ bool Menu::WarningMessage(const std::string &name, const std::string &message)
         ImGui::SetCursorPosX(200);
 
         if (ImGui::Button("cancel"))
-        {
+        { 
             return false;
         }
 

@@ -178,17 +178,17 @@ void Logs::logIn()
             {
                 _password = password.data();
 
-                if (!it->checkPassword(_password, it))
-                {
-                    wrongPassword = true;
-                }
+                // if (!it->checkPassword(_password, it))
+                // {
+                //     wrongPassword = true;
+                // }
 
-                else
-                {
+               // else
+               // {
                     Person::currentPerson = Person::getUserByName(_userName);
                     Person::initializeUser();
                     done = true;
-                }
+              //  }
             }
             if (wrongPassword)
             {

@@ -350,7 +350,7 @@ void Admin::addUser()
         }
 
         if (WindowShouldClose())
-           Menu:: safeEnd();
+            Menu::safeEnd();
     }
 }
 
@@ -388,15 +388,15 @@ void Admin::deleteUser()
         if (userToBeDeleted)
         {
             bool toDo = Menu::WarningMessage(_userName, "Delete");
-            if (!toDo)
-                continue;
-
-            auto it = getUserByName(_userName);
-            personStore.erase(_userName);
-            //  delete it;
-            // it = nullptr;
-            userToBeDeleted = false;
-            Menu::SleepForSec("User has been deleted successfully :)");
+            if (toDo)
+            {
+                auto it = getUserByName(_userName);
+                personStore.erase(_userName);
+                
+                userToBeDeleted = false;
+                Menu::SleepForSec("User has been deleted successfully :)");
+            }
+            else userToBeDeleted = false;
         }
         if (notFound)
         {
@@ -459,7 +459,7 @@ void Admin::suspendUser()
             done = true;
 
         if (WindowShouldClose())
-            Menu::safeEnd() ;
+            Menu::safeEnd();
     }
 }
 void Admin::ActivateUser()
@@ -506,7 +506,7 @@ void Admin::ActivateUser()
             done = true;
 
         if (WindowShouldClose())
-            Menu::safeEnd() ;
+            Menu::safeEnd();
     }
 }
 Admin::~Admin()

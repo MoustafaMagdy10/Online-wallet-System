@@ -280,15 +280,20 @@ void FileHandler::writeDataToFile()
             User *U = static_cast<User *>(it->second);
             outputFile << U->getBalance() << " " << U->getSuspended() << endl;
             stack<string> inbox = U->getInbox();
-            // outputFile << inbox.size() << " ";
+            outputFile << "your inbox size: " << inbox.size() << endl;
 
             stack<Transaction> transactions = U->getTransactionHistory();
             outputFile << transactions.size() << endl;
-            while (!inbox.empty())
-            {
-                outputFile << inbox.top() << endl;
-                inbox.pop();
-            }
+            // while (!inbox.empty())
+            // {
+            //     outputFile << inbox.top() << endl;
+            //     inbox.pop();
+            // }
+            // for (int i=0;i<inbox.size();i++){
+
+            //     outputFile <<"an admin sent you money"<<endl;
+            // }
+            cout<<inbox.size();
             outputFile << "endOfStrings" << endl;
             while (!transactions.empty())
             {

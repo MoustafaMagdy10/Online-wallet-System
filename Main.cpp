@@ -36,12 +36,12 @@ int main()
     char userName, password;
     bool done = false;
     Person::addPerson("Moustafa", "f", true);
-    Person::currentPerson = Person::getUserByName("Moustafa");
-    Person::addPerson("Musa", "f", false);
-    Person::addPerson("MennaKhaled", "f", false);
-    Person::addPerson("MennaWalid", "f", false);
-    Person::addPerson("xyz", "f", false);
-    Person::currentPerson = Person::getUserByName("Moustafa");
+    // Person::currentPerson = Person::getUserByName("Moustafa");
+    // Person::addPerson("Musa", "f", false);
+    // Person::addPerson("MennaKhaled", "f", false);
+    // Person::addPerson("MennaWalid", "f", false);
+    // Person::addPerson("xyz", "f", false);
+    //Person::currentPerson = Person::getUserByName("Moustafa");
     // User::currentUser = static_cast<User*>(Person::currentPerson);
     Admin::currentAdmin = static_cast<Admin *>(Person::currentPerson);
     // User::currentUser->setBalance(500);

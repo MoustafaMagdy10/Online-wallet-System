@@ -1,2 +1,11 @@
-admin:Moustafa Magdy 12/05/2024 Money_Added 49
-    0
+magdy Mousa 12/05/2024 Transfer 34
+admin:Moustafa Mousa 12/05/2024 Money_Added 23
+admin:Moustafa magdy 12/05/2024 Money_Added 40
+admin:Moustafa magdy 12/05/2024 Money_Added 40
+admin:Moustafa magdy 12/05/2024 Money_Added 30
+admin:Moustafa magdy 12/05/2024 Money_Added 600
+admin:Moustafa magdy 12/05/2024 Money_Added 44
+admin:Moustafa magdy 12/05/2024 Money_Added 44
+admin:Moustafa magdy 12/05/2024 Money_Added 44
+0 0 44 44 44
+44 44 44  44
