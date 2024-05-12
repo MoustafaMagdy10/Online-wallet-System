@@ -101,7 +101,7 @@ void Person::editUserName()
             ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "User name already exists");
 
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
 }
 
@@ -236,7 +236,7 @@ void Person::editPassword()
         }
 
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
 }
 // cin >> password;

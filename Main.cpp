@@ -16,8 +16,8 @@
 int main()
 {
 
-    FileHandler::readDataFromFile("/home/moustafa/VsCodeProjects/gui/Online-wallet-System/DataMap");
-    stack<Transaction>st = FileHandler::readStackFromFile("/home/moustafa/VsCodeProjects/gui/Online-wallet-System/DataStack");
+    FileHandler::readDataFromFile();
+    stack<Transaction>st = FileHandler::readStackFromFile();
     
     while(!st.empty()){
         Transaction::addTransactionToStore(st.top());
@@ -61,8 +61,10 @@ int main()
 
         Menu::EndFrame();
     }
-    FileHandler::writeDataToFile("/home/moustafa/VsCodeProjects/gui/Online-wallet-System/DataMap");
-    FileHandler::WriteStackIntoFile("/home/moustafa/VsCodeProjects/gui/Online-wallet-System/DataStack");
+
+    FileHandler::writeDataToFile();
+    FileHandler::WriteStackIntoFile();
+
     rlImGuiShutdown();
     CloseWindow();
 

@@ -4,18 +4,16 @@
 #include "User.h"
 #include "Logs.h"
 #include "UserMenu.h"
+#include "FileHandler.h"
 #include "imgui.h"
 #include <chrono>
 #include <thread>
 #include <Transaction.h>
 
-
 map<string, Person *> Person::personStore;
 Person *Person::currentPerson = nullptr;
 User *User::currentUser = nullptr;
 Admin *Admin::currentAdmin = nullptr;
-
-
 
 Menu::Menu()
 {
@@ -195,7 +193,7 @@ bool Menu::WarningMessage(const std::string &name, const std::string &message)
         }
 
         if (WindowShouldClose())
-            exit(0);
+           Menu::safeEnd();
     }
 }
 
@@ -204,6 +202,13 @@ void Menu::EndFrame()
     ImGui::End();
     rlImGuiEnd();
     EndDrawing();
+}
+
+void Menu::safeEnd()
+{
+    FileHandler::writeDataToFile();
+    FileHandler::WriteStackIntoFile();
+    exit(0);
 }
 
 Menu::~Menu()

@@ -17,7 +17,8 @@ public:
     Menu();
     static void RenderFrame();
     static void EndFrame();
-    static bool WarningMessage(const  std::string &name ,  const std::string &message);
+    static void safeEnd();
+    static bool WarningMessage(const std::string &name, const std::string &message);
     static void SleepForSec(const std::string &message);
     ~Menu();
 

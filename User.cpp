@@ -108,7 +108,7 @@ void User::sendMoney()
             done = true;
         }
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
 }
 
@@ -188,7 +188,7 @@ void User::requestMoney()
             done = true;
         }
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
 }
 stack<Transaction> User::getTransactions()
@@ -237,7 +237,7 @@ void User::ShowInbox()
         }
 
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
 }
 
@@ -341,7 +341,7 @@ void User::viewTransactionHistory()
             done = true;
 
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
 }
 void User::viewTransactionHistory(const User *user)
@@ -410,7 +410,7 @@ void User::viewTransactionHistory(const User *user)
             done = true;
 
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
 }
 void User::addForInbox(const string &message)
@@ -451,7 +451,7 @@ stack<string> User::getInbox()
 // void User::logOut()
 // {
 //     cout << "You have successfully logged out\n";
-//     exit(0);
+//     Menu::safeEnd();
 // }
 
 void User::ShowCredential()

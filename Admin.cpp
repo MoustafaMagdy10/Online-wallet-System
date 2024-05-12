@@ -12,7 +12,7 @@ Admin::Admin(const string &userName, const string &password)
 }
 
 Admin::Admin(const string &userName, const uint64_t &password)
-    :Person(userName,password)
+    : Person(userName, password)
 {
     admin = true;
 }
@@ -58,7 +58,7 @@ void Admin::viewAllUsers()
             done = true;
 
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
 }
 void Admin ::viewAllTransactions()
@@ -129,7 +129,7 @@ void Admin ::viewAllTransactions()
             done = true;
 
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
 }
 void Admin::editUserBalance()
@@ -177,10 +177,10 @@ void Admin::editUserBalance()
                     {
                         User *user = static_cast<User *>(it.second);
 
-                        string type = amount >= user->getBalance() ? "Money Added" : "Money Deducted";
+                        string type = amount >= user->getBalance() ? "Money_Added" : "Money_Deducted";
                         double _amount = abs(user->getBalance() - amount);
 
-                        string AdminName = "Admin " + Admin::currentAdmin->getUserName();
+                        string AdminName = "Admin:" + Admin::currentAdmin->getUserName();
                         Transaction T(AdminName, user->getUserName(), _amount, type);
                         T.addTransactionToStore(T);
                         user->setBalance(amount);
@@ -207,7 +207,7 @@ void Admin::editUserBalance()
             done = true;
 
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
 }
 
@@ -232,9 +232,8 @@ void Admin::addUserBalance()
             if (amount <= 0)
             {
                 ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Not a valid amount");
-
             }
-                ImGui::SetCursorPosX(700);
+            ImGui::SetCursorPosX(700);
             if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) and amount > 0)
                 steps++;
             break;
@@ -252,7 +251,7 @@ void Admin::addUserBalance()
                         User *user = static_cast<User *>(it.second);
                         string adminName = "admin:" + Admin::currentAdmin->getUserName();
 
-                        Transaction T(adminName, user->getUserName(), amount, "Money Added");
+                        Transaction T(adminName, user->getUserName(), amount, "Money_Added");
                         T.addTransactionToStore(T);
                         user->setBalance(amount + user->getBalance());
                         user->addTransaction(T);
@@ -277,7 +276,7 @@ void Admin::addUserBalance()
             done = true;
 
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
 }
 void Admin::addUser()
@@ -347,11 +346,11 @@ void Admin::addUser()
         ImGui::NewLine();
         if (ImGui::Button("Back"))
         {
-           done = true;
+            done = true;
         }
 
         if (WindowShouldClose())
-            exit(0);
+           Menu:: safeEnd();
     }
 }
 
@@ -388,8 +387,9 @@ void Admin::deleteUser()
 
         if (userToBeDeleted)
         {
-            bool toDo = Menu::WarningMessage(_userName,"Delete");
-            if(!toDo) continue;
+            bool toDo = Menu::WarningMessage(_userName, "Delete");
+            if (!toDo)
+                continue;
 
             auto it = getUserByName(_userName);
             personStore.erase(_userName);
@@ -408,7 +408,7 @@ void Admin::deleteUser()
             done = true;
 
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
 }
 
@@ -459,7 +459,7 @@ void Admin::suspendUser()
             done = true;
 
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd() ;
     }
 }
 void Admin::ActivateUser()
@@ -506,7 +506,7 @@ void Admin::ActivateUser()
             done = true;
 
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd() ;
     }
 }
 Admin::~Admin()

@@ -1,0 +1,29 @@
+Magdy 8398961838910238520 User
+158 0
+3
+An admin has changed your balance
+endOfStrings
+An admin has changed your balance
+An admin has changed your balance
+
+endOfStrings
+admin:Moustafa Magdy 12/05/2024 Money_Added 49
+admin:Moustafa Magdy 12/05/2024 Money_Added 104
+admin:Moustafa Magdy 12/05/2024 Money_Added 5
+MennaKhaled 12638186101044013785 User
+0 0
+0
+endOfStrings
+MennaWalid 12638186101044013785 User
+0 0
+0
+endOfStrings
+Moustafa 12638186101044013785 Admin
+Musa 12638186101044013785 User
+0 0
+0
+endOfStrings
+xyz 12638186101044013785 User
+0 0
+0
+endOfStrings

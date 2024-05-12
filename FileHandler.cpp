@@ -208,26 +208,135 @@
 //     return transactionsStack;
 // }
 
-void FileHandler::readDataFromFile(const string &path)
+void FileHandler::readDataFromFile()
 {
-    fstream inputFile("input.txt");
+    fstream inputFile;
+    inputFile.open("input.txt", ios::in);
 
-
-    if (!inputFile.is_open())
+    if (inputFile.is_open())
     {
-        cerr << "Error opening the file!" << endl;
-        return;
+        while (!inputFile.eof())
+        {
+
+            string username, password, role;
+            inputFile >> username >> password >> role;
+            if (role == "User")
+            {
+                Person::addPerson(username, password, 0);
+                User *U = static_cast<User *>(Person::getUserByName(username));
+                double balance;
+                int suspended;
+                inputFile >> balance >> suspended;
+                U->setBalance(balance);
+                U->setSuspended(suspended);
+                int inboxSize;
+                int transactionSize;
+                inputFile >> transactionSize;
+                string message;
+
+                while (message != "endOfStrings")
+                {
+                    if (message == "endOfStrings")
+                        break;
+                    getline(inputFile, message);
+                    U->addForInbox(message);
+                }
+                // inputFile >> transactionSize;
+                for (int i = 0; i < transactionSize; i++)
+                {
+                    string sender, recipient, date, type;
+                    double amount;
+                    inputFile >> sender >> recipient >> date >> type >> amount;
+                    Transaction T(sender, recipient, date, type, amount);
+                    U->addTransaction(T);
+                }
+            }
+            else if (role == "Admin")
+            {
+                Person::addPerson(username, password, 1);
+            }
+        }
+        inputFile.clear();
+        inputFile.close();
     }
+    return;
+}
 
-    string line;
-     while (getline(inputFile, line)) { 
-         for(auto c: line){
-            if(c=="User"){
+void FileHandler::writeDataToFile()
+{
+    fstream outputFile;
+    outputFile.open("input.txt", ios::out);
 
+    for (auto it = Person::personStore.begin(); it != Person::personStore.end(); it++)
+    {
+        outputFile << it->second->getUserName() << " " << it->second->getPassword() << " ";
+        if (it->second->getAdminRole())
+        {
+            outputFile << "Admin" << endl;
+        }
+        else
+        {
+            outputFile << "User" << endl;
+            User *U = static_cast<User *>(it->second);
+            outputFile << U->getBalance() << " " << U->getSuspended() << endl;
+            stack<string> inbox = U->getInbox();
+            // outputFile << inbox.size() << " ";
+
+            stack<Transaction> transactions = U->getTransactionHistory();
+            outputFile << transactions.size() << endl;
+            while (!inbox.empty())
+            {
+                outputFile << inbox.top() << endl;
+                inbox.pop();
             }
-            else{
-
+            outputFile << "endOfStrings" << endl;
+            while (!transactions.empty())
+            {
+                Transaction T = transactions.top();
+                outputFile << T.getSender() << " " << T.getRecipient() << " " << T.getTransactionDate() << " " << T.getType() << " " << T.getAmount() << endl;
+                transactions.pop();
             }
-         }
-    } 
+        }
+    }
+    // outputFile.clear();
+    outputFile.close();
+    return;
+}
+
+stack<Transaction> FileHandler::readStackFromFile()
+{
+    fstream inputFile;
+    inputFile.open("stack.txt", ios::in);
+    stack<Transaction> transactions;
+    if (inputFile.is_open())
+    {
+        while (!inputFile.eof())
+        {
+            string sender, recipient, date, type;
+            double amount;
+            inputFile >> sender >> recipient >> date >> type >> amount;
+            Transaction T(sender, recipient, date, type, amount);
+            transactions.push(T);
+        }
+        inputFile.clear();
+        inputFile.close();
+        return transactions;
+    }
+    return stack<Transaction>();
+}
+
+void FileHandler::WriteStackIntoFile()
+{
+    fstream outputFile;
+    outputFile.open("stack.txt", ios::out);
+    stack<Transaction> transactions = Transaction::getTransactions();
+    while (!transactions.empty())
+    {
+        Transaction T = transactions.top();
+        outputFile << T.getSender() << " " << T.getRecipient() << " " << T.getTransactionDate() << " " << T.getType() << " " << T.getAmount() << endl;
+        transactions.pop();
+    }
+    outputFile.clear();
+    outputFile.close();
+    return;
 }

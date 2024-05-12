@@ -8,7 +8,7 @@
 #include <map>
 #include <cstdint>
 using namespace std;
-    
+
 class Person
 {
 public:
@@ -32,14 +32,12 @@ public:
     string getUserName();
     virtual void ShowCredential();
     ~Person();
-
-public:
     bool admin = false;
     static map<string, Person *> personStore; // hash every username with it's object
+    
 private:
     string userName;
     uint64_t password;
-
 };
 
 #endif

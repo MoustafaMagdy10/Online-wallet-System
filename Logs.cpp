@@ -119,7 +119,7 @@ void Logs::register_()
             done = true;
         }
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
     return;
 }
@@ -203,7 +203,7 @@ void Logs::logIn()
             done = true;
         }
         if (WindowShouldClose())
-            exit(0);
+            Menu::safeEnd();
     }
 }
 

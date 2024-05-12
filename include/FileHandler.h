@@ -9,16 +9,17 @@
 #include "Person.h"
 #include "User.h"
 #include"Admin.h"
+#include"Transaction.h"
 
 class FileHandler
 {
 public:
     // FileHandler();
     // ~FileHandler();
-    static void readDataFromFile(const string &filename);
-    static void writeDataToFile(const string &filename);
-    static stack<Transaction> readStackFromFile(const string &filename);
-    static void WriteStackIntoFile(const string &name);
+    static void readDataFromFile();
+    static void writeDataToFile();
+    static stack<Transaction> readStackFromFile();
+    static void WriteStackIntoFile();
 
 private:
 };
