@@ -1,11 +1,7 @@
-#include <iostream>
-#include <stack>
 #include "Person.h"
-#include "imgui.h"
-#include <vector>
+
+
 #include "Menu.h"
-#include <chrono>
-#include <thread>
 #include "Admin.h"
 #include "User.h"
 
@@ -239,21 +235,6 @@ void Person::editPassword()
             Menu::safeEnd();
     }
 }
-// cin >> password;
-
-// passed:
-//     // cout << "enter the new password\n";
-//     // cin >> password;
-//     if (!checkValidPassword(_password))
-//         goto passed;
-//     string temp;
-//     cout << "enter new password again\n";
-//     cin >> temp;
-//     if (temp != password)
-//     {
-//         goto passed;
-//     }
-//     currentPerson->password = hashPassword(_password);
 
 bool Person::getAdminRole()
 {
@@ -275,17 +256,6 @@ void Person::initializeUser()
         Admin::currentAdmin = static_cast<Admin *>(Person::currentPerson);
         User::currentUser = nullptr;
     }
-}
-bool Person::isNumber(const string &s)
-{
-    for (auto c : s)
-    {
-        if (c < '0' or c > '9')
-        {
-            return false;
-        }
-    }
-    return true;
 }
 Person::~Person()
 {

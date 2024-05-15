@@ -1,11 +1,5 @@
 #include "Logs.h"
-#include "Person.h"
-#include "imgui.h"
-#include "rlImGui.h"
-#include <vector>
-#include "Menu.h"
-#include "User.h"
-#include "Admin.h"
+
 
 Logs::Logs()
 {

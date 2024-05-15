@@ -1,14 +1,4 @@
 #include "Menu.h"
-#include "Person.h"
-#include "Admin.h"
-#include "User.h"
-#include "Logs.h"
-#include "UserMenu.h"
-#include "FileHandler.h"
-#include "imgui.h"
-#include <chrono>
-#include <thread>
-#include <Transaction.h>
 
 map<string, Person *> Person::personStore;
 Person *Person::currentPerson = nullptr;

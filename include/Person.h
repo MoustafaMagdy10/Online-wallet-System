@@ -7,6 +7,13 @@
 #include <string>
 #include <map>
 #include <cstdint>
+#include <iostream>
+#include <stack>
+#include <vector>
+#include <chrono>
+#include <thread>
+#include "imgui.h"
+
 using namespace std;
 
 class Person
@@ -20,7 +27,6 @@ public:
     void editUserName();
     void editPassword();
     bool checkPassword(const string &password, const Person *p);
-    void showMyRole();
     bool static checkValidPassword(const string &password);
     static void addPerson(const string &userName, const string &password, const bool &role);
     static Person *getUserByName(const string &userName);
@@ -28,7 +34,6 @@ public:
     static void initializeUser();
     uint64_t hashPassword(const string &password);
     bool getAdminRole();
-    static bool isNumber(const string &s);
     string getUserName();
     virtual void ShowCredential();
     ~Person();

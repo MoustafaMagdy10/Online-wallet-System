@@ -1,6 +1,5 @@
 
 #include "Transaction.h"
-#include <iomanip>
 
 stack<Transaction> Transaction::transactionStore;
 
