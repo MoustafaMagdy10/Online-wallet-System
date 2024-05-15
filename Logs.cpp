@@ -1,144 +1,210 @@
 #include "Logs.h"
 #include "Person.h"
+#include "imgui.h"
+#include "rlImGui.h"
+#include <vector>
+#include "Menu.h"
+#include "User.h"
+#include "Admin.h"
 
 Logs::Logs()
 {
-    string login; // to login if 1 , register if 2
-    cout << "to login choose 1 , to register choose 2 \n";
-    cin >> login;
-    if (login != "1" and login != "2")
-    {
-        cout << "please choose a valid number\n";
-        Logs();
-        return;
-    }
-    if (login == "1")
+    ImVec2 windowSize = ImGui::GetWindowSize();
+    float centerX = windowSize.x * 0.5f;
+    float centerY = windowSize.y * 0.5f;
+
+    ImGui::SetCursorPosX(centerX - ImGui::CalcTextSize("Log In").x * 0.5f - ImGui::GetStyle().FramePadding.x * 2);
+    ImGui::SetCursorPosY(centerY - ImGui::CalcTextSize("Log In").y * 0.5f - ImGui::GetStyle().FramePadding.y * 2);
+    if (ImGui::Button("Log In", ImVec2(170, 70)))
     {
         logIn();
     }
-    else
+
+    centerY -= 130;
+    ImGui::SetCursorPosX(centerX - ImGui::CalcTextSize("Register").x * 0.5f - ImGui::GetStyle().FramePadding.x * 2 + 15);
+    ImGui::SetCursorPosY(centerY - ImGui::CalcTextSize("Register").y * 0.5f - ImGui::GetStyle().FramePadding.y * 2);
+    if (ImGui::Button("Register", ImVec2(170, 70)))
     {
         register_();
     }
+    return;
 }
 
 void Logs::register_()
 {
 
-    string userName, password;
-    string choice;
+    vector<char> userName(15), password(20), password1(20), password2(20);
+    bool done = false;
+    bool wrongUser = false;
+    bool duplicatedUserName = false;
+    bool wrongPassword = true;
+    string _userName, _password, _password2;
+    int step = 0;
+    Person *it = nullptr;
 
-
-    cout << "Enter username:\n";
-    cin.ignore();
-    getline(cin, userName);
-
-name:
-    if (Person::getUserByName(userName) != nullptr)
+    while (!done)
     {
-        cout << "name is already taken\n";
-    choiceName:
-        cout << "select 1 to enter username again , 2 to back:\n";
-        cin >> choice;
-        if (choice != "1" and choice != "2")
-        {
-            cout << "Enter a valid number:\n";
-            goto choiceName;
-        }
-        if (choice == "2")
-            return;
-        cout << "Enter username:\n";
-        cin.ignore(); // Ignore the newline character left in the input stream
-        getline(cin, userName);
-        goto name;
-    }
+        Menu::EndFrame();
+        Menu::RenderFrame();
 
-    cout << "password must be more then 8 characters containing uppercase letter and a number:\n";
-    cout << "Enter password:\n";
-    getline(cin, password);
-pass:
-    if (!Person::checkValidPassword(password))
-    {
-    choicePass:
-        string choice;
-        cout << "select 1 to enter password again  , 2 to back:\n";
-        cin >> choice;
-        if (choice != "1" and choice != "2")
+        switch (step)
         {
-            cout << "Enter a valid number:\n";
-            goto choicePass;
-        }
-        if (choice == "2")
-            return;
-        cout << "Enter your password:\n";
-        cin.ignore();
-        getline(cin, password);
-        goto pass;
-    }
+        case 0:
 
-    Person::addPerson(userName, password, false);
-    Person::currentPerson = Person::getUserByName(userName);
-    cout << "bono bono" << endl;
+            ImGui::NewLine();
+            ImGui::InputTextWithHint("Name", "Enter Your User Name", userName.data(), userName.size());
+            _userName = userName.data();
+
+            if (_userName.size() < 5)
+            {
+                ImGui::Text("Username should be more then 5 characters long");
+                wrongUser = true;
+            }
+            else
+                wrongUser = false;
+
+            ImGui::NewLine();
+
+            if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) and !wrongUser)
+            {
+
+                _userName = userName.data();
+                it = Person::getUserByName(_userName);
+
+                if (it == nullptr)
+                {
+                    step++;
+                }
+                else
+                {
+                    duplicatedUserName = true;
+                }
+            }
+
+            if (duplicatedUserName)
+                ImGui::Text("User name already exists");
+            break;
+
+        case 1:
+
+            ImGui::NewLine();
+            ImGui::NewLine();
+            ImGui::InputTextWithHint("password", "password", password1.data(), password1.size(), ImGuiInputTextFlags_Password);
+            ImGui::NewLine();
+            ImGui::InputTextWithHint("password again", "password", password2.data(), password2.size(), ImGuiInputTextFlags_Password);
+
+            _password = password1.data();
+            _password2 = password2.data();
+
+            if (_password2 != _password and !_password2.empty())
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "passwords don't matches");
+
+            ImGui::NewLine();
+
+            if (Person::checkValidPassword(_password) and (ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) and _password2 == _password)
+            {
+                Person::addPerson(_userName, _password, false);
+                Person::currentPerson = Person::getUserByName(_userName);
+                Person::initializeUser();
+                done = true;
+                Menu::SleepForSec("You Have Registered successfully");
+            }
+
+            break;
+        }
+
+        ImGui::NewLine();
+        if (ImGui::Button("Back"))
+        {
+            done = true;
+        }
+        if (WindowShouldClose())
+            Menu::safeEnd();
+    }
+    return;
 }
 
 void Logs::logIn()
 {
 
-    string userName, password;
-    cout << "enter your username :\n";
-    cin.ignore();
-    getline(cin, userName);
+    vector<char> userName(15), password(20);
+    string _userName, _password;
+    bool done = false;
+    bool wrongUser = false;
+    int steps = 0;
+    bool wrongPassword = false;
+    Person *it = nullptr;
 
-name:
-    auto it = Person::getUserByName(userName);
-
-    if (it == nullptr)
+    while (!done)
     {
-        cout << "No such user:\n";
-    choiceName:
-        string choice;
-        cout << "1 to enter username again , 2 to go back:\n";
-        cin >> choice;
-        if (choice != "1" and choice != "2")
+
+        Menu::EndFrame();
+        Menu::RenderFrame();
+
+        switch (steps)
         {
-            cout << "Enter a valid number:\n";
-            goto choiceName;
+        case 0:
+
+            ImGui::NewLine();
+            ImGui::InputTextWithHint("Name", "Enter Your User Name", userName.data(), userName.size());
+            _userName = userName.data();
+
+            ImGui::NewLine();
+            if (ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter))
+            {
+                _userName = userName.data();
+                it = Person::getUserByName(_userName);
+
+                if (it == nullptr)
+                {
+                    wrongUser = true;
+                }
+                else
+                {
+                    steps++;
+                }
+            }
+            if (wrongUser)
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "No such user exists");
+            break;
+
+        case 1:
+
+            ImGui::NewLine();
+            ImGui::InputTextWithHint( "password","enter your password", password.data(), password.size(), ImGuiInputTextFlags_Password);
+            ImGui::NewLine();
+
+            if (ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter))
+            {
+                _password = password.data();
+
+                // if (!it->checkPassword(_password, it))
+                // {
+                //     wrongPassword = true;
+                // }
+
+               // else
+               // {
+                    Person::currentPerson = Person::getUserByName(_userName);
+                    Person::initializeUser();
+                    done = true;
+              //  }
+            }
+            if (wrongPassword)
+            {
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Wrong Password");
+            }
         }
-        if (choice == "2")
-            return;
-        cout << "Enter your username:\n";
-        cin.ignore();
-        getline(cin, userName);
-        goto name;
-    }
 
-    cout << "password must be more then 8 characters containing uppercase letter and a number:\n";
-    cout << "Enter password:\n";
-    getline(cin, password);
+        ImGui::NewLine();
 
-pass:
-    if (!it->checkPassword(password, it))
-    {
-        cout << "passwords does not match:\n";
-    choicePass:
-        string choice;
-        cout << "1 to enter password again  , 2 to go back:\n";
-        cin >> choice;
-        if (choice != "1" and choice != "2")
+        if (ImGui::Button("Back"))
         {
-            cout << "Enter a valid number:\n";
-            goto choicePass;
+            done = true;
         }
-        if (choice == "2")
-            return;
-        cout << "Enter your password:\n";
-        cin.ignore();
-        getline(cin, password);
-        goto pass;
+        if (WindowShouldClose())
+            Menu::safeEnd();
     }
-
-    Person::currentPerson = Person::getUserByName(userName);
-    cout << "bono bono\n";
 }
 
 void Logs::logOut()
