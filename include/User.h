@@ -8,6 +8,7 @@
 #include <queue>
 #include "Person.h"
 #include "Transaction.h"
+#include "Notfication.h"
 
 using namespace std;
 
@@ -21,26 +22,24 @@ public:
     void sendMoney();
     void requestMoney();
     stack<Transaction> getTransactions();
-    void Notify(const string &message);
     long double getBalance();
     void setBalance(const double &balance);
     stack<Transaction> getTransactionHistory();
     void addTransaction(Transaction transaction);
     void viewTransactionHistory();
     void viewTransactionHistory(const User *user);
-    void viewTansForAdmin();
-    stack<string> getInbox();
+    stack<Notification> getInbox();
     //  void addMoney();
     void ShowCredential() override;
     void ShowInbox();
-    void addForInbox(const string &message);
-     bool hasNotification();
+    void Notify(const Notification &N);
+    bool hasNotification();
     void setSuspended(const bool &suspended);
     bool getSuspended();
     ~User();
 
 private:
-    stack<string> inbox;
+    stack<Notification> inbox;
     long double balance;
     stack<Transaction> transactionHistory;
     bool suspended = false;

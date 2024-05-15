@@ -85,13 +85,18 @@ void User::sendMoney()
 
                     recipient->setBalance((recipient->getBalance() + amount));
                     User::currentUser->setBalance(User::currentUser->getBalance() - amount);
+
                     Transaction T(User::currentUser->getUserName(), recipient->getUserName(), amount, "Transfer");
                     T.addTransactionToStore(T);
+
                     User::currentUser->addTransaction(T);
                     recipient->addTransaction(T);
-                    string message = User::currentUser->getUserName() + " has sent you " + to_string(amount);
-                    recipient->Notify(message);
-                    // done = true;
+
+                    
+                    Notification N(User::currentUser->getUserName(), recipient->getUserName(),T.get_current_time(),"send",0,amount);
+                    recipient->Notify(N);
+
+
                     Menu::SleepForSec("Money has been sent successfully :)");
                     step--;
                 }
@@ -171,8 +176,10 @@ void User::requestMoney()
                         valid = false;
                         break;
                     }
-                    string message = Person::currentPerson->getUserName() + " has requested from you " + to_string(amount) + " pounds.";
-                    recipient->Notify(message);
+
+                    Notification N(User::currentUser->getUserName(), recipient->getUserName(), Transaction::get_current_time(), "request", 0, amount);
+                    recipient->Notify(N);
+
                     Menu::SleepForSec("Money has been requested successfully :)");
                 }
             }
@@ -211,11 +218,12 @@ void User::ShowInbox()
         }
         else
         {
-            stack<string> _inbox = currentUser->inbox;
+            stack<Notification> _inbox = currentUser->inbox;
 
             while (!_inbox.empty())
             {
-                string message = _inbox.top();
+                Notification N = _inbox.top();
+                string message = N.getMessage();
                 ImGui::TextColored(ImVec4(0, 121, 241, 255), message.c_str());
                 _inbox.pop();
             }
@@ -241,10 +249,12 @@ void User::ShowInbox()
     }
 }
 
-void User::Notify(const string &message)
+
+void User::Notify(const Notification &N)
 {
-    inbox.push(message);
+    this->inbox.push(N);
 }
+
 bool User::hasNotification()
 {
     return !currentUser->inbox.empty();
@@ -408,51 +418,15 @@ void User::viewTransactionHistory(const User *user)
         }
         if (ImGui::Button("Back"))
             done = true;
-
         if (WindowShouldClose())
             Menu::safeEnd();
     }
 }
-void User::addForInbox(const string &message)
-{
-    this->inbox.push(message);
-}
-void User::viewTansForAdmin()
-{
-    stack<Transaction> history = this->transactionHistory;
 
-    cout << "Sender            recipient           Date            Type            amount\n";
-    while (!history.empty())
-    {
-        cout << (history.top()).getSender() << "            " << history.top().getRecipient() << "            " << history.top().getTransactionDate() << "            " << history.top().getType() << "            " << history.top().getAmount() << "\n";
-        history.pop();
-    }
-}
-
-stack<string> User::getInbox()
+stack<Notification> User::getInbox()
 {
     return this->inbox;
 }
-
-//  void User::addMoney()
-//  {
-//     double amount;
-// repeatAmount:
-//     cout << "Enter the amount of Money\n";
-//     cin >> amount;
-//     if (amount <= 0)
-//     {
-//         cout << "Invalid amount\n";
-//         goto repeatAmount;
-//     }
-//     this->balance = this->balance + amount;
-//     cout << "Money added successfully\n";
-// }
-// void User::logOut()
-// {
-//     cout << "You have successfully logged out\n";
-//     Menu::safeEnd();
-// }
 
 void User::ShowCredential()
 {

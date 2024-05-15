@@ -1,11 +1,3 @@
-magdy Mousa 12/05/2024 Transfer 34
-admin:Moustafa Mousa 12/05/2024 Money_Added 23
-admin:Moustafa magdy 12/05/2024 Money_Added 40
-admin:Moustafa magdy 12/05/2024 Money_Added 40
-admin:Moustafa magdy 12/05/2024 Money_Added 30
-admin:Moustafa magdy 12/05/2024 Money_Added 600
-admin:Moustafa magdy 12/05/2024 Money_Added 44
-admin:Moustafa magdy 12/05/2024 Money_Added 44
-admin:Moustafa magdy 12/05/2024 Money_Added 44
-0 0 44 44 44
-44 44 44  44
+2
+Admin:Moustafa magdy 15/05/2024 Money_Added 1
+Admin:Moustafa magdy 15/05/2024 Money_Deducted 11

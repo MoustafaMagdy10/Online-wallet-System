@@ -180,12 +180,23 @@ void Admin::editUserBalance()
                         string type = amount >= user->getBalance() ? "Money_Added" : "Money_Deducted";
                         double _amount = abs(user->getBalance() - amount);
 
-                        string AdminName = "Admin:" + Admin::currentAdmin->getUserName();
-                        Transaction T(AdminName, user->getUserName(), _amount, type);
+                        if(_amount == 0){
+                            Menu::SleepForSec("Money set successfully :)");
+                            done = true;
+                            break;
+                        }
+                        
+                        string sender = "Admin:" + Admin::currentAdmin->getUserName();
+
+
+                        Transaction T(sender, user->getUserName(), _amount, type);
                         T.addTransactionToStore(T);
                         user->setBalance(amount);
                         user->addTransaction(T);
-                        user->Notify("An admin has changed your balance");
+
+                        Notification N(sender, user->getUserName(), T.get_current_time(), "edit", 1, amount);
+                        user->Notify(N);
+
                         Menu::SleepForSec("Money set successfully :)");
                         done = true;
                     }
@@ -253,9 +264,15 @@ void Admin::addUserBalance()
 
                         Transaction T(adminName, user->getUserName(), amount, "Money_Added");
                         T.addTransactionToStore(T);
+
                         user->setBalance(amount + user->getBalance());
                         user->addTransaction(T);
-                        user->Notify("An admin has changed your balance");
+
+                        string sender = "Admin:" + Admin::currentAdmin->getUserName();
+                        Notification N(sender, user->getUserName(), T.get_current_time(), "send", 1, amount);
+                        string message = N.getMessage();
+                        user->Notify(N);
+
                         Menu::SleepForSec("Money added successfully :)");
                     }
                 }
@@ -392,11 +409,12 @@ void Admin::deleteUser()
             {
                 auto it = getUserByName(_userName);
                 personStore.erase(_userName);
-                
+
                 userToBeDeleted = false;
                 Menu::SleepForSec("User has been deleted successfully :)");
             }
-            else userToBeDeleted = false;
+            else
+                userToBeDeleted = false;
         }
         if (notFound)
         {
