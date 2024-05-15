@@ -7,6 +7,20 @@
 #include <string>
 #include <map>
 #include <cstdint>
+#include <iostream>
+#include <stack>
+#include <vector>
+#include <chrono>
+#include <thread>
+#include<memory>
+
+
+#include "imgui.h"
+#include "Menu.h"
+#include "Admin.h"
+#include "User.h"
+
+
 using namespace std;
 
 class Person
@@ -34,7 +48,7 @@ public:
     ~Person();
     bool admin = false;
     static map<string, Person *> personStore; // hash every username with it's object
-    
+
 private:
     string userName;
     uint64_t password;

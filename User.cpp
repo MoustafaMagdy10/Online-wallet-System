@@ -1,7 +1,5 @@
 #include "User.h"
-#include "Menu.h"
-#include "Admin.h"
-#include <iomanip>
+
 User::User(const string &userName, const string &password)
     : Person(userName, password)
 {
@@ -317,7 +315,7 @@ void User::viewTransactionHistory()
             ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 100);
             ImGui::TextColored(ImVec4(0, 121, 241, 255), "Type");
             ImGui::SameLine();
-            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 100);
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 150);
             ImGui::TextColored(ImVec4(0, 121, 241, 255), "Amount");
 
             while (!history.empty())
@@ -338,7 +336,7 @@ void User::viewTransactionHistory()
 
                 ImGui::Text(history.top().getType().c_str());
                 ImGui::SameLine();
-                ImGui::SetCursorPosX(800);
+                ImGui::SetCursorPosX(850);
                 ImGui::Text(to_string(history.top().getAmount()).c_str());
 
                 history.pop();

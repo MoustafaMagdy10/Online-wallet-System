@@ -2,17 +2,20 @@
 #define Transaction_H
 
 #pragma once
+
 #include <string>
 #include <chrono>
-#include<stack>
+#include <stack>
+#include <iomanip>
 
 using namespace std;
-class Transaction {
+class Transaction
+{
 public:
     Transaction();
-    Transaction(const string &sender,const string &recipient,const double &amount,const string &type);
-    Transaction(const string &sender,const string &recipient,const string &date,const string &type,const double &amount);
-     static void addTransactionToStore(const Transaction &T);
+    Transaction(const string &sender, const string &recipient, const double &amount, const string &type);
+    Transaction(const string &sender, const string &recipient, const string &date, const string &type, const double &amount);
+    static void addTransactionToStore(const Transaction &T);
     static string get_current_time();
     void setAmount(double amount);
     void setType(string type);
@@ -21,9 +24,10 @@ public:
     string getRecipient();
     double getAmount();
     string getTransactionDate();
-    static stack<Transaction>getTransactions();
+    static stack<Transaction> getTransactions();
+
 private:
-    static stack<Transaction>transactionStore;
+    static stack<Transaction> transactionStore;
     string sender;
     string recipient;
     string transactionDate;

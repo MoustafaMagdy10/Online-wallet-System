@@ -1,5 +1,4 @@
 #include "FileHandler.h"
-#include <iomanip>
 
 void FileHandler::readDataFromFile()
 {
