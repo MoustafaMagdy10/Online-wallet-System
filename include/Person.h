@@ -39,7 +39,7 @@ public:
     ~Person();
     bool admin = false;
     static map<string, Person *> personStore; // hash every username with it's object
-    
+
 private:
     string userName;
     uint64_t password;
