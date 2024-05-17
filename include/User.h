@@ -47,17 +47,18 @@ public:
     stack<Transaction> getTransactions();
     stack<Transaction> getTransactionHistory();
     stack<Notification> getInbox();
-    queue<string> getQuickList();
+    stack<string> getQuickList();
     long double getBalance();
     bool getSuspended();
 
-    void manageQuickList(const string &name);
+    void addSuggestion(const string &name);
+    void clean();
 
     ~User();
 
 private:
     stack<Notification> inbox;
-    queue<string>quickList;
+    LinkedList quickList;
     long double balance;
     stack<Transaction> transactionHistory;
     bool suspended = false;

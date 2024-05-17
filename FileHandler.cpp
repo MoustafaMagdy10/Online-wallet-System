@@ -94,8 +94,8 @@ void FileHandler::writeDataToFile()
             stack<Transaction> transactions = U->getTransactionHistory();
             stack<Transaction> transactionsTemp;
 
-            queue<string> quickList = U->getQuickList();
-            int inboxSize = inbox.size(), transactionSize = transactions.size(), quickListSize = quickList.size();
+            // queue<string> quickList = U->getQuickList();
+            int inboxSize = inbox.size(), transactionSize = transactions.size();
             outputFile << transactionSize << " " << inboxSize << endl;
 
             while (!inbox.empty())

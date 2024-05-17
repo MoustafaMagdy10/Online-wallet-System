@@ -63,25 +63,30 @@ void User::sendMoney()
             ImGui::InputTextWithHint("User name of recipient ", "User Name", userName.data(), userName.size());
             _userName = userName.data();
 
-            queue<string> quickList = User::currentUser->getQuickList();
+            stack<string> _quickList = User::currentUser->getQuickList();
 
-            while (!quickList.empty())
-            {
+            if (!_quickList.empty()){
+
                 ImGui::NewLine();
                 ImGui::TextColored(ImVec4(0, 121, 241, 255), "Quick List:");
+            }
+
+
+            while (!_quickList.empty())
+            {
+
                 ImGui::NewLine();
 
-                if (ImGui::Selectable(quickList.front().c_str()))
+                if (ImGui::Selectable(_quickList.top().c_str()))
                 {
-                    _userName = quickList.front();
+                    _userName = _quickList.top();
                     go = true;
                     break;
                 }
 
-                quickList.pop();
+                _quickList.pop();
             }
 
-            ImGui::NewLine();
             ImGui::NewLine();
             if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) or go)
             {
@@ -114,9 +119,11 @@ void User::sendMoney()
                     Notification N(User::currentUser->getUserName(), recipient->getUserName(), T.get_current_time(), "send", 0, amount);
                     recipient->Notify(N);
 
-                    User::currentUser->manageQuickList(recipient->getUserName());
+                    User::currentUser->addSuggestion(recipient->getUserName());
                     Menu::SleepForSec("Money has been sent successfully :)");
-                    step--;
+                    done = true;
+                    go = false;
+                    userName.clear();
                 }
             }
             if (!valid)
@@ -177,22 +184,26 @@ void User::requestMoney()
             ImGui::InputTextWithHint("User name of recipient ", "User Name", userName.data(), userName.size());
             _userName = userName.data();
 
-            queue<string> quickList = User::currentUser->getQuickList();
+            stack<string> _quickList = User::currentUser->getQuickList();
 
-            while (!quickList.empty())
-            {
+            if (!_quickList.empty()){
                 ImGui::NewLine();
                 ImGui::TextColored(ImVec4(0, 121, 241, 255), "Quick List:");
+            }
+
+            while (!_quickList.empty())
+            {
+
                 ImGui::NewLine();
 
-                if (ImGui::Selectable(quickList.front().c_str()))
+                if (ImGui::Selectable(_quickList.top().c_str()))
                 {
-                    _userName = quickList.front();
+                    _userName = _quickList.top();
                     go = true;
                     break;
                 }
 
-                quickList.pop();
+                _quickList.pop();
             }
 
             ImGui::NewLine();
@@ -204,6 +215,7 @@ void User::requestMoney()
                 {
                     valid = false;
                 }
+
                 else
                 {
                     auto it = Person::getUserByName(_userName);
@@ -217,8 +229,12 @@ void User::requestMoney()
                     Notification N(User::currentUser->getUserName(), recipient->getUserName(), Transaction::get_current_time(), "request", 0, amount);
                     recipient->Notify(N);
 
-                    User::currentUser->manageQuickList(recipient->getUserName());
+                    User::currentUser->addSuggestion(recipient->getUserName());
                     Menu::SleepForSec("Money has been requested successfully :)");
+
+                    done = true;
+                    go = false;
+                    userName.clear();
                 }
             }
             if (!valid)
@@ -305,13 +321,14 @@ bool User::getSuspended()
     return this->suspended;
 }
 
-void User::manageQuickList(const string &name)
+void User::addSuggestion(const string &name)
 {
-    if (this->quickList.size() == 5)
-    {
-        this->quickList.pop();
-    }
-    this->quickList.push(name);
+    quickList.addSuggestion(name);
+}
+
+void User::clean()
+{
+    quickList.~LinkedList();
 }
 
 long double User::getBalance()
@@ -475,9 +492,9 @@ stack<Notification> User::getInbox()
     return this->inbox;
 }
 
-queue<string> User::getQuickList()
+stack<string> User::getQuickList()
 {
-    return this->quickList;
+    return quickList.getSuggestions();
 }
 
 void User::ShowCredential()
