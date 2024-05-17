@@ -29,7 +29,7 @@ void FileHandler::readDataFromFile()
 
                 inputFile >> transactionSize;
                 inputFile >> inboxSize;
-                // inputFile >> quickListSize;
+                // inputFile >> quickListSize; // 5od al size
 
                 string sender, recipient, date, type;
                 double amount;
@@ -52,6 +52,8 @@ void FileHandler::readDataFromFile()
                     U->addTransaction(T);
                 }
 
+    // 5od al stack wa te 7oto ll user
+    
                 // for (int i = 0; i < quickListSize; i++)
                 // {
                 //     string name;
@@ -94,9 +96,10 @@ void FileHandler::writeDataToFile()
             stack<Transaction> transactions = U->getTransactionHistory();
             stack<Transaction> transactionsTemp;
 
-            // queue<string> quickList = U->getQuickList();
+            // queue<string> quickList = U->getQuickList(); todo 5od al stack
+
             int inboxSize = inbox.size(), transactionSize = transactions.size();
-            outputFile << transactionSize << " " << inboxSize << endl;
+            outputFile << transactionSize << " " << inboxSize << endl;  // size
 
             while (!inbox.empty())
             {
@@ -123,6 +126,8 @@ void FileHandler::writeDataToFile()
                 outputFile << T.getSender() << " " << T.getRecipient() << " " << T.getTransactionDate() << " " << T.getType() << " " << T.getAmount() << endl;
                 transactionsTemp.pop();
             }
+
+    // fady fe stack wa b3den atb3
 
             // for (int i = 0; i < quickListSize; i++)
             // {
