@@ -24,21 +24,34 @@ public:
     Person();
     Person(const string &userName, const string &password);
     Person(const string &userName, const uint64_t &password);
+
+    static void addPerson(const string &userName, const uint64_t &password, const bool &role);
+    static void addPerson(const string &userName, const string &password, const bool &role);
+    static void initializeUser();
+
     void editUserName();
     void editPassword();
     bool checkPassword(const string &password, const Person *p);
     bool static checkValidPassword(const string &password);
-    static void addPerson(const string &userName, const string &password, const bool &role);
-    static Person *getUserByName(const string &userName);
-    uint64_t getPassword();
-    static void initializeUser();
     uint64_t hashPassword(const string &password);
-    bool getAdminRole();
-    string getUserName();
+
+
     virtual void ShowCredential();
+
+
+    static Person *getUserByName(const string &userName);
+    bool getAdminRole();
+    uint64_t getPassword();
+    string getUserName();
+
     ~Person();
-    bool admin = false;
+
+    static void clean();
+
     static map<string, Person *> personStore; // hash every username with it's object
+
+protected:
+    bool admin = false;
 
 private:
     string userName;

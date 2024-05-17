@@ -1,3 +1,9 @@
-2
+8
+admin:Moustafa maymo 17/05/2024 Money_Added 200
+magdy musa 15/05/2024 Transfer 4
+magdy musa 15/05/2024 Transfer 4
+magdy musa 15/05/2024 Transfer 4
+magdy abdalla 15/05/2024 Transfer 20
+admin:Moustafa magdy 15/05/2024 Money_Added 500
 Admin:Moustafa magdy 15/05/2024 Money_Added 1
 Admin:Moustafa magdy 15/05/2024 Money_Deducted 11

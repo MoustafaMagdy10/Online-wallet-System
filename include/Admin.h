@@ -14,18 +14,23 @@ class Admin : public Person
 {
 public:
     static Admin *currentAdmin;
+
     Admin();
     Admin(const string &userName,const string &password);
     Admin(const string &userName,const uint64_t &password);
+
+    void addUser();
     void deleteUser();
     void suspendUser();
     void ActivateUser();
-    ~Admin();
+
     void viewAllUsers();
     void viewAllTransactions();
+    
     void editUserBalance();
     void addUserBalance();
-    void addUser();
+    
+    ~Admin();
 
 private:
 };

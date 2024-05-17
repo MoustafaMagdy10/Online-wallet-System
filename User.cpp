@@ -24,6 +24,7 @@ void User::sendMoney()
     string _amount, _userName;
     bool done = false;
     bool valid = true;
+    bool go = false;
     int step = 0;
 
     while (!done)
@@ -62,7 +63,27 @@ void User::sendMoney()
             ImGui::InputTextWithHint("User name of recipient ", "User Name", userName.data(), userName.size());
             _userName = userName.data();
 
-            if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)))
+            queue<string> quickList = User::currentUser->getQuickList();
+
+            while (!quickList.empty())
+            {
+                ImGui::NewLine();
+                ImGui::TextColored(ImVec4(0, 121, 241, 255), "Quick List:");
+                ImGui::NewLine();
+
+                if (ImGui::Selectable(quickList.front().c_str()))
+                {
+                    _userName = quickList.front();
+                    go = true;
+                    break;
+                }
+
+                quickList.pop();
+            }
+
+            ImGui::NewLine();
+            ImGui::NewLine();
+            if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) or go)
             {
                 auto it = Person::getUserByName(_userName);
 
@@ -90,11 +111,10 @@ void User::sendMoney()
                     User::currentUser->addTransaction(T);
                     recipient->addTransaction(T);
 
-                    
-                    Notification N(User::currentUser->getUserName(), recipient->getUserName(),T.get_current_time(),"send",0,amount);
+                    Notification N(User::currentUser->getUserName(), recipient->getUserName(), T.get_current_time(), "send", 0, amount);
                     recipient->Notify(N);
 
-
+                    User::currentUser->manageQuickList(recipient->getUserName());
                     Menu::SleepForSec("Money has been sent successfully :)");
                     step--;
                 }
@@ -122,6 +142,7 @@ void User::requestMoney()
     string _amount, _userName;
     bool done = false;
     bool valid = true;
+    bool go = false;
     int step = 0;
 
     while (!done)
@@ -156,8 +177,26 @@ void User::requestMoney()
             ImGui::InputTextWithHint("User name of recipient ", "User Name", userName.data(), userName.size());
             _userName = userName.data();
 
+            queue<string> quickList = User::currentUser->getQuickList();
+
+            while (!quickList.empty())
+            {
+                ImGui::NewLine();
+                ImGui::TextColored(ImVec4(0, 121, 241, 255), "Quick List:");
+                ImGui::NewLine();
+
+                if (ImGui::Selectable(quickList.front().c_str()))
+                {
+                    _userName = quickList.front();
+                    go = true;
+                    break;
+                }
+
+                quickList.pop();
+            }
+
             ImGui::NewLine();
-            if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)))
+            if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) or go)
             {
                 auto it = Person::getUserByName(_userName);
 
@@ -178,6 +217,7 @@ void User::requestMoney()
                     Notification N(User::currentUser->getUserName(), recipient->getUserName(), Transaction::get_current_time(), "request", 0, amount);
                     recipient->Notify(N);
 
+                    User::currentUser->manageQuickList(recipient->getUserName());
                     Menu::SleepForSec("Money has been requested successfully :)");
                 }
             }
@@ -247,7 +287,6 @@ void User::ShowInbox()
     }
 }
 
-
 void User::Notify(const Notification &N)
 {
     this->inbox.push(N);
@@ -265,6 +304,16 @@ bool User::getSuspended()
 {
     return this->suspended;
 }
+
+void User::manageQuickList(const string &name)
+{
+    if (this->quickList.size() == 5)
+    {
+        this->quickList.pop();
+    }
+    this->quickList.push(name);
+}
+
 long double User::getBalance()
 {
     return this->balance;
@@ -424,6 +473,11 @@ void User::viewTransactionHistory(const User *user)
 stack<Notification> User::getInbox()
 {
     return this->inbox;
+}
+
+queue<string> User::getQuickList()
+{
+    return this->quickList;
 }
 
 void User::ShowCredential()

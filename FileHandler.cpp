@@ -10,7 +10,9 @@ void FileHandler::readDataFromFile()
         while (!inputFile.eof())
         {
 
-            string username, password, role;
+            string username, role;
+            u_int64_t password;
+
             inputFile >> username >> password >> role;
             if (role == "User")
             {
@@ -23,8 +25,11 @@ void FileHandler::readDataFromFile()
                 U->setSuspended(suspended);
                 int inboxSize;
                 int transactionSize;
+                int quickListSize;
+
                 inputFile >> transactionSize;
                 inputFile >> inboxSize;
+                // inputFile >> quickListSize;
 
                 string sender, recipient, date, type;
                 double amount;
@@ -46,6 +51,13 @@ void FileHandler::readDataFromFile()
                     Transaction T(sender, recipient, date, type, amount);
                     U->addTransaction(T);
                 }
+
+                // for (int i = 0; i < quickListSize; i++)
+                // {
+                //     string name;
+                //     inputFile >> name;
+                //     U->manageQuickList(name);
+                // }
             }
             else if (role == "Admin")
             {
@@ -82,7 +94,8 @@ void FileHandler::writeDataToFile()
             stack<Transaction> transactions = U->getTransactionHistory();
             stack<Transaction> transactionsTemp;
 
-            int inboxSize = inbox.size(), transactionSize = transactions.size();
+            queue<string> quickList = U->getQuickList();
+            int inboxSize = inbox.size(), transactionSize = transactions.size(), quickListSize = quickList.size();
             outputFile << transactionSize << " " << inboxSize << endl;
 
             while (!inbox.empty())
@@ -110,6 +123,12 @@ void FileHandler::writeDataToFile()
                 outputFile << T.getSender() << " " << T.getRecipient() << " " << T.getTransactionDate() << " " << T.getType() << " " << T.getAmount() << endl;
                 transactionsTemp.pop();
             }
+
+            // for (int i = 0; i < quickListSize; i++)
+            // {
+            //     outputFile <<quickList.front() << " ";
+            //     quickList.pop();
+            // }
         }
     }
     outputFile.close();
@@ -128,7 +147,7 @@ stack<Transaction> FileHandler::readStackFromFile()
         int sz = 0;
         inputFile >> sz;
 
-        for(int i = 0; i < sz; i++)
+        for (int i = 0; i < sz; i++)
         {
             string sender, recipient, date, type;
             double amount;

@@ -170,7 +170,7 @@ bool Menu::WarningMessage(const std::string &name, const std::string &message)
         ImGui::SetCursorPosX(200);
 
         if (ImGui::Button("cancel"))
-        { 
+        {
             return false;
         }
 
@@ -183,7 +183,7 @@ bool Menu::WarningMessage(const std::string &name, const std::string &message)
         }
 
         if (WindowShouldClose())
-           Menu::safeEnd();
+            Menu::safeEnd();
     }
 }
 
@@ -198,6 +198,16 @@ void Menu::safeEnd()
 {
     FileHandler::writeDataToFile();
     FileHandler::WriteStackIntoFile();
+
+    Menu::EndFrame();
+
+    Person::clean();
+
+    cout << "done" << endl;
+
+    rlImGuiShutdown();
+    CloseWindow();
+
     exit(0);
 }
 

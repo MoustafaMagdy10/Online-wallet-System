@@ -1,8 +1,30 @@
 Moustafa 12638186101044013785 Admin
-magdy 7358450747699631939 User
-5 0
-2 2
-Admin:Moustafa magdy 15/05/2024 edit 1 4
-Admin:Moustafa magdy 15/05/2024 edit 1 5
-Admin:Moustafa magdy 15/05/2024 Money_Deducted 11
-Admin:Moustafa magdy 15/05/2024 Money_Added 1
+abdalla 12638186101044013785 User
+20 1
+1 1
+magdy abdalla 15/05/2024 send 0 20
+magdy abdalla 15/05/2024 Transfer 20
+magdy 12638186101044013785 User
+468 0
+5 1
+Admin:Moustafa magdy 15/05/2024 send 1 500
+admin:Moustafa magdy 15/05/2024 Money_Added 500
+magdy abdalla 15/05/2024 Transfer 20
+magdy musa 15/05/2024 Transfer 4
+magdy musa 15/05/2024 Transfer 4
+magdy musa 15/05/2024 Transfer 4
+musa 12638186101044013785 User
+12 0
+3 3
+magdy musa 15/05/2024 send 0 4
+magdy musa 15/05/2024 send 0 4
+magdy musa 15/05/2024 send 0 4
+magdy musa 15/05/2024 Transfer 4
+magdy musa 15/05/2024 Transfer 4
+magdy musa 15/05/2024 Transfer 4
+nemoo 10490648066955058858 User
+0 0
+0 0
+nonoo 1651709843315490953 User
+0 0
+0 0

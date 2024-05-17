@@ -14,8 +14,6 @@
 class FileHandler
 {
 public:
-    // FileHandler();
-    // ~FileHandler();
     static void readDataFromFile();
     static void writeDataToFile();
     static stack<Transaction> readStackFromFile();

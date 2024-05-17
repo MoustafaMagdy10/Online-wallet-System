@@ -46,12 +46,13 @@ void Logs::register_()
         case 0:
 
             ImGui::NewLine();
-            ImGui::InputTextWithHint("Name", "Enter Your User Name", userName.data(), userName.size());
+            ImGui::InputTextWithHint("Name", "Enter Your User Name", userName.data(), userName.size()); // Remove the undefined identifier
+
             _userName = userName.data();
 
             if (_userName.size() < 5)
             {
-                ImGui::Text("Username should be more then 5 characters long");
+                ImGui::Text("Username should be more than 5 characters long");
                 wrongUser = true;
             }
             else
@@ -172,17 +173,17 @@ void Logs::logIn()
             {
                 _password = password.data();
 
-                // if (!it->checkPassword(_password, it))
-                // {
-                //     wrongPassword = true;
-                // }
+                if (!it->checkPassword(_password, it))
+                {
+                    wrongPassword = true;
+                }
 
-               // else
-               // {
+               else
+               {
                     Person::currentPerson = Person::getUserByName(_userName);
                     Person::initializeUser();
                     done = true;
-              //  }
+               }
             }
             if (wrongPassword)
             {
