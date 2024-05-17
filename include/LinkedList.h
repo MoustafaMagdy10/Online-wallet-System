@@ -14,11 +14,12 @@ class LinkedList
 public:
     LinkedList();
 
+    void addSuggestion(const string &name);
+    stack<string> getSuggestions();
+    int length();
 
     ~LinkedList();
 
-    void addSuggestion(const string &name);
-    stack<string> getSuggestions();
 
 private:
 

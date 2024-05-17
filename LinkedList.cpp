@@ -93,6 +93,9 @@ stack<string> LinkedList::getSuggestions()
     return suggestions;
 }
 
+int LinkedList::length(){
+    return count;
+}
 LinkedList::LinkedList()
 {
     head = tail = 0;
