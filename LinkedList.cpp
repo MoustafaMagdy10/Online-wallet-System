@@ -1,7 +1,5 @@
 #include "LinkedList.h"
 
-// template <class T>
-
 LinkedList::Node::Node()
 {
     this->next = nullptr;
@@ -13,87 +11,82 @@ LinkedList::Node::Node(const string &name)
     this->next = nullptr;
 }
 
-void LinkedList::append(const string &name)
+void LinkedList::addSuggestion(const string &name)
 {
 
-    Node *newnode = new Node(name);
+    if (Person::getUserByName(name) == nullptr)
+        return;
+
+    int x = count;
+    Node *tmp = head;
+    if (head && head->value == name)
+    {
+        head = head->next;
+        delete tmp;
+        count--;
+    }
+    else
+    {
+        while (tmp && tmp->next)
+        {
+            if (tmp->next->value == name)
+            {
+                Node *del = tmp->next;
+                tmp->next = del->next;
+
+                if (tail == del)
+                {
+                    tail = tmp;
+                }
+
+                delete del;
+                count--;
+            }
+            tmp = tmp->next;
+        }
+    }
+
+    tmp = head;
+    if (count == 5)
+    {
+        head = head->next;
+        delete tmp;
+        count--;
+    }
+
+    Node *newNode = new Node(name);
 
     if (head == 0)
-        head = tail = newnode;
+        head = tail = newNode;
 
     else
     {
-        tail->next = newnode;
-        tail = newnode;
+        tail->next = newNode;
+
+        tail = newNode;
     }
     count++;
 }
 
-void LinkedList::deleteAt(const int &n)
-{
-
-    Node *tmp = head;
-
-    if (n == 0)
-    {
-        head = head->next;
-        delete tmp;
-    }
-
-    else
-    {
-        for (int i = 0; i < n - 1; i++)
-        {
-            tmp = tmp->next;
-        }
-
-        Node *del = tmp->next;
-        tmp->next = del->next;
-        delete del;
-
-        if (n == count - 1)
-            tail = tmp;
-    }
-    count--;
-}
-
-string LinkedList::at(const int &n)
-{
-    Node *tmp = head;
-
-    for (int i = 0; i < n; i++)
-        tmp = tmp->next;
-
-    return tmp->value;
-}
-
-void LinkedList::addSuggestion(const string &name)
-{
-    for (int i = 0; i < count; i++)
-    {
-        if (at(i) == name)
-            deleteAt(i);
-    }
-
-    if (count == 5)
-        deleteAt(0);
-
-    append(name);
-}
-
 stack<string> LinkedList::getSuggestions()
 {
-    stack<string>suggestions;
+    stack<string> suggestions;
 
-    for (int i = 0; i < count; i++)
+    Node *tmp = head;
+    while (tmp)
+
     {
-       suggestions.push(at(i));
+        if (Person::getUserByName(tmp->value) != nullptr)
+            ;
+        suggestions.push(tmp->value);
+        tmp = tmp->next;
     }
 
     return suggestions;
 }
 
-int LinkedList::length(){
+int LinkedList::length()
+{
     return count;
 }
 LinkedList::LinkedList()
@@ -104,6 +97,14 @@ LinkedList::LinkedList()
 
 LinkedList::~LinkedList()
 {
-        while (count != 0)
-        deleteAt(0);
+
+    while (head != nullptr)
+    {
+
+        Node *temp = head;
+        head = head->next;
+
+        delete temp;
+        count--;
+    }
 }

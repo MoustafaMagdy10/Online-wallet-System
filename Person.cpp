@@ -266,7 +266,6 @@ void Person::initializeUser()
 
 Person::~Person()
 {
-    
 }
 
 void Person::clean()
@@ -277,13 +276,13 @@ void Person::clean()
 
     for (auto &it : personStore)
     {
-        if(!it.second->getAdminRole()){
-            User* U = static_cast<User*>(it.second);
+        if (!it.second->getAdminRole())
+        {
+            User *U = static_cast<User *>(it.second);
             U->clean();
         }
         delete it.second;
     }
-
 
     personStore.clear();
 }

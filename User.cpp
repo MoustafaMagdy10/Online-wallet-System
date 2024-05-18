@@ -26,6 +26,7 @@ void User::sendMoney()
     bool valid = true;
     bool go = false;
     int step = 0;
+    bool suggestionExists = false;
 
     while (!done)
     {
@@ -65,26 +66,39 @@ void User::sendMoney()
 
             stack<string> _quickList = User::currentUser->getQuickList();
 
-            if (!_quickList.empty()){
-
-                ImGui::NewLine();
-                ImGui::TextColored(ImVec4(0, 121, 241, 255), "Quick List:");
-            }
-
+            ImGui::NewLine();
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Quick List:");
 
             while (!_quickList.empty())
             {
 
-                ImGui::NewLine();
+                auto P = getUserByName(_quickList.top());
 
-                if (ImGui::Selectable(_quickList.top().c_str()))
+                if (P != nullptr and P->getAdminRole() == false)
                 {
-                    _userName = _quickList.top();
-                    go = true;
-                    break;
+
+                    User *U = static_cast<User *>(P);
+
+                    if (U->getSuspended() == false)
+                    {
+                        if (ImGui::Selectable(_quickList.top().c_str()))
+                        {
+                            _userName = _quickList.top();
+                            go = true;
+                            break;
+                        }
+                        suggestionExists = true;
+                        ImGui::NewLine();
+                    }
                 }
 
                 _quickList.pop();
+            }
+
+            if (!suggestionExists)
+            {
+
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "No QuickList Yet");
             }
 
             ImGui::NewLine();
@@ -151,6 +165,7 @@ void User::requestMoney()
     bool valid = true;
     bool go = false;
     int step = 0;
+    bool suggestionExists = false;
 
     while (!done)
     {
@@ -186,24 +201,39 @@ void User::requestMoney()
 
             stack<string> _quickList = User::currentUser->getQuickList();
 
-            if (!_quickList.empty()){
-                ImGui::NewLine();
-                ImGui::TextColored(ImVec4(0, 121, 241, 255), "Quick List:");
-            }
+            ImGui::NewLine();
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Quick List:");
 
             while (!_quickList.empty())
             {
 
-                ImGui::NewLine();
+                auto P = getUserByName(_quickList.top());
 
-                if (ImGui::Selectable(_quickList.top().c_str()))
+                if (P != nullptr and P->getAdminRole() == false)
                 {
-                    _userName = _quickList.top();
-                    go = true;
-                    break;
+
+                    User *U = static_cast<User *>(P);
+
+                    if (U->getSuspended() == false)
+                    {
+                        if (ImGui::Selectable(_quickList.top().c_str()))
+                        {
+                            _userName = _quickList.top();
+                            go = true;
+                            break;
+                        }
+                        suggestionExists = true;
+                        ImGui::NewLine();
+                    }
                 }
 
                 _quickList.pop();
+            }
+
+            if (!suggestionExists)
+            {
+
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "No QuickList Yet");
             }
 
             ImGui::NewLine();

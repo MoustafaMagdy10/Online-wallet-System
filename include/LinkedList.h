@@ -4,8 +4,10 @@
 #pragma once
 
 #include <iostream>
-#include<stack>
+#include <stack>
 #include <string>
+
+#include"Person.h"
 
 using namespace std;
 
@@ -20,13 +22,7 @@ public:
 
     ~LinkedList();
 
-
 private:
-
-
-    void append(const string &name);
-    void deleteAt(const int &n);
-    string at(const int &n);
 
     class Node
     {
@@ -40,9 +36,6 @@ private:
     int count;
     Node *head;
     Node *tail;
-
-    
-
 };
 
 #endif

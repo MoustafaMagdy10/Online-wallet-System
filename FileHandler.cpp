@@ -29,7 +29,7 @@ void FileHandler::readDataFromFile()
 
                 inputFile >> transactionSize;
                 inputFile >> inboxSize;
-                // inputFile >> quickListSize; // 5od al size
+                inputFile >> quickListSize; 
 
                 string sender, recipient, date, type;
                 double amount;
@@ -52,14 +52,13 @@ void FileHandler::readDataFromFile()
                     U->addTransaction(T);
                 }
 
-    // 5od al stack wa te 7oto ll user
     
-                // for (int i = 0; i < quickListSize; i++)
-                // {
-                //     string name;
-                //     inputFile >> name;
-                //     U->manageQuickList(name);
-                // }
+                for (int i = 0; i < quickListSize; i++)
+                {
+                    string name;
+                    inputFile >> name;
+                    U->addSuggestion(name);
+                }
             }
             else if (role == "Admin")
             {
@@ -96,10 +95,11 @@ void FileHandler::writeDataToFile()
             stack<Transaction> transactions = U->getTransactionHistory();
             stack<Transaction> transactionsTemp;
 
-            // queue<string> quickList = U->getQuickList(); todo 5od al stack
+            stack<string> quickList = U->getQuickList(); 
+            stack<string> quickListTemp;
 
-            int inboxSize = inbox.size(), transactionSize = transactions.size();
-            outputFile << transactionSize << " " << inboxSize << endl;  // size
+            int inboxSize = inbox.size(), transactionSize = transactions.size() , quickListSize = quickList.size();
+            outputFile << transactionSize << " " << inboxSize<<" "<<quickListSize << endl;  // size
 
             while (!inbox.empty())
             {
@@ -127,13 +127,16 @@ void FileHandler::writeDataToFile()
                 transactionsTemp.pop();
             }
 
-    // fady fe stack wa b3den atb3
+            while(!quickList.empty()){
+                quickListTemp.push(quickList.top());
+                quickList.pop();
+            }
 
-            // for (int i = 0; i < quickListSize; i++)
-            // {
-            //     outputFile <<quickList.front() << " ";
-            //     quickList.pop();
-            // }
+            for (int i = 0; i < quickListSize; i++)
+            {
+                outputFile <<quickListTemp.top() << " ";
+                quickListTemp.pop();
+            }
         }
     }
     outputFile.close();

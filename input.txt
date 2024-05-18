@@ -1,125 +1,13 @@
 Moustafa 12638186101044013785 Admin
-abdalla 12638186101044013785 User
-20 1
-1 1
-magdy abdalla 15/05/2024 send 0 20
-magdy abdalla 15/05/2024 Transfer 20
-abdalla1 12638186101044013785 User
-7 0
-4 5
-musa abdalla1 17/05/2024 send 0 1
-musa abdalla1 17/05/2024 request 0 3
-musa abdalla1 17/05/2024 send 0 2
-musa abdalla1 17/05/2024 send 0 2
-musa abdalla1 17/05/2024 send 0 2
-musa abdalla1 17/05/2024 Transfer 1
-musa abdalla1 17/05/2024 Transfer 2
-musa abdalla1 17/05/2024 Transfer 2
-musa abdalla1 17/05/2024 Transfer 2
-abdalla2 12638186101044013785 User
-1 0
-1 1
-musa abdalla2 17/05/2024 send 0 1
-musa abdalla2 17/05/2024 Transfer 1
-abdalla3 12638186101044013785 User
-1 0
-1 1
-musa abdalla3 17/05/2024 send 0 1
-musa abdalla3 17/05/2024 Transfer 1
-abdalla4 12638186101044013785 User
-1 0
-1 1
-musa abdalla4 17/05/2024 send 0 1
-musa abdalla4 17/05/2024 Transfer 1
+asaad 12638186101044013785 User
+500 0
+0 0 0
 magdy 12638186101044013785 User
 500 0
-23 20
-Admin:Moustafa magdy 15/05/2024 send 1 500
-musa magdy 17/05/2024 send 0 1
-musa magdy 17/05/2024 send 0 1
-musa magdy 17/05/2024 send 0 2
-musa magdy 17/05/2024 send 0 2
-musa magdy 17/05/2024 send 0 1
-musa magdy 17/05/2024 send 0 1
-musa magdy 17/05/2024 send 0 1
-musa magdy 17/05/2024 send 0 1
-musa magdy 17/05/2024 send 0 1
-musa magdy 17/05/2024 send 0 1
-musa magdy 17/05/2024 send 0 1
-musa magdy 17/05/2024 send 0 5
-musa magdy 17/05/2024 send 0 3
-musa magdy 17/05/2024 send 0 3
-musa magdy 17/05/2024 send 0 1
-musa magdy 17/05/2024 request 0 5
-musa magdy 17/05/2024 send 0 3
-musa magdy 17/05/2024 send 0 2
-musa magdy 17/05/2024 send 0 2
-admin:Moustafa magdy 15/05/2024 Money_Added 500
-magdy abdalla 15/05/2024 Transfer 20
-magdy musa 15/05/2024 Transfer 4
-magdy musa 15/05/2024 Transfer 4
-magdy musa 15/05/2024 Transfer 4
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 2
-musa magdy 17/05/2024 Transfer 2
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 5
-musa magdy 17/05/2024 Transfer 3
-musa magdy 17/05/2024 Transfer 3
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 3
-musa magdy 17/05/2024 Transfer 2
-musa magdy 17/05/2024 Transfer 2
-menna 1651709843315490953 User
-38 0
-3 3
-musa menna 17/05/2024 send 0 34
-musa menna 17/05/2024 send 0 3
-musa menna 17/05/2024 send 0 1
-musa menna 17/05/2024 Transfer 34
-musa menna 17/05/2024 Transfer 3
-musa menna 17/05/2024 Transfer 1
+0 0 0
+menna 12638186101044013785 User
+500 0
+0 0 0
 musa 12638186101044013785 User
-222 0
-31 3
-magdy musa 15/05/2024 send 0 4
-magdy musa 15/05/2024 send 0 4
-magdy musa 15/05/2024 send 0 4
-magdy musa 15/05/2024 Transfer 4
-magdy musa 15/05/2024 Transfer 4
-magdy musa 15/05/2024 Transfer 4
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 2
-musa magdy 17/05/2024 Transfer 2
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 5
-musa menna 17/05/2024 Transfer 34
-musa magdy 17/05/2024 Transfer 3
-musa menna 17/05/2024 Transfer 3
-musa magdy 17/05/2024 Transfer 3
-musa abdalla1 17/05/2024 Transfer 1
-musa abdalla2 17/05/2024 Transfer 1
-musa abdalla3 17/05/2024 Transfer 1
-musa abdalla4 17/05/2024 Transfer 1
-musa menna 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 1
-musa magdy 17/05/2024 Transfer 3
-musa abdalla1 17/05/2024 Transfer 2
-musa magdy 17/05/2024 Transfer 2
-musa abdalla1 17/05/2024 Transfer 2
-musa magdy 17/05/2024 Transfer 2
-musa abdalla1 17/05/2024 Transfer 2
+500 0
+0 0 0
