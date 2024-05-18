@@ -10,7 +10,9 @@ void FileHandler::readDataFromFile()
         while (!inputFile.eof())
         {
 
-            string username, password, role;
+            string username, role;
+            u_int64_t password;
+
             inputFile >> username >> password >> role;
             if (role == "User")
             {
@@ -23,8 +25,11 @@ void FileHandler::readDataFromFile()
                 U->setSuspended(suspended);
                 int inboxSize;
                 int transactionSize;
+                int quickListSize;
+
                 inputFile >> transactionSize;
                 inputFile >> inboxSize;
+                inputFile >> quickListSize; 
 
                 string sender, recipient, date, type;
                 double amount;
@@ -45,6 +50,14 @@ void FileHandler::readDataFromFile()
                     inputFile >> sender >> recipient >> date >> type >> amount;
                     Transaction T(sender, recipient, date, type, amount);
                     U->addTransaction(T);
+                }
+
+    
+                for (int i = 0; i < quickListSize; i++)
+                {
+                    string name;
+                    inputFile >> name;
+                    U->addSuggestion(name);
                 }
             }
             else if (role == "Admin")
@@ -82,8 +95,11 @@ void FileHandler::writeDataToFile()
             stack<Transaction> transactions = U->getTransactionHistory();
             stack<Transaction> transactionsTemp;
 
-            int inboxSize = inbox.size(), transactionSize = transactions.size();
-            outputFile << transactionSize << " " << inboxSize << endl;
+            stack<string> quickList = U->getQuickList(); 
+            stack<string> quickListTemp;
+
+            int inboxSize = inbox.size(), transactionSize = transactions.size() , quickListSize = quickList.size();
+            outputFile << transactionSize << " " << inboxSize<<" "<<quickListSize << endl;  // size
 
             while (!inbox.empty())
             {
@@ -110,6 +126,17 @@ void FileHandler::writeDataToFile()
                 outputFile << T.getSender() << " " << T.getRecipient() << " " << T.getTransactionDate() << " " << T.getType() << " " << T.getAmount() << endl;
                 transactionsTemp.pop();
             }
+
+            while(!quickList.empty()){
+                quickListTemp.push(quickList.top());
+                quickList.pop();
+            }
+
+            for (int i = 0; i < quickListSize; i++)
+            {
+                outputFile <<quickListTemp.top() << " ";
+                quickListTemp.pop();
+            }
         }
     }
     outputFile.close();
@@ -128,7 +155,7 @@ stack<Transaction> FileHandler::readStackFromFile()
         int sz = 0;
         inputFile >> sz;
 
-        for(int i = 0; i < sz; i++)
+        for (int i = 0; i < sz; i++)
         {
             string sender, recipient, date, type;
             double amount;

@@ -24,7 +24,9 @@ void User::sendMoney()
     string _amount, _userName;
     bool done = false;
     bool valid = true;
+    bool go = false;
     int step = 0;
+    bool suggestionExists = false;
 
     while (!done)
     {
@@ -62,7 +64,45 @@ void User::sendMoney()
             ImGui::InputTextWithHint("User name of recipient ", "User Name", userName.data(), userName.size());
             _userName = userName.data();
 
-            if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)))
+            stack<string> _quickList = User::currentUser->getQuickList();
+
+            ImGui::NewLine();
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Quick List:");
+
+            while (!_quickList.empty())
+            {
+
+                auto P = getUserByName(_quickList.top());
+
+                if (P != nullptr and P->getAdminRole() == false)
+                {
+
+                    User *U = static_cast<User *>(P);
+
+                    if (U->getSuspended() == false)
+                    {
+                        if (ImGui::Selectable(_quickList.top().c_str()))
+                        {
+                            _userName = _quickList.top();
+                            go = true;
+                            break;
+                        }
+                        suggestionExists = true;
+                        ImGui::NewLine();
+                    }
+                }
+
+                _quickList.pop();
+            }
+
+            if (!suggestionExists)
+            {
+
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "No QuickList Yet");
+            }
+
+            ImGui::NewLine();
+            if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) or go)
             {
                 auto it = Person::getUserByName(_userName);
 
@@ -90,13 +130,14 @@ void User::sendMoney()
                     User::currentUser->addTransaction(T);
                     recipient->addTransaction(T);
 
-                    
-                    Notification N(User::currentUser->getUserName(), recipient->getUserName(),T.get_current_time(),"send",0,amount);
+                    Notification N(User::currentUser->getUserName(), recipient->getUserName(), T.get_current_time(), "send", 0, amount);
                     recipient->Notify(N);
 
-
+                    User::currentUser->addSuggestion(recipient->getUserName());
                     Menu::SleepForSec("Money has been sent successfully :)");
-                    step--;
+                    done = true;
+                    go = false;
+                    userName.clear();
                 }
             }
             if (!valid)
@@ -122,7 +163,9 @@ void User::requestMoney()
     string _amount, _userName;
     bool done = false;
     bool valid = true;
+    bool go = false;
     int step = 0;
+    bool suggestionExists = false;
 
     while (!done)
     {
@@ -156,8 +199,45 @@ void User::requestMoney()
             ImGui::InputTextWithHint("User name of recipient ", "User Name", userName.data(), userName.size());
             _userName = userName.data();
 
+            stack<string> _quickList = User::currentUser->getQuickList();
+
             ImGui::NewLine();
-            if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)))
+            ImGui::TextColored(ImVec4(0, 121, 241, 255), "Quick List:");
+
+            while (!_quickList.empty())
+            {
+
+                auto P = getUserByName(_quickList.top());
+
+                if (P != nullptr and P->getAdminRole() == false)
+                {
+
+                    User *U = static_cast<User *>(P);
+
+                    if (U->getSuspended() == false)
+                    {
+                        if (ImGui::Selectable(_quickList.top().c_str()))
+                        {
+                            _userName = _quickList.top();
+                            go = true;
+                            break;
+                        }
+                        suggestionExists = true;
+                        ImGui::NewLine();
+                    }
+                }
+
+                _quickList.pop();
+            }
+
+            if (!suggestionExists)
+            {
+
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "No QuickList Yet");
+            }
+
+            ImGui::NewLine();
+            if ((ImGui::Button("Next") or ImGui::IsKeyPressed(ImGuiKey_Enter)) or go)
             {
                 auto it = Person::getUserByName(_userName);
 
@@ -165,6 +245,7 @@ void User::requestMoney()
                 {
                     valid = false;
                 }
+
                 else
                 {
                     auto it = Person::getUserByName(_userName);
@@ -178,7 +259,12 @@ void User::requestMoney()
                     Notification N(User::currentUser->getUserName(), recipient->getUserName(), Transaction::get_current_time(), "request", 0, amount);
                     recipient->Notify(N);
 
+                    User::currentUser->addSuggestion(recipient->getUserName());
                     Menu::SleepForSec("Money has been requested successfully :)");
+
+                    done = true;
+                    go = false;
+                    userName.clear();
                 }
             }
             if (!valid)
@@ -247,7 +333,6 @@ void User::ShowInbox()
     }
 }
 
-
 void User::Notify(const Notification &N)
 {
     this->inbox.push(N);
@@ -265,6 +350,17 @@ bool User::getSuspended()
 {
     return this->suspended;
 }
+
+void User::addSuggestion(const string &name)
+{
+    quickList.addSuggestion(name);
+}
+
+void User::clean()
+{
+    quickList.~LinkedList();
+}
+
 long double User::getBalance()
 {
     return this->balance;
@@ -424,6 +520,11 @@ void User::viewTransactionHistory(const User *user)
 stack<Notification> User::getInbox()
 {
     return this->inbox;
+}
+
+stack<string> User::getQuickList()
+{
+    return quickList.getSuggestions();
 }
 
 void User::ShowCredential()

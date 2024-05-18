@@ -5,7 +5,7 @@
 
 #include <string>
 #include <chrono>
-#include <stack>
+#include<stack>
 #include <iomanip>
 
 using namespace std;

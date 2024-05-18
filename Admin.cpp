@@ -1,6 +1,5 @@
 #include "Admin.h"
 
-
 Admin::Admin()
     : Person()
 {
@@ -35,7 +34,7 @@ void Admin::viewAllUsers()
 
         for (auto &it : Person::personStore)
         {
-            if (!it.second->admin and (it.first.find(_userName) != string::npos or _userName.empty()))
+            if (!it.second->getAdminRole() and (it.first.find(_userName) != string::npos or _userName.empty()))
             {
                 notFound = false;
                 User *user = static_cast<User *>(it.second);
@@ -46,6 +45,7 @@ void Admin::viewAllUsers()
                 ImGui::SameLine();
                 ImGui::SetCursorPosX(700);
                 ImGui::Text(to_string(user->getBalance()).c_str());
+                
             }
         }
         if (notFound)
@@ -170,7 +170,7 @@ void Admin::editUserBalance()
 
             for (auto &it : Person::personStore)
             {
-                if (!it.second->admin and (it.first.find(_userName) != string::npos or _userName.empty()))
+                if (!it.second->getAdminRole() and (it.first.find(_userName) != string::npos or _userName.empty()))
                 {
                     notFound = false;
                     if (ImGui::Selectable(it.second->getUserName().c_str()))
@@ -180,14 +180,14 @@ void Admin::editUserBalance()
                         string type = amount >= user->getBalance() ? "Money_Added" : "Money_Deducted";
                         double _amount = abs(user->getBalance() - amount);
 
-                        if(_amount == 0){
+                        if (_amount == 0)
+                        {
                             Menu::SleepForSec("Money set successfully :)");
                             done = true;
                             break;
                         }
-                        
-                        string sender = "Admin:" + Admin::currentAdmin->getUserName();
 
+                        string sender = "Admin:" + Admin::currentAdmin->getUserName();
 
                         Transaction T(sender, user->getUserName(), _amount, type);
                         T.addTransactionToStore(T);
@@ -254,7 +254,7 @@ void Admin::addUserBalance()
             ImGui::NewLine();
             for (auto &it : Person::personStore)
             {
-                if (!it.second->admin and (it.first.find(_userName) != string::npos or _userName.empty()))
+                if (!it.second->getAdminRole() and (it.first.find(_userName) != string::npos or _userName.empty()))
                 {
                     notFound = false;
                     if (ImGui::Selectable(it.second->getUserName().c_str()))
@@ -377,7 +377,7 @@ void Admin::deleteUser()
     vector<char> userName(15);
     string _userName;
     bool userToBeDeleted = false;
-    User *U = nullptr;
+
     while (!done)
     {
         Menu::EndFrame();
@@ -390,7 +390,7 @@ void Admin::deleteUser()
 
         for (auto &it : Person::personStore)
         {
-            if (!it.second->admin and (it.first.find(_userName) != string::npos or _userName.empty()))
+            if (!it.second->getAdminRole() and (it.first.find(_userName) != string::npos or _userName.empty()))
             {
                 notFound = false;
                 if (ImGui::Selectable(it.second->getUserName().c_str()))
@@ -407,11 +407,18 @@ void Admin::deleteUser()
             bool toDo = Menu::WarningMessage(_userName, "Delete");
             if (toDo)
             {
-                auto it = getUserByName(_userName);
-                personStore.erase(_userName);
+                try
+                {
+                    personStore.erase(_userName);
+                    delete Person::getUserByName(_userName);
+                }
+                catch (const exception &e)
+                {
+                    Menu::SleepForSec("User couldn't be deleted , error occurred");
+                }
 
                 userToBeDeleted = false;
-                Menu::SleepForSec("User has been deleted successfully :)");
+                Menu::SleepForSec("User has been deleted successfully");
             }
             else
                 userToBeDeleted = false;
@@ -448,7 +455,7 @@ void Admin::suspendUser()
 
         for (auto &it : Person::personStore)
         {
-            if (!it.second->admin and (it.first.find(_userName) != string::npos or _userName.empty()))
+            if (!it.second->getAdminRole() and (it.first.find(_userName) != string::npos or _userName.empty()))
             {
                 notFound = false;
                 User *user = static_cast<User *>(it.second);
@@ -467,6 +474,7 @@ void Admin::suspendUser()
                 }
             }
         }
+        
         if (notFound)
         {
             ImGui::TextColored(ImVec4(0, 121, 241, 255), "No User With This Name");
@@ -478,6 +486,7 @@ void Admin::suspendUser()
 
         if (WindowShouldClose())
             Menu::safeEnd();
+
     }
 }
 void Admin::ActivateUser()
@@ -497,7 +506,7 @@ void Admin::ActivateUser()
         for (auto &it : Person::personStore)
         {
 
-            if (!it.second->admin and (it.first.find(_userName) != string ::npos or _userName.empty()))
+            if (!it.second->getAdminRole() and (it.first.find(_userName) != string ::npos or _userName.empty()))
             {
                 notFound = false;
                 User *user = static_cast<User *>(it.second);

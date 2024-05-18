@@ -1,14 +1,4 @@
 #include "Menu.h"
-#include "Person.h"
-#include "Admin.h"
-#include "User.h"
-#include "Logs.h"
-#include "UserMenu.h"
-#include "FileHandler.h"
-#include "imgui.h"
-#include <chrono>
-#include <thread>
-#include <Transaction.h>
 
 map<string, Person *> Person::personStore;
 Person *Person::currentPerson = nullptr;
@@ -180,7 +170,7 @@ bool Menu::WarningMessage(const std::string &name, const std::string &message)
         ImGui::SetCursorPosX(200);
 
         if (ImGui::Button("cancel"))
-        { 
+        {
             return false;
         }
 
@@ -193,7 +183,7 @@ bool Menu::WarningMessage(const std::string &name, const std::string &message)
         }
 
         if (WindowShouldClose())
-           Menu::safeEnd();
+            Menu::safeEnd();
     }
 }
 
@@ -208,6 +198,16 @@ void Menu::safeEnd()
 {
     FileHandler::writeDataToFile();
     FileHandler::WriteStackIntoFile();
+
+    Menu::EndFrame();
+
+    Person::clean();
+
+    cout << "done" << endl;
+
+    rlImGuiShutdown();
+    CloseWindow();
+
     exit(0);
 }
 

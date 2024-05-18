@@ -54,6 +54,14 @@
         "list": "cpp",
         "unordered_set": "cpp",
         "ratio": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "semaphore": "cpp",
+        "sstream": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp",
+        "forward_list": "cpp",
+        "span": "cpp"
     }
 }

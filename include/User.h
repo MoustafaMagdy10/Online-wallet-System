@@ -6,11 +6,13 @@
 #include <iostream>
 #include <stack>
 #include <queue>
-
+#include <iomanip>
 
 #include "Person.h"
 #include "Transaction.h"
 #include "Notfication.h"
+#include "Menu.h"
+#include "Admin.h"
 #include "Menu.h"
 #include "Admin.h"
 
@@ -23,27 +25,40 @@ public:
 
     User(const string &userName, const string &password);
     User(const string &userName, const uint64_t &password);
+
     void sendMoney();
     void requestMoney();
-    stack<Transaction> getTransactions();
-    long double getBalance();
-    void setBalance(const double &balance);
-    stack<Transaction> getTransactionHistory();
+
     void addTransaction(Transaction transaction);
     void viewTransactionHistory();
     void viewTransactionHistory(const User *user);
-    stack<Notification> getInbox();
-    //  void addMoney();
+
+
     void ShowCredential() override;
+
+
     void ShowInbox();
     void Notify(const Notification &N);
     bool hasNotification();
+
+    void setBalance(const double &balance);
     void setSuspended(const bool &suspended);
+
+    stack<Transaction> getTransactions();
+    stack<Transaction> getTransactionHistory();
+    stack<Notification> getInbox();
+    stack<string> getQuickList();
+    long double getBalance();
     bool getSuspended();
+
+    void addSuggestion(const string &name);
+    void clean();
+
     ~User();
 
 private:
     stack<Notification> inbox;
+    LinkedList quickList;
     long double balance;
     stack<Transaction> transactionHistory;
     bool suspended = false;

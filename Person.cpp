@@ -1,4 +1,7 @@
 #include "Person.h"
+#include "Menu.h"
+#include "Admin.h"
+#include "User.h"
 
 Person::Person() {}
 Person::Person(const string &userName, const string &password)
@@ -19,10 +22,18 @@ void Person::addPerson(const string &userName, const string &password, const boo
         Person::personStore[userName] = new User(userName, password);
 }
 
+void Person::addPerson(const string &userName, const uint64_t &password, const bool &role)
+{
+    if (role)
+        Person::personStore[userName] = new Admin(userName, password);
+    else
+        Person::personStore[userName] = new User(userName, password);
+}
+
 Person *Person::getUserByName(const string &userName)
 {
-    map<string, Person *>::iterator temp;
-    temp = personStore.find(userName);
+
+    auto temp = personStore.find(userName);
     if (temp == personStore.end())
         return nullptr;
     return temp->second;
@@ -252,12 +263,26 @@ void Person::initializeUser()
         User::currentUser = nullptr;
     }
 }
+
 Person::~Person()
 {
-    for (auto i : personStore)
-    {
-        delete i.second;
-    }
-    Person::personStore.clear();
+}
+
+void Person::clean()
+{
     Person::currentPerson = nullptr;
+    Admin::currentAdmin = nullptr;
+    User::currentUser = nullptr;
+
+    for (auto &it : personStore)
+    {
+        if (!it.second->getAdminRole())
+        {
+            User *U = static_cast<User *>(it.second);
+            U->clean();
+        }
+        delete it.second;
+    }
+
+    personStore.clear();
 }
