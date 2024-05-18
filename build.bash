@@ -1,1 +1,1 @@
-g++ Main.cpp src/*.cpp -I/home/moustafa/VsCodeProjects/gui/Online-wallet-System/include -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+g++ src/*.cpp -I/home/moustafa/VsCodeProjects/gui/Online-wallet-System/include -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
