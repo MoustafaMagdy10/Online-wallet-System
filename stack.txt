@@ -1,1 +1,8 @@
-0
+7
+admin:Moustafa magdy 20/05/2024 Money_Added 10000
+admin:Moustafa menna 19/05/2024 Money_Added 1000
+Admin:Moustafa menna 19/05/2024 Money_Added 499
+musa menna 19/05/2024 Transfer 1
+musa magdy 19/05/2024 Transfer 1
+musa asaad 19/05/2024 Transfer 1
+musa magdy 19/05/2024 Transfer 1

@@ -77,8 +77,8 @@ stack<string> LinkedList::getSuggestions()
 
     {
         if (Person::getUserByName(tmp->value) != nullptr)
-    
-        suggestions.push(tmp->value);
+
+            suggestions.push(tmp->value);
         tmp = tmp->next;
     }
 
