@@ -12,6 +12,9 @@ This project implements an online wallet system using efficient data structures 
 - **Transaction Handling**: Perform deposits, transfers between accounts.
 - **Balance Queries**: Retrieve the current balance of any user account.
 - **Transaction History**: Maintain and query a history of transactions for each account.
+- ![Online Wallet System](https://github.com/MoustafaMagdy10/Online-wallet-System/imgs/User.png)
+- - ![Online Wallet System](https://github.com/MoustafaMagdy10/Online-wallet-System/imgs/Admin.png)
+
 
 
 ## Technologies Used
