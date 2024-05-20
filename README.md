@@ -14,7 +14,7 @@ This project implements an online wallet system using efficient data structures 
 - **Transaction History**: Maintain and query a history of transactions for each account.
 
 
-![Online Wallet System](https://github.com/MoustafaMagdy10/Online-wallet-System/blob/main/imgs/Admin.png)
+![Online Wallet System](https://github.com/MoustafaMagdy10/Online-wallet-System/blob/main/imgs/User.png)
 
 
 
