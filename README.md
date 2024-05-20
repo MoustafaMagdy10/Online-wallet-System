@@ -1,6 +1,4 @@
-Sure! Here's a sample README for an online wallet system data structure project:
 
----
 
 # Online Wallet System Data Structure
 
