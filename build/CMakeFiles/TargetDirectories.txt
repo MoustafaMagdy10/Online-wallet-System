@@ -1,0 +1,3 @@
+/home/moustafa/VsCodeProjects/gui/Online-wallet-System/build/CMakeFiles/main.dir
+/home/moustafa/VsCodeProjects/gui/Online-wallet-System/build/CMakeFiles/edit_cache.dir
+/home/moustafa/VsCodeProjects/gui/Online-wallet-System/build/CMakeFiles/rebuild_cache.dir

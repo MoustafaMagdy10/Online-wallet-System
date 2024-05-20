@@ -409,6 +409,9 @@ void Admin::deleteUser()
             {
                 try
                 {
+                    auto P = getUserByName(_userName);
+                    User* U = static_cast<User *> (P);
+                    U->clean();
                     personStore.erase(_userName);
                     delete Person::getUserByName(_userName);
                 }
